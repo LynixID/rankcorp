@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tingkatkan Akun Anda - SERP Rank Checker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .card-shadow {
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05),
+          0 4px 6px -2px rgba(0, 0, 0, 0.02);
+      }
+      .card-hover-shadow:hover {
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 text-gray-800 font-sans">
+    {% include 'core/navbar.html' %} {% load humanize %} {% block content %}
+
+    <!-- Alert untuk messages -->
+    {% if messages %}
+    <div class="max-w-5xl mx-auto px-4">
+      {% for message in messages %}
+      <div
+        class="mb-4 px-4 py-3 rounded-lg text-sm font-medium border {% if message.tags == 'success' %} bg-green-50 text-green-700 border-green-200 {% elif message.tags == 'error' %} bg-red-50 text-red-700 border-red-200 {% elif message.tags == 'warning' %} bg-yellow-50 text-yellow-700 border-yellow-200 {% else %} bg-blue-50 text-blue-700 border-blue-200 {% endif %}"
+      >
+        {{ message }}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Tabel Riwayat Pembelian -->
+    <div class="max-w-5xl mx-auto px-4 py-8">
+      <h2 class="text-2xl font-bold text-blue-700 mb-6">
+        Riwayat Pembelian Kuota
+      </h2>
+
+      {% if purchases %}
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded-lg shadow">
+          <thead class="bg-blue-50">
+            <tr>
+              <th
+                class="py-3 px-4 text-left text-sm font-semibold text-gray-600"
+              >
+                Tanggal
+              </th>
+              <th
+                class="py-3 px-4 text-left text-sm font-semibold text-gray-600"
+              >
+                Paket
+              </th>
+              <th
+                class="py-3 px-4 text-left text-sm font-semibold text-gray-600"
+              >
+                Harga
+              </th>
+              <th
+                class="py-3 px-4 text-left text-sm font-semibold text-gray-600"
+              >
+                Kuota
+              </th>
+              <th
+                class="py-3 px-4 text-left text-sm font-semibold text-gray-600"
+              >
+                Bukti
+              </th>
+              <th
+                class="py-3 px-4 text-left text-sm font-semibold text-gray-600"
+              >
+                Status
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for purchase in purchases %}
+            <tr class="border-t hover:bg-gray-50">
+              <td class="py-3 px-4 text-sm">
+                {{ purchase.created_at|date:"d M Y, H:i" }}
+              </td>
+              <td class="py-3 px-4 text-sm">{{ purchase.package.name }}</td>
+              <td class="py-3 px-4 text-sm">
+                Rp{{ purchase.package.price|intcomma }}
+              </td>
+              <td class="py-3 px-4 text-sm">
+                {{ purchase.package.quota_amount|intcomma }}
+              </td>
+              <td class="py-3 px-4 text-sm">
+                {% if purchase.payment_proof %}
+                <a
+                  href="{{ purchase.payment_proof.url }}"
+                  target="_blank"
+                  class="text-blue-600 underline"
+                >
+                  Lihat
+                </a>
+                {% else %}
+                <span class="text-gray-400 italic">Belum diunggah</span>
+                {% endif %}
+              </td>
+              <td class="py-3 px-4 text-sm">
+                {% if purchase.status == 'approved' %}
+                <span class="text-green-600 font-semibold">Disetujui</span>
+                {% elif purchase.status == 'rejected' %}
+                <span class="text-red-600 font-semibold">Ditolak</span>
+                {% else %}
+                <span class="text-yellow-500 font-semibold">Menunggu</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <p class="text-gray-500 text-center">
+        Belum ada pembelian kuota yang tercatat.
+      </p>
+      {% endif %}
+    </div>
+
+    {% endblock %}
+  </body>
+</html>

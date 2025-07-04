@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upload Bukti Pembayaran</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    {% include 'core/navbar.html' %}
+    <div class="container mx-auto px-6 py-8">
+      <div
+        class="max-w-xl mx-auto bg-white rounded-xl shadow-lg p-8 border border-blue-100"
+      >
+        <h2 class="text-3xl font-extrabold text-gray-800 mb-6 text-center">
+          Upload Bukti Pembayaran
+        </h2>
+
+        <!-- Info Paket -->
+        <div class="mb-6 bg-blue-50 p-4 rounded-lg border border-blue-200">
+          <p class="text-gray-700 text-lg mb-2">
+            Paket yang Anda pilih:
+            <strong class="text-blue-700">{{ package.name }}</strong>
+          </p>
+          <p class="text-gray-700 text-lg">
+            Mohon transfer ke rekening berikut:
+          </p>
+        </div>
+
+        <!-- Info Rekening -->
+        <ul
+          class="mb-8 p-4 bg-gray-50 rounded-lg border border-gray-200 text-gray-800 text-lg space-y-2"
+        >
+          <li class="flex items-center">
+            <i class="fas fa-bank text-blue-500 mr-2"></i>
+            <strong>Bank:</strong> BCA
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-credit-card text-blue-500 mr-2"></i>
+            <strong>No. Rek:</strong> 1234567890
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-user text-blue-500 mr-2"></i>
+            <strong>Atas Nama:</strong> PT Dummy Pembayaran
+          </li>
+        </ul>
+
+        <!-- Form Upload -->
+        <form method="POST" enctype="multipart/form-data" class="space-y-6">
+          {% csrf_token %}
+
+          <div>
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+              Upload Bukti Transfer (Gambar):
+            </label>
+
+            <!-- Dropzone -->
+            <div
+              id="drop-area"
+              class="relative flex flex-col items-center justify-center border-2 border-dashed border-blue-400 rounded-lg p-6 cursor-pointer hover:bg-blue-50 transition"
+            >
+              <svg
+                class="w-12 h-12 text-blue-400 mb-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M7 16V4m0 0L3 8m4-4l4 4M17 16v6m0 0l4-4m-4 4l-4-4"
+                />
+              </svg>
+              <p class="text-gray-600 text-sm text-center">
+                Seret & lepas gambar ke sini, atau klik untuk memilih file
+              </p>
+
+              <!-- Input dari Django Form -->
+              <input
+                type="file"
+                name="payment_proof"
+                id="file-input"
+                accept="image/*"
+                class="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+              />
+            </div>
+
+            <!-- Preview -->
+            <div id="preview-container" class="mt-4 hidden">
+              <p class="text-sm text-gray-600 mb-2">Preview Gambar:</p>
+              <img
+                id="preview-image"
+                class="w-full max-h-96 object-contain rounded border"
+              />
+              <button
+                type="button"
+                onclick="resetUpload()"
+                class="mt-3 text-sm text-red-600 px-2 py-1 rounded-lg border border-red-300 hover:bg-red-100 transition"
+              >
+                Ganti Gambar
+              </button>
+            </div>
+
+            {% if form.bukti_pembayaran.errors %}
+            <p class="text-red-600 text-sm mt-2">
+              {{ form.bukti_pembayaran.errors.0 }}
+            </p>
+            {% endif %}
+          </div>
+
+          <button
+            id="submit-btn"
+            type="submit"
+            class="w-full bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled
+          >
+            Kirim Bukti Pembayaran
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- JS -->
+    <script>
+      const dropArea = document.getElementById("drop-area");
+      const fileInput = document.getElementById("file-input");
+      const previewContainer = document.getElementById("preview-container");
+      const previewImage = document.getElementById("preview-image");
+      const submitBtn = document.getElementById("submit-btn");
+
+      dropArea.addEventListener("click", () => {
+        fileInput.click();
+      });
+
+      dropArea.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropArea.classList.add("bg-blue-100");
+      });
+
+      dropArea.addEventListener("dragleave", () => {
+        dropArea.classList.remove("bg-blue-100");
+      });
+
+      dropArea.addEventListener("drop", (e) => {
+        e.preventDefault();
+        dropArea.classList.remove("bg-blue-100");
+
+        if (e.dataTransfer.files.length > 0) {
+          fileInput.files = e.dataTransfer.files;
+          handleFileChange(fileInput.files[0]);
+        }
+      });
+
+      fileInput.addEventListener("change", () => {
+        if (fileInput.files.length > 0) {
+          handleFileChange(fileInput.files[0]);
+        }
+      });
+
+      function handleFileChange(file) {
+        if (!file.type.startsWith("image/")) {
+          alert("File harus berupa gambar (jpg, png, dll).");
+          fileInput.value = "";
+          submitBtn.disabled = true;
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          previewImage.src = e.target.result;
+          dropArea.classList.add("hidden");
+          previewContainer.classList.remove("hidden");
+          submitBtn.disabled = false;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function resetUpload() {
+        fileInput.value = "";
+        previewImage.src = "";
+        previewContainer.classList.add("hidden");
+        dropArea.classList.remove("hidden");
+        submitBtn.disabled = true;
+      }
+
+      // Nonaktifkan tombol di awal
+      submitBtn.disabled = true;
+    </script>
+  </body>
+</html>

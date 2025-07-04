@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tingkatkan Akun Anda - SERP Rank Checker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      /* Custom shadow for a more premium feel, consistent with previous components */
+      .card-shadow {
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05),
+          0 4px 6px -2px rgba(0, 0, 0, 0.02);
+      }
+      .card-hover-shadow:hover {
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 text-gray-800 font-sans">
+    {% include 'core/navbar.html' %} {% load static %} {% load humanize %}
+
+    <div id="packages-section" class="max-w-6xl mx-auto px-4 py-12">
+      <h2
+        class="text-3xl sm:text-4xl font-extrabold mb-10 text-center text-gray-800"
+      >
+        Pilih Paket Pencarian Terbaik untuk Anda
+      </h2>
+
+      {% if packages %}
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for package in packages %}
+        <div
+          class="bg-white rounded-2xl overflow-hidden card-shadow card-hover-shadow border border-blue-100 flex flex-col transform hover:-translate-y-2 transition-all duration-300 ease-in-out"
+        >
+          <div class="bg-blue-600 text-white p-6 text-center">
+            <h3 class="text-2xl font-bold mb-1">{{ package.name }}</h3>
+            <p class="text-sm opacity-90">Solusi tepat untuk kebutuhan Anda.</p>
+          </div>
+
+          <div class="p-8 flex-grow flex flex-col justify-between">
+            <div class="text-center mb-6">
+              <p class="text-sm text-gray-500 mb-1">Mulai dari</p>
+              <p class="text-5xl font-extrabold text-gray-900 leading-tight">
+                Rp{{ package.price|intcomma }}
+              </p>
+              <p class="text-base text-gray-600 mt-1">per transaksi</p>
+            </div>
+
+            <ul class="text-gray-700 text-base mb-8 space-y-3">
+              <li class="flex items-center">
+                <svg
+                  class="w-5 h-5 mr-2 text-blue-500 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  ></path>
+                </svg>
+                <p>
+                  <span class="text-xl font-extrabold text-blue-700"
+                    >{{ package.quota_amount|intcomma }}</span
+                  >
+                  Kuota Pencarian Ultra Cepat
+                </p>
+              </li>
+              <li class="flex items-center">
+                <svg
+                  class="w-5 h-5 mr-2 text-blue-500 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                Dukungan Penuh untuk SEO Lokal & Global
+              </li>
+              <li class="flex items-center">
+                <svg
+                  class="w-5 h-5 mr-2 text-blue-500 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                Integrasi Mudah dengan Workflow Anda
+              </li>
+            </ul>
+
+            <a
+              href="{% url 'upload_proof' package.id %}"
+              class="block text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            >
+              Pilih Paket Ini
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="col-span-full text-center text-gray-500 py-12">
+        <h3 class="text-2xl font-semibold mb-4">
+          Ups! Belum Ada Paket Tersedia.
+        </h3>
+        <p class="text-lg">
+          Kami sedang menyiapkan paket-paket terbaik untuk Anda. Silakan cek
+          kembali nanti atau hubungi dukungan kami.
+        </p>
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>

@@ -1,8 +1,8 @@
 <div class="bg-white shadow rounded-xl p-6">
   <div class="flex items-center justify-between mb-4">
     <div>
-      <h2 class="text-2xl font-bold text-gray-800">Billing List</h2>
-      <p class="text-sm text-gray-500">Manage billing approvals and view proofs securely.</p>
+      <h2 class="text-2xl font-bold text-gray-800">Pembayaran Kuota</h2>
+      <p class="text-sm text-gray-500">Kelola pembelian kuota dari pengguna di sini.</p>
     </div>
   </div>
 
@@ -11,37 +11,42 @@
       <thead class="bg-gray-50">
         <tr>
           <th class="px-4 py-3 text-left font-semibold text-gray-600">Username</th>
+          <th class="px-4 py-3 text-left font-semibold text-gray-600">Paket</th>
           <th class="px-4 py-3 text-left font-semibold text-gray-600">Status</th>
-          <th class="px-4 py-3 text-left font-semibold text-gray-600">Proof</th>
-          <th class="px-4 py-3 text-left font-semibold text-gray-600">Actions</th>
+          <th class="px-4 py-3 text-left font-semibold text-gray-600">Bukti</th>
+          <th class="px-4 py-3 text-left font-semibold text-gray-600">Aksi</th>
         </tr>
       </thead>
       <tbody class="bg-white divide-y divide-gray-100">
         {% for billing in billing_users %}
         <tr class="hover:bg-gray-50">
           <td class="px-4 py-3">{{ billing.user.username }}</td>
+          <td class="px-4 py-3">{{ billing.package.name }} ({{ billing.package.quota_amount }} kuota)</td>
           <td class="px-4 py-3">
-            {% if billing.status_pembayaran %}
-            <span class="inline-flex items-center px-2 py-1 rounded bg-green-100 text-green-700 font-medium">Lunas</span>
+            {% if billing.status == "approved" %}
+              <span class="inline-flex items-center px-2 py-1 rounded bg-green-100 text-green-700 font-medium">Disetujui</span>
+            {% elif billing.status == "rejected" %}
+              <span class="inline-flex items-center px-2 py-1 rounded bg-red-100 text-red-700 font-medium">Ditolak</span>
             {% else %}
-            <span class="inline-flex items-center px-2 py-1 rounded bg-red-100 text-red-700 font-medium">Belum Lunas</span>
+              <span class="inline-flex items-center px-2 py-1 rounded bg-yellow-100 text-yellow-700 font-medium">Pending</span>
             {% endif %}
           </td>
           <td class="px-4 py-3">
-            <img src="{{ billing.bukti_pembayaran.url }}" alt="Bukti" class="h-10 w-10 rounded cursor-pointer hover:ring-2 hover:ring-blue-300"
-                 onclick="openImageModal('{{ billing.bukti_pembayaran.url }}')">
+            <img src="{{ billing.payment_proof.url }}" alt="Bukti" class="h-10 w-10 rounded cursor-pointer hover:ring-2 hover:ring-blue-300"
+                 onclick="openImageModal('{{ billing.payment_proof.url }}')">
           </td>
-          <td class="px-4 py-3">
-            {% if not billing.status_pembayaran %}
-            <a href="{% url 'approve_pembayaran' billing.user.id %}" class="px-2 py-1 bg-green-500 hover:bg-green-600 text-white rounded text-xs">Approve</a>
+          <td class="px-4 py-3 space-x-1">
+            {% if billing.status == "pending" %}
+            <a href="{% url 'approve_quota' billing.id %}" class="px-2 py-1 bg-green-500 hover:bg-green-600 text-white rounded text-xs">Approve</a>
+            <a href="{% url 'reject_quota' billing.id %}" class="px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-xs">Reject</a>
             {% else %}
-            <span class="text-gray-400 text-xs">Approved</span>
+            <span class="text-gray-400 text-xs">Sudah diproses</span>
             {% endif %}
           </td>
         </tr>
         {% empty %}
         <tr>
-          <td colspan="4" class="text-center text-gray-500 py-4">Tidak ada data billing.</td>
+          <td colspan="5" class="text-center text-gray-500 py-4">Tidak ada data pembelian kuota.</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -49,7 +54,7 @@
   </div>
 </div>
 
-<!-- Modal Preview -->
+<!-- Modal Gambar -->
 <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-70 hidden z-50 flex items-center justify-center">
   <div class="relative">
     <img id="modalImage" src="" alt="Bukti Pembayaran" class="max-w-full max-h-screen rounded shadow-lg">
