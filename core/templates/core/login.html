@@ -3,7 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login Form</title>
+    <title>Login - RankCorp</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="../../../media/assets/favicon.png"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       rel="stylesheet"
@@ -60,13 +65,17 @@
   <body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
     <!-- Alert Eror -->
     {% if messages %}
-    <div class="fixed top-10 z-50 space-y-2">
+    <div
+      class="fixed top-10 left-1/2 transform -translate-x-1/2 z-50 space-y-2 w-[90%] max-w-md"
+    >
       {% for message in messages %}
       <div
-        class="bg-red-500 text-white px-4 py-3 rounded shadow-lg flex items-center space-x-2 animate-fade-in"
+        class="px-4 py-3 rounded shadow-lg flex items-center space-x-2 animate-fade-in {% if message.tags == 'success' %} bg-green-100 text-green-800 border border-green-300 {% elif message.tags == 'warning' %} bg-yellow-100 text-yellow-800 border border-yellow-300 {% elif message.tags == 'info' %} bg-blue-100 text-blue-800 border border-blue-300 {% elif message.tags == 'error' or message.tags == 'danger' %} bg-red-100 text-red-800 border border-red-300 {% else %} bg-gray-100 text-gray-800 border border-gray-300 {% endif %}"
       >
-        <i class="fas fa-exclamation-triangle"></i>
-        <span>{{ message }}</span>
+        <i
+          class="fas {% if message.tags == 'success' %}fa-check-circle {% elif message.tags == 'warning' %}fa-exclamation-circle {% elif message.tags == 'info' %}fa-info-circle {% elif message.tags == 'error' or message.tags == 'danger' %}fa-times-circle {% else %}fa-bell{% endif %}"
+        ></i>
+        <span class="text-sm">{{ message }}</span>
       </div>
       {% endfor %}
     </div>
