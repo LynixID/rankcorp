@@ -7,6 +7,9 @@ requests==2.31.0
 # Midtrans Payment Gateway
 midtransclient==0.3.2
 
+# Image Processing (Wajib untuk ImageField)
+Pillow==10.2.0
+
 # Database (SQLite sudah termasuk dengan Django)
 # Untuk production, tambahkan:
 # psycopg2-binary==2.9.9  # PostgreSQL
