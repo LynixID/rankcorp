@@ -1,0 +1,72 @@
+a. Visual Studio Code
+
+Gambar 3.7 Logo Visual Studio Code
+
+Dikembangkan oleh Microsoft, Visual Studio Code merupakan editor kode sumber lintas platform yang tersedia secara gratis dan open-source untuk sistem operasi Windows, macOS, dan Linux. Editor ini secara native mendukung berbagai bahasa pemrograman seperti JavaScript, TypeScript, dan Node.js, sementara dukungan untuk bahasa pemrograman lainnya seperti C++, C#, Python, Go, Java, dan PHP dapat ditambahkan melalui ekstensi yang tersedia di marketplace Visual Studio Code (Sains et al., 2022).
+
+b. Draw.io
+
+Gambar 3.8 Logo Draw.io
+
+Draw.io adalah aplikasi diagram berbasis web yang bersifat open-source dan dapat diakses melalui peramban tanpa memerlukan instalasi tambahan. Aplikasi ini memungkinkan pengguna untuk membuat berbagai jenis diagram termasuk diagram alur, diagram jaringan, diagram UML, dan diagram organisasi dengan antarmuka yang intuitif serta integrasi dengan platform penyimpanan cloud seperti Google Drive dan OneDrive (Buddhidharma, 2023).
+
+c. Google Chrome
+
+Gambar 3.9 Logo Google Chrome
+
+Sebagai peramban web lintas platform yang dikembangkan oleh Google, Chrome pertama kali dirilis pada tanggal 2 September 2008 dan tersedia untuk berbagai sistem operasi termasuk Windows, macOS, Linux, iOS, dan Android. Peramban ini dikenal dengan performa yang cepat, antarmuka yang minimalis, serta fitur keamanan seperti sandboxing dan pembaruan otomatis yang melindungi pengguna dari ancaman keamanan (Taryana & Kom, 2021).
+
+d. SQLite3 (via DB Browser for SQLite)
+
+Gambar 3.10 Logo SQLite3
+
+SQLite3 merupakan sistem manajemen basis data relasional yang ringan, serverless, dan mandiri, sering digunakan dalam aplikasi yang memerlukan penyimpanan data lokal tanpa membutuhkan server database terpisah. DB Browser for SQLite menyediakan antarmuka grafis yang memudahkan pengguna dalam membuat, merancang, mengedit, dan memvisualisasikan basis data SQLite tanpa perlu menulis perintah SQL secara manual, tersedia untuk platform Windows, macOS, dan Linux (Polito, 2023).
+
+e. Python
+
+Gambar 3.11 Logo Python
+
+Python adalah bahasa pemrograman tingkat tinggi yang ditafsirkan dengan filosofi desain yang menekankan keterbacaan kode dan sintaksis yang sederhana. Bahasa ini mendukung berbagai paradigma pemrograman termasuk prosedural, berorientasi objek, dan fungsional, serta memiliki ekosistem pustaka yang luas yang menjadikannya populer untuk pengembangan web, analisis data, kecerdasan buatan, pembelajaran mesin, dan otomatisasi (Yusman et al., 2021).
+
+f. JavaScript
+
+Gambar 3.12 Logo JavaScript
+
+Sebagai bahasa pemrograman yang terutama digunakan untuk pengembangan web, JavaScript memungkinkan pembuatan konten interaktif dan dinamis pada halaman web melalui manipulasi Document Object Model (DOM) dan komunikasi asinkron dengan server. Bahasa ini dapat dijalankan di sisi klien maupun server melalui platform seperti Node.js, dan bersama dengan HTML serta CSS membentuk fondasi utama teknologi web modern (Taryana & Kom, 2021).
+
+g. HTML
+
+Gambar 3.13 Logo HTML
+
+HTML (HyperText Markup Language) merupakan bahasa markup standar yang digunakan untuk membuat dan menyusun struktur halaman web dengan menggunakan elemen-elemen seperti tag dan atribut untuk mendefinisikan konten seperti teks, gambar, tautan, dan formulir. Sebagai fondasi utama dalam pengembangan web, HTML berfungsi sebagai kerangka dasar yang menentukan bagaimana informasi ditampilkan di peramban, dan dapat ditingkatkan dengan CSS untuk styling serta JavaScript untuk menambahkan interaktivitas pada halaman web (Jubilee Enterprise, 2019).
+
+h. Django
+
+Gambar 3.14 Logo Django
+
+Django adalah framework web berbasis Python yang dirilis di bawah lisensi BSD dan mengikuti pola arsitektur Model-View-Template (MVT) yang memisahkan logika bisnis, tampilan, dan data untuk memudahkan pengelolaan kode. Framework ini dirancang untuk mempercepat pengembangan aplikasi web dengan menyediakan berbagai komponen siap pakai seperti sistem autentikasi pengguna, panel administrasi otomatis, dan ORM (Object-Relational Mapping) yang memudahkan interaksi dengan basis data tanpa perlu menulis kode SQL secara langsung, sehingga pengembang dapat fokus pada logika aplikasi (Suwandi, 2022).
+
+i. Tailwind CSS
+
+Gambar 3.15 Logo Tailwind CSS
+
+Tailwind CSS mengadopsi pendekatan utility-first dalam framework CSS, di mana pengembang dapat membangun desain yang responsif dan kustom dengan cepat melalui penggunaan kelas-kelas utilitas yang dapat dikombinasikan langsung dalam markup HTML tanpa perlu menulis CSS kustom yang ekstensif. Berbeda dengan framework CSS tradisional yang menyediakan komponen siap pakai, Tailwind memberikan fleksibilitas penuh dalam penyesuaian desain dengan menyediakan berbagai utility classes untuk mengatur margin, padding, warna, dan properti lainnya, sehingga memungkinkan prototipe dan iterasi desain yang lebih cepat (Syafii, 2021).
+
+
+DAFTAR PUSTAKA
+
+Buddhidharma. (2023). Aplikasi Diagram Berbasis Web. Repositori Buddhidharma. Diakses dari https://repositori.buddhidharma.ac.id/2060/1/COVER%20-%20BAB%20III.pdf
+
+Jubilee Enterprise. (2019). Pengenalan HTML dan CSS: Referensi Langkah Demi Langkah Memahami HTML dan CSS Desain Website. Yogyakarta: Andi Offset.
+
+Polito. (2023). Lab 02: Node.js and Databases. Politecnico di Torino. Diakses dari https://polito-wa1-aw1-2023.github.io/materials/labs/lab02-node-database.pdf
+
+Sains, et al. (2022). Visual Studio Code sebagai Editor Kode Sumber. International Journal of Advanced Engineering and Management Research, 7(6), 667-675.
+
+Suwandi, A. (2022). Django: Panduan Lengkap Pengembangan Aplikasi Web dengan Python. Yogyakarta: Andi Offset.
+
+Syafii, A. (2021). Tailwind CSS: Membangun Desain Web Modern dengan Cepat. Jakarta: Gramedia.
+
+Taryana & Kom. (2021). Teknologi Web Modern: HTML, CSS, dan JavaScript. Jurnal Teknologi Informasi, 15(2), 45-62.
+
+Yusman, et al. (2021). Framework Pengembangan Web Berbasis Python. Jurnal Sistem Informasi, 8(3), 120-135.

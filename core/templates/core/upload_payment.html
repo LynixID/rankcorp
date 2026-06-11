@@ -1,192 +1,361 @@
-<!DOCTYPE html>
-<html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Upload Bukti Pembayaran - RankCorp</title>
-    <link rel="icon" type="image/png" href="../../../media/assets/favicon.png">
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body>
-    {% include 'core/navbar.html' %}
-    <div class="container mx-auto px-6 py-8">
-      <div
-        class="max-w-xl mx-auto bg-white rounded-xl shadow-lg p-8 border border-blue-100"
-      >
-        <h2 class="text-3xl font-extrabold text-gray-800 mb-6 text-center">
-          Upload Bukti Pembayaran
-        </h2>
+{% extends 'core/base_user.html' %}
+{% load static %}
 
-        <!-- Info Paket -->
-        <div class="mb-6 bg-blue-50 p-4 rounded-lg border border-blue-200">
-          <p class="text-gray-700 text-lg mb-2">
-            Paket yang Anda pilih:
-            <strong class="text-blue-700">{{ package.name }}</strong>
-          </p>
-          <p class="text-gray-700 text-lg">
-            Mohon transfer ke rekening berikut:
-          </p>
-        </div>
+{% block title %}Upload Bukti Pembayaran - U-Rank{% endblock %}
 
-        <!-- Info Rekening -->
-        <ul
-          class="mb-8 p-4 bg-gray-50 rounded-lg border border-gray-200 text-gray-800 text-lg space-y-2"
-        >
-          <li class="flex items-center">
-            <i class="fas fa-bank text-blue-500 mr-2"></i>
-            <strong>Bank:</strong> BCA
-          </li>
-          <li class="flex items-center">
-            <i class="fas fa-credit-card text-blue-500 mr-2"></i>
-            <strong>No. Rek:</strong> 1234567890
-          </li>
-          <li class="flex items-center">
-            <i class="fas fa-user text-blue-500 mr-2"></i>
-            <strong>Atas Nama:</strong> PT Dummy Pembayaran
-          </li>
-        </ul>
+{% block extra_css %}
+<style>
+  .dropzone-active {
+    background: rgba(6, 182, 212, 0.1);
+    border-color: #06b6d4;
+  }
+</style>
+{% endblock %}
 
-        <!-- Form Upload -->
-        <form method="POST" enctype="multipart/form-data" class="space-y-6">
-          {% csrf_token %}
-
-          <div>
-            <label class="block text-gray-700 text-sm font-bold mb-2">
-              Upload Bukti Transfer (Gambar):
-            </label>
-
-            <!-- Dropzone -->
-            <div
-              id="drop-area"
-              class="relative flex flex-col items-center justify-center border-2 border-dashed border-blue-400 rounded-lg p-6 cursor-pointer hover:bg-blue-50 transition"
-            >
-              <svg
-                class="w-12 h-12 text-blue-400 mb-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M7 16V4m0 0L3 8m4-4l4 4M17 16v6m0 0l4-4m-4 4l-4-4"
-                />
-              </svg>
-              <p class="text-gray-600 text-sm text-center">
-                Seret & lepas gambar ke sini, atau klik untuk memilih file
-              </p>
-
-              <!-- Input dari Django Form -->
-              <input
-                type="file"
-                name="payment_proof"
-                id="file-input"
-                accept="image/*"
-                class="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
-              />
-            </div>
-
-            <!-- Preview -->
-            <div id="preview-container" class="mt-4 hidden">
-              <p class="text-sm text-gray-600 mb-2">Preview Gambar:</p>
-              <img
-                id="preview-image"
-                class="w-full max-h-96 object-contain rounded border"
-              />
-              <button
-                type="button"
-                onclick="resetUpload()"
-                class="mt-3 text-sm text-red-600 px-2 py-1 rounded-lg border border-red-300 hover:bg-red-100 transition"
-              >
-                Ganti Gambar
-              </button>
-            </div>
-
-            {% if form.bukti_pembayaran.errors %}
-            <p class="text-red-600 text-sm mt-2">
-              {{ form.bukti_pembayaran.errors.0 }}
-            </p>
-            {% endif %}
-          </div>
-
-          <button
-            id="submit-btn"
-            type="submit"
-            class="w-full bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-blue-700 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled
-          >
-            Kirim Bukti Pembayaran
-          </button>
-        </form>
-      </div>
+{% block content %}
+<div class="container mx-auto px-6 md:px-12 lg:px-16 xl:px-20 py-8">
+  <div class="max-w-7xl mx-auto">
+    <!-- Page Title -->
+    <div class="text-center mb-6 fade-in-up">
+      <h1 class="text-3xl font-black text-slate-900 mb-2" style="font-family: 'Space Grotesk', sans-serif;">
+        Upload Bukti Pembayaran
+      </h1>
+      <p class="text-slate-600">Lengkapi pembayaran untuk melanjutkan</p>
     </div>
 
-    <!-- JS -->
-    <script>
-      const dropArea = document.getElementById("drop-area");
-      const fileInput = document.getElementById("file-input");
-      const previewContainer = document.getElementById("preview-container");
-      const previewImage = document.getElementById("preview-image");
-      const submitBtn = document.getElementById("submit-btn");
+    <!-- Two Column Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- LEFT PANEL: Payment Info -->
+      <div class="space-y-6">
+        <!-- Countdown Timer -->
+        {% if checkout_session %}
+        <div class="card-glass rounded-xl p-6 border border-orange-200 fade-in-up">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center">
+              <div class="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center mr-4">
+                <i class="fas fa-clock text-white text-xl"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-slate-800" style="font-family: 'Space Grotesk', sans-serif;">Sesi Checkout Aktif</h3>
+                <p class="text-xs text-slate-600">Selesaikan pembayaran dalam waktu tersisa</p>
+              </div>
+            </div>
+          </div>
+          <div class="text-center mb-4">
+            <div class="text-3xl font-black text-orange-600" style="font-family: 'Space Grotesk', sans-serif;" id="countdown-timer">
+              <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">Jam:Menit:Detik</p>
+          </div>
+          <button
+            onclick="cancelOrder()"
+            class="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200 ease-in-out text-sm"
+          >
+            <i class="fas fa-times mr-2"></i>
+            Batalkan Pesanan
+          </button>
+        </div>
+        {% endif %}
 
-      dropArea.addEventListener("click", () => {
-        fileInput.click();
-      });
+        <!-- Package Info -->
+        <div class="card-glass rounded-xl p-6 fade-in-up">
+          <div class="flex items-center mb-4">
+            <div class="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center mr-3">
+              <i class="fas fa-box text-white text-lg"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-800" style="font-family: 'Space Grotesk', sans-serif;">Paket yang Dipilih</h3>
+          </div>
+          <div class="bg-gradient-to-r from-cyan-50 to-blue-50 p-5 rounded-xl border border-cyan-200">
+            <div class="space-y-3">
+              <div class="bg-white p-4 rounded-lg border border-cyan-200">
+                <p class="text-xs text-slate-600 mb-1">Nama Paket</p>
+                <p class="text-lg font-bold text-cyan-700">{{ package.name }}</p>
+              </div>
+              <div class="bg-white p-4 rounded-lg border border-cyan-200">
+                <p class="text-xs text-slate-600 mb-1">Jumlah Kuota</p>
+                <p class="text-lg font-bold text-green-600">{{ package.quota_amount }} kuota</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
-      dropArea.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        dropArea.classList.add("bg-blue-100");
-      });
+        <!-- Transfer Amount Info -->
+        <div class="card-glass rounded-xl p-6 fade-in-up">
+          <div class="flex items-center mb-4">
+            <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center mr-3">
+              <i class="fas fa-money-bill-wave text-white text-lg"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-800" style="font-family: 'Space Grotesk', sans-serif;">Nominal Transfer</h3>
+          </div>
+          <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-5 rounded-xl border border-green-200">
+            <div class="bg-white p-5 rounded-lg border border-green-200">
+              <p class="text-xs text-slate-600 mb-3 text-center">Harga Paket + ID Pengguna</p>
+              <div class="space-y-2 mb-4">
+                <div class="flex items-center justify-between text-sm">
+                  <span class="text-slate-600">Harga Paket:</span>
+                  <span class="font-semibold text-slate-800">Rp {{ package.price|floatformat:0 }}</span>
+                </div>
+                <div class="flex items-center justify-between text-sm">
+                  <span class="text-slate-600">ID Pengguna:</span>
+                  <span class="font-semibold text-slate-800">{{ request.user.id }}</span>
+                </div>
+                <div class="border-t border-green-200 pt-2 flex items-center justify-between">
+                  <span class="font-semibold text-slate-700">Total Transfer:</span>
+                  <span class="text-2xl font-black text-green-600" style="font-family: 'Space Grotesk', sans-serif;">Rp {{ package.price|add:request.user.id|floatformat:0 }}</span>
+                </div>
+              </div>
+              <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                <div class="flex items-start">
+                  <i class="fas fa-info-circle text-yellow-600 mt-0.5 mr-2 text-sm"></i>
+                  <div class="text-xs text-yellow-800">
+                    <p class="font-semibold mb-1">Penting!</p>
+                    <p>Transfer tepat nominal <strong>Rp {{ package.price|add:request.user.id|floatformat:0 }}</strong> untuk memudahkan verifikasi pembayaran.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-      dropArea.addEventListener("dragleave", () => {
-        dropArea.classList.remove("bg-blue-100");
-      });
+        <!-- Bank Info -->
+        <div class="card-glass rounded-xl p-6 fade-in-up">
+          <div class="flex items-center mb-4">
+            <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mr-3">
+              <i class="fas fa-university text-white text-lg"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-800" style="font-family: 'Space Grotesk', sans-serif;">Informasi Rekening</h3>
+          </div>
+          <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-5 rounded-xl border border-purple-200">
+            <div class="bg-white p-5 rounded-lg border border-purple-200 space-y-3">
+              <div class="flex items-center p-3 bg-slate-50 rounded-lg">
+                <i class="fas fa-bank text-purple-500 mr-3"></i>
+                <div class="flex-1">
+                  <p class="text-xs text-slate-600">Bank</p>
+                  <p class="font-semibold text-slate-800">BCA</p>
+                </div>
+              </div>
+              <div class="flex items-center p-3 bg-slate-50 rounded-lg">
+                <i class="fas fa-credit-card text-purple-500 mr-3"></i>
+                <div class="flex-1">
+                  <p class="text-xs text-slate-600">No. Rekening</p>
+                  <p class="font-semibold text-slate-800">1234567890</p>
+                </div>
+              </div>
+              <div class="flex items-center p-3 bg-slate-50 rounded-lg">
+                <i class="fas fa-user text-purple-500 mr-3"></i>
+                <div class="flex-1">
+                  <p class="text-xs text-slate-600">Atas Nama</p>
+                  <p class="font-semibold text-slate-800">PT Dummy Pembayaran</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      dropArea.addEventListener("drop", (e) => {
-        e.preventDefault();
-        dropArea.classList.remove("bg-blue-100");
+      <!-- RIGHT PANEL: Upload Form -->
+      <div class="lg:sticky lg:top-8 lg:self-start">
+        <div class="card-glass rounded-xl p-6 fade-in-up" style="animation-delay: 0.2s;">
+          <div class="text-center mb-6">
+            <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-upload text-white text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900 mb-2" style="font-family: 'Space Grotesk', sans-serif;">Upload Bukti Transfer</h3>
+            <p class="text-slate-600 text-sm">Upload screenshot atau foto bukti transfer Anda</p>
+          </div>
 
-        if (e.dataTransfer.files.length > 0) {
-          fileInput.files = e.dataTransfer.files;
-          handleFileChange(fileInput.files[0]);
-        }
-      });
+          <!-- Form Upload -->
+          <form method="POST" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
 
-      fileInput.addEventListener("change", () => {
-        if (fileInput.files.length > 0) {
-          handleFileChange(fileInput.files[0]);
-        }
-      });
+            <div>
+              <label class="block text-slate-700 text-sm font-bold mb-2">
+                Bukti Transfer (Gambar):
+              </label>
 
-      function handleFileChange(file) {
-        if (!file.type.startsWith("image/")) {
-          alert("File harus berupa gambar (jpg, png, dll).");
-          fileInput.value = "";
-          submitBtn.disabled = true;
-          return;
-        }
+              <!-- Dropzone -->
+              <div
+                id="drop-area"
+                class="relative flex flex-col items-center justify-center border-2 border-dashed border-cyan-400 rounded-xl p-6 cursor-pointer hover:bg-cyan-50 transition duration-300 ease-in-out"
+              >
+                <div class="text-center">
+                  <i class="fas fa-cloud-upload-alt text-5xl text-cyan-400 mb-3"></i>
+                  <p class="text-slate-600 font-medium mb-1 text-sm">
+                    Seret & lepas gambar ke sini
+                  </p>
+                  <p class="text-slate-500 text-xs mb-2">
+                    atau klik untuk memilih file
+                  </p>
+                  <p class="text-xs text-slate-400">
+                    Format: JPG, PNG, GIF (Max: 5MB)
+                  </p>
+                </div>
 
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          previewImage.src = e.target.result;
-          dropArea.classList.add("hidden");
-          previewContainer.classList.remove("hidden");
-          submitBtn.disabled = false;
-        };
-        reader.readAsDataURL(file);
-      }
+                <!-- Input dari Django Form -->
+                <input
+                  type="file"
+                  name="payment_proof"
+                  id="file-input"
+                  accept="image/*"
+                  class="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+                />
+              </div>
 
-      function resetUpload() {
-        fileInput.value = "";
-        previewImage.src = "";
-        previewContainer.classList.add("hidden");
-        dropArea.classList.remove("hidden");
-        submitBtn.disabled = true;
-      }
+              <!-- Preview -->
+              <div id="preview-container" class="mt-4 hidden">
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
+                  <p class="text-xs text-slate-600 mb-2 font-medium">Preview Gambar:</p>
+                  <div class="relative">
+                    <img
+                      id="preview-image"
+                      class="w-full max-h-64 object-contain rounded-lg border border-slate-300"
+                    />
+                    <button
+                      type="button"
+                      onclick="resetUpload()"
+                      class="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white p-2 rounded-full transition duration-200 text-sm"
+                      title="Ganti Gambar"
+                    >
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
 
-      // Nonaktifkan tombol di awal
+              {% if form.bukti_pembayaran.errors %}
+              <div class="mt-3 p-3 bg-red-50 border border-red-200 rounded-lg">
+                <p class="text-red-600 text-xs">
+                  <i class="fas fa-exclamation-circle mr-1"></i>
+                  {{ form.bukti_pembayaran.errors.0 }}
+                </p>
+              </div>
+              {% endif %}
+            </div>
+
+            <button
+              id="submit-btn"
+              type="submit"
+              class="w-full btn-pill btn-primary text-white font-semibold py-3 px-6 transition duration-300 ease-in-out focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 text-sm"
+              disabled
+            >
+              <i class="fas fa-paper-plane mr-2"></i>
+              Kirim Bukti Pembayaran
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  const dropArea = document.getElementById("drop-area");
+  const fileInput = document.getElementById("file-input");
+  const previewContainer = document.getElementById("preview-container");
+  const previewImage = document.getElementById("preview-image");
+  const submitBtn = document.getElementById("submit-btn");
+
+  // Countdown Timer
+  {% if checkout_session %}
+  let remainingTime = {{ checkout_session.get_remaining_time }};
+  
+  function updateCountdown() {
+    if (remainingTime <= 0) {
+      alert('Sesi checkout telah berakhir. Silakan pilih paket lagi.');
+      window.location.href = "{% url 'buy_quota' %}";
+      return;
+    }
+    
+    const hours = Math.floor(remainingTime / 3600);
+    const minutes = Math.floor((remainingTime % 3600) / 60);
+    const seconds = remainingTime % 60;
+    
+    document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+    document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+    
+    remainingTime--;
+  }
+  
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+  {% endif %}
+
+  // Cancel Order Function
+  function cancelOrder() {
+    if (confirm('Apakah Anda yakin ingin membatalkan pesanan ini?')) {
+      {% if checkout_session %}
+      window.location.href = "{% url 'cancel_checkout_session' checkout_session.session_id %}";
+      {% else %}
+      window.location.href = "{% url 'buy_quota' %}";
+      {% endif %}
+    }
+  }
+
+  dropArea.addEventListener("click", () => {
+    fileInput.click();
+  });
+
+  dropArea.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropArea.classList.add("dropzone-active");
+  });
+
+  dropArea.addEventListener("dragleave", () => {
+    dropArea.classList.remove("dropzone-active");
+  });
+
+  dropArea.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dropArea.classList.remove("dropzone-active");
+
+    if (e.dataTransfer.files.length > 0) {
+      fileInput.files = e.dataTransfer.files;
+      handleFileChange(fileInput.files[0]);
+    }
+  });
+
+  fileInput.addEventListener("change", () => {
+    if (fileInput.files.length > 0) {
+      handleFileChange(fileInput.files[0]);
+    }
+  });
+
+  function handleFileChange(file) {
+    if (!file.type.startsWith("image/")) {
+      alert("File harus berupa gambar (jpg, png, gif).");
+      fileInput.value = "";
       submitBtn.disabled = true;
-    </script>
-  </body>
-</html>
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert("Ukuran file terlalu besar. Maksimal 5MB.");
+      fileInput.value = "";
+      submitBtn.disabled = true;
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      previewImage.src = e.target.result;
+      dropArea.classList.add("hidden");
+      previewContainer.classList.remove("hidden");
+      submitBtn.disabled = false;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function resetUpload() {
+    fileInput.value = "";
+    previewImage.src = "";
+    previewContainer.classList.add("hidden");
+    dropArea.classList.remove("hidden");
+    submitBtn.disabled = true;
+  }
+
+  submitBtn.disabled = true;
+</script>
+{% endblock %}

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowchart - Admin Manajemen AI Model Config</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 2000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .export-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .diagram-container {
+            width: 100%;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 40px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .report-explanation {
+            margin-top: 50px;
+            padding: 30px;
+            background: #f0f7ff;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .report-explanation h2 {
+            color: #1976d2;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .report-explanation p {
+            color: #424242;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Flowchart</h1>
+        <p class="subtitle">Admin - Manajemen AI Model Config</p>
+
+        <div class="export-container">
+            <button class="export-btn" onclick="exportToPNG()">📥 Export PNG</button>
+        </div>
+
+        <div class="diagram-container" id="diagram-to-export">
+            <div class="mermaid">
+flowchart TD
+    Start([MULAI]) --> Admin1[Admin Akses Menu<br/>Manajemen AI Model Config]
+    
+    Admin1 --> Admin2[Admin Lihat Daftar<br/>AI Models]
+    
+    Admin2 --> Admin3{Admin Pilih Aksi}
+    
+    Admin3 -->|Tambah Model| Admin4[Admin Isi Form<br/>Model Name, Display Name,<br/>Quota Cost, API Key]
+    Admin3 -->|Update Model| Admin5[Admin Edit Konfigurasi Model]
+    Admin3 -->|Hapus Model| Admin6[Admin Hapus Model]
+    
+    Admin4 --> System1[Sistem Validasi Model Name Unik<br/>Sistem Simpan Model Baru]
+    Admin5 --> System2[Sistem Validasi Model Name Unik<br/>Sistem Update Konfigurasi]
+    Admin6 --> System3[Sistem Hapus Model]
+    
+    System1 --> End([SELESAI])
+    System2 --> End
+    System3 --> End
+    
+    style Start fill:#4caf50,stroke:#333,stroke-width:3px,color:#fff
+    style End fill:#4caf50,stroke:#333,stroke-width:3px,color:#fff
+    style Admin3 fill:#2196f3,stroke:#333,stroke-width:2px,color:#fff
+    style Admin4 fill:#9c27b0,stroke:#333,stroke-width:2px,color:#fff
+    style Admin5 fill:#9c27b0,stroke:#333,stroke-width:2px,color:#fff
+    style Admin6 fill:#9c27b0,stroke:#333,stroke-width:2px,color:#fff
+    style System1 fill:#e91e63,stroke:#333,stroke-width:2px,color:#fff
+    style System2 fill:#e91e63,stroke:#333,stroke-width:2px,color:#fff
+    style System3 fill:#e91e63,stroke:#333,stroke-width:2px,color:#fff
+            </div>
+        </div>
+
+        <!-- Penjelasan untuk Laporan Proyek -->
+        <div class="report-explanation">
+            <h2>Penjelasan Flowchart Admin - Manajemen AI Model Config</h2>
+            
+            <p>
+                Flowchart ini menggambarkan alur manajemen konfigurasi model AI oleh admin dalam sistem rank checker. Proses dimulai ketika admin mengakses menu manajemen AI model config melalui dashboard admin. Admin kemudian melihat daftar semua konfigurasi model AI yang tersedia, termasuk informasi seperti model name, display name, quota cost, dan status aktif. Setelah melihat daftar, admin dapat memilih untuk menambahkan model baru, mengupdate konfigurasi model yang sudah ada, atau menghapus model yang tidak diperlukan lagi.
+            </p>
+            
+            <p>
+                Jika admin memilih untuk menambah model, admin akan mengisi form dengan data model name, display name, quota cost, dan API key, kemudian sistem akan memvalidasi bahwa model name harus unik sebelum menyimpan model baru tersebut. Jika admin memilih untuk update model, admin akan mengedit konfigurasi model seperti model name, quota cost, API key, atau status aktif, kemudian sistem akan memvalidasi model name unik dengan mengecualikan model yang sedang diedit sebelum menyimpan perubahan. Jika admin memilih untuk menghapus model, sistem akan menghapus model tersebut dari database. Setelah operasi selesai, perubahan akan langsung terlihat di daftar AI models.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+
+        function exportToPNG() {
+            const element = document.getElementById('diagram-to-export');
+            html2canvas(element, {
+                backgroundColor: '#ffffff',
+                scale: 2,
+                logging: false,
+                useCORS: true
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'flowchart_admin_manajemen_ai_model.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+    </script>
+</body>
+</html>

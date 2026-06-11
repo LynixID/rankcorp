@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pembayaran</title>
+  <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ client_key }}"></script>
+</head>
+<body>
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+      window.snap.pay("{{ snap_token }}", {
+        onSuccess: function(result){
+          alert("Pembayaran sukses!");
+          window.location.href = "/dashboard/";
+        },
+        onPending: function(result){
+          alert("Menunggu pembayaran...");
+        },
+        onError: function(result){
+          alert("Pembayaran gagal!");
+        },
+        onClose: function(){
+          alert("Anda menutup popup sebelum menyelesaikan pembayaran");
+        }
+      });
+    });
+  </script>
+</body>
+</html>

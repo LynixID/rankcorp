@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagram ERD - Sistem Rank Checker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 2000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .diagram-container {
+            position: relative;
+            width: 100%;
+            min-height: 2000px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            overflow: auto;
+            padding: 40px;
+        }
+
+        /* Entity Box Styles */
+        .entity {
+            position: absolute;
+            background: white;
+            border: 2px solid #333;
+            border-radius: 8px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+            min-width: 250px;
+            max-width: 300px;
+            z-index: 10;
+        }
+
+        .entity-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 15px;
+            font-weight: bold;
+            font-size: 1em;
+            border-radius: 6px 6px 0 0;
+            text-align: center;
+        }
+
+        .entity-header.primary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .entity-header.config {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .entity-attributes {
+            padding: 10px;
+        }
+
+        .attribute {
+            padding: 6px 8px;
+            font-size: 0.8em;
+            border-bottom: 1px solid #eee;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+
+        .attribute:last-child {
+            border-bottom: none;
+        }
+
+        .pk {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+
+        .pk::before {
+            content: "🔑 ";
+        }
+
+        .fk {
+            color: #1976d2;
+            font-style: italic;
+        }
+
+        .fk::before {
+            content: "🔗 ";
+        }
+
+        .nullable {
+            color: #666;
+        }
+
+        .nullable::after {
+            content: " (nullable)";
+            font-size: 0.8em;
+        }
+
+        /* Relationship Lines */
+        .relationship {
+            stroke: #333;
+            stroke-width: 2;
+            fill: none;
+            marker-end: url(#arrowhead);
+        }
+
+        .relationship-1to1 {
+            stroke: #4caf50;
+            stroke-width: 2.5;
+        }
+
+        .relationship-1ton {
+            stroke: #ff9800;
+            stroke-width: 2;
+        }
+
+        /* Relationship Labels */
+        .rel-label {
+            font-size: 0.75em;
+            fill: #333;
+            font-weight: bold;
+            background: white;
+            padding: 2px 6px;
+        }
+
+        .rel-label-1to1 {
+            fill: #4caf50;
+        }
+
+        .rel-label-1ton {
+            fill: #ff9800;
+        }
+
+        /* Entity Positions - Organized Layout */
+        /* Row 1: User & Related (One-to-One) */
+        .entity-customuser {
+            top: 50px;
+            left: 100px;
+        }
+
+        .entity-userstatus {
+            top: 50px;
+            left: 550px;
+        }
+
+        .entity-billing {
+            top: 50px;
+            left: 1000px;
+        }
+
+        /* Row 2: User Activities (One-to-Many from CustomUser) */
+        .entity-rankresult {
+            top: 500px;
+            left: 100px;
+        }
+
+        .entity-seoanalysis {
+            top: 500px;
+            left: 550px;
+        }
+
+        /* Row 3: Quota & Payment Related */
+        .entity-quotapackage {
+            top: 950px;
+            left: 100px;
+        }
+
+        .entity-quotapurchase {
+            top: 950px;
+            left: 550px;
+        }
+
+        .entity-transaction {
+            top: 950px;
+            left: 1000px;
+        }
+
+        .entity-checkoutsession {
+            top: 950px;
+            left: 1450px;
+        }
+
+        /* Row 4: Configuration Entities */
+        .entity-aimodelconfig {
+            top: 1400px;
+            left: 100px;
+        }
+
+        .entity-apiconfig {
+            top: 1400px;
+            left: 550px;
+        }
+
+        .legend {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-line {
+            width: 40px;
+            height: 3px;
+            background: #333;
+        }
+
+        .legend-line-1to1 {
+            background: #4caf50;
+        }
+
+        .legend-line-1ton {
+            background: #ff9800;
+        }
+
+        .stats {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .report-explanation {
+            margin-top: 50px;
+            padding: 30px;
+            background: #f0f7ff;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .report-explanation h2 {
+            color: #1976d2;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .report-explanation p {
+            color: #424242;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Diagram ERD</h1>
+        <p class="subtitle">Sistem Rank Checker</p>
+
+        <div class="diagram-container">
+            <!-- SVG for Relationship Lines -->
+            <svg width="100%" height="100%" style="position: absolute; top: 0; left: 0; z-index: 1;">
+                <!-- Arrow Markers -->
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#333" />
+                    </marker>
+                    <marker id="arrowhead-1to1" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#4caf50" />
+                    </marker>
+                    <marker id="arrowhead-1ton" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#ff9800" />
+                    </marker>
+                </defs>
+
+                <!-- One-to-One Relationships -->
+                <!-- CustomUser ↔ UserStatus -->
+                <!-- CustomUser: left=100, top=50, center x=225, y=200. UserStatus: left=550, top=50, center x=675, y=200 -->
+                <line x1="225" y1="200" x2="675" y2="200" class="relationship relationship-1to1" marker-end="url(#arrowhead-1to1)" />
+                <line x1="675" y1="200" x2="225" y2="200" class="relationship relationship-1to1" marker-end="url(#arrowhead-1to1)" />
+                <text x="440" y="195" class="rel-label rel-label-1to1">1:1</text>
+
+                <!-- CustomUser ↔ Billing -->
+                <!-- CustomUser: center x=225, y=200. Billing: left=1000, top=50, center x=1125, y=200 -->
+                <line x1="225" y1="200" x2="1125" y2="200" class="relationship relationship-1to1" marker-end="url(#arrowhead-1to1)" />
+                <line x1="1125" y1="200" x2="225" y2="200" class="relationship relationship-1to1" marker-end="url(#arrowhead-1to1)" />
+                <text x="660" y="195" class="rel-label rel-label-1to1">1:1</text>
+
+                <!-- One-to-Many Relationships -->
+                <!-- CustomUser → RankResult -->
+                <!-- CustomUser: bottom y=350. RankResult: top y=500, center x=225 -->
+                <line x1="225" y1="350" x2="225" y2="500" class="relationship relationship-1ton" marker-end="url(#arrowhead-1ton)" />
+                <text x="235" y="420" class="rel-label rel-label-1ton">1:N</text>
+
+                <!-- CustomUser → SeoAnalysis -->
+                <!-- CustomUser: bottom y=350. SeoAnalysis: top y=500, center x=675 -->
+                <line x1="225" y1="350" x2="675" y2="500" class="relationship relationship-1ton" marker-end="url(#arrowhead-1ton)" />
+                <text x="440" y="420" class="rel-label rel-label-1ton">1:N</text>
+
+                <!-- CustomUser → QuotaPurchase -->
+                <!-- CustomUser: bottom y=350. QuotaPurchase: top y=950, center x=675 -->
+                <line x1="225" y1="350" x2="675" y2="950" class="relationship relationship-1ton" marker-end="url(#arrowhead-1ton)" />
+                <text x="440" y="640" class="rel-label rel-label-1ton">1:N</text>
+
+                <!-- CustomUser → Transaction -->
+                <!-- CustomUser: bottom y=350. Transaction: top y=950, center x=1125 -->
+                <line x1="225" y1="350" x2="1125" y2="950" class="relationship relationship-1ton" marker-end="url(#arrowhead-1ton)" />
+                <text x="660" y="640" class="rel-label rel-label-1ton">1:N</text>
+
+                <!-- CustomUser → CheckoutSession -->
+                <!-- CustomUser: bottom y=350. CheckoutSession: top y=950, center x=1575 -->
+                <line x1="225" y1="350" x2="1575" y2="950" class="relationship relationship-1ton" marker-end="url(#arrowhead-1ton)" />
+                <text x="880" y="640" class="rel-label rel-label-1ton">1:N</text>
+
+                <!-- QuotaPackage → QuotaPurchase -->
+                <!-- QuotaPackage: left=100, top=950, center x=225, bottom y=1050. QuotaPurchase: top y=950, center x=675 -->
+                <line x1="225" y1="1050" x2="675" y2="950" class="relationship relationship-1ton" marker-end="url(#arrowhead-1ton)" />
+                <text x="440" y="1000" class="rel-label rel-label-1ton">1:N</text>
+
+                <!-- QuotaPackage → Transaction -->
+                <!-- QuotaPackage: center x=225, bottom y=1050. Transaction: top y=950, center x=1125 -->
+                <line x1="225" y1="1050" x2="1125" y2="950" class="relationship relationship-1ton" marker-end="url(#arrowhead-1ton)" />
+                <text x="660" y="1000" class="rel-label rel-label-1ton">1:N</text>
+
+                <!-- QuotaPackage → CheckoutSession -->
+                <!-- QuotaPackage: center x=225, bottom y=1050. CheckoutSession: top y=950, center x=1575 -->
+                <line x1="225" y1="1050" x2="1575" y2="950" class="relationship relationship-1ton" marker-end="url(#arrowhead-1ton)" />
+                <text x="880" y="1000" class="rel-label rel-label-1ton">1:N</text>
+            </svg>
+
+            <!-- Entities -->
+            <!-- CustomUser -->
+            <div class="entity entity-customuser">
+                <div class="entity-header primary">CustomUser</div>
+                <div class="entity-attributes">
+                    <div class="attribute pk">id (PK) : BigInteger</div>
+                    <div class="attribute">username : Char(150)</div>
+                    <div class="attribute">email : Email(254)</div>
+                    <div class="attribute">password : Char(128)</div>
+                    <div class="attribute">role : Char(10)</div>
+                    <div class="attribute nullable">whatsapp_number : Char(20)</div>
+                    <div class="attribute nullable">otp_code : Char(6)</div>
+                    <div class="attribute">date_joined : DateTime</div>
+                    <div class="attribute">is_active : Boolean</div>
+                </div>
+            </div>
+
+            <!-- UserStatus -->
+            <div class="entity entity-userstatus">
+                <div class="entity-header">UserStatus</div>
+                <div class="entity-attributes">
+                    <div class="attribute pk fk">id (PK, FK → CustomUser) : BigInteger</div>
+                    <div class="attribute">status : Char(10)</div>
+                    <div class="attribute">total_quota : PositiveInteger</div>
+                    <div class="attribute">used_quota : PositiveInteger</div>
+                    <div class="attribute">start_date : DateTime</div>
+                    <div class="attribute">created_at : DateTime</div>
+                    <div class="attribute">updated_at : DateTime</div>
+                </div>
+            </div>
+
+            <!-- Billing -->
+            <div class="entity entity-billing">
+                <div class="entity-header">Billing</div>
+                <div class="entity-attributes">
+                    <div class="attribute pk fk">user (PK, FK → CustomUser) : BigInteger</div>
+                    <div class="attribute">status_pembayaran : Boolean</div>
+                    <div class="attribute">bukti_pembayaran : ImageField</div>
+                </div>
+            </div>
+
+            <!-- RankResult -->
+            <div class="entity entity-rankresult">
+                <div class="entity-header">RankResult</div>
+                <div class="entity-attributes">
+                    <div class="attribute pk">id (PK) : BigInteger</div>
+                    <div class="attribute fk">user_id (FK → CustomUser) : BigInteger</div>
+                    <div class="attribute">domain : Char(255)</div>
+                    <div class="attribute">keyword : Char(255)</div>
+                    <div class="attribute">rank : PositiveInteger</div>
+                    <div class="attribute">url_result : URLField</div>
+                    <div class="attribute">checked_at : DateTime</div>
+                </div>
+            </div>
+
+            <!-- SeoAnalysis -->
+            <div class="entity entity-seoanalysis">
+                <div class="entity-header">SeoAnalysis</div>
+                <div class="entity-attributes">
+                    <div class="attribute pk">id (PK) : BigInteger</div>
+                    <div class="attribute fk">user_id (FK → CustomUser) : BigInteger</div>
+                    <div class="attribute">keyword : Char(255)</div>
+                    <div class="attribute">domain : Char(255)</div>
+                    <div class="attribute">analysis : Text</div>
+                    <div class="attribute nullable">metadata : JSON</div>
+                    <div class="attribute">model_used : Char(50)</div>
+                    <div class="attribute">created_at : DateTime</div>
+                </div>
+            </div>
+
+            <!-- QuotaPackage -->
+            <div class="entity entity-quotapackage">
+                <div class="entity-header">QuotaPackage</div>
+                <div class="entity-attributes">
+                    <div class="attribute pk">id (PK) : BigInteger</div>
+                    <div class="attribute">name : Char(100)</div>
+                    <div class="attribute">price : PositiveInteger</div>
+                    <div class="attribute">quota_amount : PositiveInteger</div>
+                </div>
+            </div>
+
+            <!-- QuotaPurchase -->
+            <div class="entity entity-quotapurchase">
+                <div class="entity-header">QuotaPurchase</div>
+                <div class="entity-attributes">
+                    <div class="attribute pk">id (PK) : BigInteger</div>
+                    <div class="attribute fk">user_id (FK → CustomUser) : BigInteger</div>
+                    <div class="attribute fk">package_id (FK → QuotaPackage) : BigInteger</div>
+                    <div class="attribute nullable">payment_proof : ImageField</div>
+                    <div class="attribute">status : Char(10)</div>
+                    <div class="attribute">created_at : DateTime</div>
+                </div>
+            </div>
+
+            <!-- Transaction -->
+            <div class="entity entity-transaction">
+                <div class="entity-header">Transaction</div>
+                <div class="entity-attributes">
+                    <div class="attribute pk">id (PK) : BigInteger</div>
+                    <div class="attribute fk">user_id (FK → CustomUser) : BigInteger</div>
+                    <div class="attribute fk">package_id (FK → QuotaPackage) : BigInteger</div>
+                    <div class="attribute">order_id (unique) : Char(100)</div>
+                    <div class="attribute">gross_amount : Integer</div>
+                    <div class="attribute">transaction_status : Char(50)</div>
+                    <div class="attribute nullable">payment_type : Char(50)</div>
+                    <div class="attribute">created_at : DateTime</div>
+                </div>
+            </div>
+
+            <!-- CheckoutSession -->
+            <div class="entity entity-checkoutsession">
+                <div class="entity-header">CheckoutSession</div>
+                <div class="entity-attributes">
+                    <div class="attribute pk">id (PK) : BigInteger</div>
+                    <div class="attribute fk">user_id (FK → CustomUser) : BigInteger</div>
+                    <div class="attribute fk">package_id (FK → QuotaPackage) : BigInteger</div>
+                    <div class="attribute">session_id (unique) : Char(100)</div>
+                    <div class="attribute">status : Char(20)</div>
+                    <div class="attribute">expires_at : DateTime</div>
+                    <div class="attribute">created_at : DateTime</div>
+                    <div class="attribute">updated_at : DateTime</div>
+                </div>
+            </div>
+
+            <!-- AiModelConfig -->
+            <div class="entity entity-aimodelconfig">
+                <div class="entity-header config">AiModelConfig</div>
+                <div class="entity-attributes">
+                    <div class="attribute pk">id (PK) : BigInteger</div>
+                    <div class="attribute">model_name (unique) : Char(50)</div>
+                    <div class="attribute">display_name : Char(100)</div>
+                    <div class="attribute">description : Text</div>
+                    <div class="attribute">quota_cost : PositiveInteger</div>
+                    <div class="attribute">is_active : Boolean</div>
+                    <div class="attribute nullable">api_key : Char(255)</div>
+                    <div class="attribute">created_at : DateTime</div>
+                    <div class="attribute">updated_at : DateTime</div>
+                </div>
+            </div>
+
+            <!-- ApiConfig -->
+            <div class="entity entity-apiconfig">
+                <div class="entity-header config">ApiConfig</div>
+                <div class="entity-attributes">
+                    <div class="attribute pk">id (PK) : BigInteger</div>
+                    <div class="attribute">api_name (unique) : Char(50)</div>
+                    <div class="attribute">api_key : Char(255)</div>
+                    <div class="attribute">base_url : URL(500)</div>
+                    <div class="attribute">max_results : PositiveInteger</div>
+                    <div class="attribute">timeout : PositiveInteger</div>
+                    <div class="attribute">is_active : Boolean</div>
+                    <div class="attribute">description : Text</div>
+                    <div class="attribute">created_at : DateTime</div>
+                    <div class="attribute">updated_at : DateTime</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-line-1to1"></div>
+                <span>One-to-One (1:1)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line-1ton"></div>
+                <span>One-to-Many (1:N)</span>
+            </div>
+            <div class="legend-item">
+                <span style="color: #d32f2f; font-weight: bold;">🔑 Primary Key</span>
+            </div>
+            <div class="legend-item">
+                <span style="color: #1976d2; font-style: italic;">🔗 Foreign Key</span>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats">
+            <h3>Statistik</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">11</div>
+                    <div class="stat-label">Total Entitas</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">One-to-One</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">One-to-Many</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Independent</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Penjelasan untuk Laporan Proyek -->
+        <div class="report-explanation">
+            <h2>Penjelasan Diagram ERD Sistem Rank Checker</h2>
+            
+            <p>
+                Diagram Entity Relationship Diagram (ERD) ini menggambarkan struktur database sistem rank checker yang terdiri dari 11 entitas utama dengan berbagai relasi antar entitas. Entitas CustomUser merupakan entitas inti yang memiliki relasi one-to-one dengan UserStatus untuk menyimpan informasi status pengguna (guest atau premium) dan kuota yang dimiliki, serta relasi one-to-one dengan Billing untuk menyimpan informasi pembayaran. CustomUser juga memiliki relasi one-to-many dengan RankResult untuk menyimpan history hasil pengecekan ranking, SeoAnalysis untuk menyimpan hasil analisis SEO dengan AI, QuotaPurchase untuk menyimpan riwayat pembelian kuota, Transaction untuk menyimpan transaksi pembayaran, dan CheckoutSession untuk menyimpan session pembelian kuota.
+            </p>
+            
+            <p>
+                Entitas QuotaPackage memiliki relasi one-to-many dengan QuotaPurchase, Transaction, dan CheckoutSession untuk mengelola paket kuota yang tersedia dan transaksi yang terkait. Entitas AiModelConfig dan ApiConfig merupakan entitas independen yang tidak memiliki relasi langsung dengan entitas lain, namun digunakan untuk menyimpan konfigurasi model AI dan API yang digunakan dalam sistem. Diagram ini menunjukkan total 2 relasi one-to-one dan 8 relasi one-to-many, dengan semua relasi menggunakan CASCADE delete untuk memastikan integritas data ketika entitas parent dihapus. Struktur database ini dirancang untuk mendukung fungsionalitas sistem rank checker dengan manajemen user, kuota, pembayaran, dan integrasi dengan API eksternal.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Diagram - Registrasi & OTP Verification</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 2000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .export-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .export-btn:active {
+            transform: translateY(0);
+        }
+
+        .diagram-container {
+            width: 100%;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 40px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .explanation {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .explanation h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .explanation h3 {
+            color: #667eea;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .explanation p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .explanation ul {
+            margin-left: 30px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .explanation li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Activity Diagram</h1>
+        <p class="subtitle">Registrasi & OTP Verification</p>
+
+        <div class="export-container">
+            <button class="export-btn" onclick="exportToPNG()">📥 Export PNG</button>
+        </div>
+
+        <div class="diagram-container" id="diagram-to-export">
+            <div class="mermaid">
+graph TB
+    Start([START]) --> User1[Isi Form & Submit]
+    User1 -->|Request| Sys1[Validasi Data]
+    Sys1 --> SysDec1{Valid?}
+    
+    SysDec1 -->|Tidak| SysErr1[Error Message]
+    SysErr1 --> EndErr([END])
+    
+    SysDec1 -->|Ya| Sys2[Generate OTP & Kirim WhatsApp]
+    Sys2 -->|Redirect| User2[Masukkan OTP & Submit]
+    User2 -->|Request| Sys3[Verifikasi OTP]
+    Sys3 --> SysDec2{OTP Benar?}
+    
+    SysDec2 -->|Tidak| SysErr2[Error OTP]
+    SysErr2 --> User2
+    
+    SysDec2 -->|Ya| Sys4[Buat User & UserStatus<br/>3 kuota gratis]
+    Sys4 -->|Redirect| User3[Redirect ke Login]
+    User3 --> End([END])
+    
+    style Start fill:#4caf50,stroke:#333,stroke-width:3px,color:#fff
+    style End fill:#f44336,stroke:#333,stroke-width:3px,color:#fff
+    style EndErr fill:#f44336,stroke:#333,stroke-width:3px,color:#fff
+    style SysDec1 fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    style SysDec2 fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+            </div>
+        </div>
+
+        <!-- Explanation Section -->
+        <div class="explanation">
+            <h2>📋 Penjelasan Activity Diagram: Registrasi & OTP Verification</h2>
+            
+            <h3>1. Overview</h3>
+            <p>
+                Activity Diagram ini menggambarkan alur proses registrasi pengguna baru dengan sistem verifikasi OTP melalui WhatsApp. 
+                Proses ini melibatkan dua aktor utama: <strong>User</strong> dan <strong>System</strong>.
+            </p>
+
+            <h3>2. Alur Proses</h3>
+            <p><strong>A. Tahap Input & Validasi</strong></p>
+            <ul>
+                <li>User isi form dan submit → System validasi data</li>
+                <li>Jika tidak valid: Tampilkan error, proses berakhir</li>
+            </ul>
+
+            <p><strong>B. Tahap OTP</strong></p>
+            <ul>
+                <li>System generate OTP dan kirim via WhatsApp → User masukkan OTP</li>
+                <li>System verifikasi OTP</li>
+                <li>Jika salah: Tampilkan error, user dapat coba lagi</li>
+            </ul>
+
+            <p><strong>C. Tahap Pembuatan Akun</strong></p>
+            <ul>
+                <li>Jika OTP benar: System buat User dan UserStatus (3 kuota gratis)</li>
+                <li>User redirect ke login</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+
+        function exportToPNG() {
+            const element = document.getElementById('diagram-to-export');
+            const margin = 50;
+            
+            // Show loading
+            const btn = document.querySelector('.export-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ Exporting...';
+            btn.disabled = true;
+
+            html2canvas(element, {
+                backgroundColor: '#ffffff',
+                scale: 2,
+                logging: false,
+                useCORS: true,
+                allowTaint: true
+            }).then(canvas => {
+                // Create new canvas with margin
+                const marginCanvas = document.createElement('canvas');
+                marginCanvas.width = canvas.width + (margin * 2);
+                marginCanvas.height = canvas.height + (margin * 2);
+                const ctx = marginCanvas.getContext('2d');
+                
+                // Fill white background
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, marginCanvas.width, marginCanvas.height);
+                
+                // Draw original canvas with margin
+                ctx.drawImage(canvas, margin, margin);
+                
+                // Convert to blob and download
+                marginCanvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = 'Activity_Diagram_Registrasi_OTP_Verification.png';
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                    
+                    // Restore button
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+            }).catch(error => {
+                console.error('Export error:', error);
+                alert('Error exporting diagram. Please try again.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>

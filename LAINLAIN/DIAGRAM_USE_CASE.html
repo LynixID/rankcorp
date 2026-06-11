@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagram Use Case UML - Sistem Rank Checker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .diagram-container {
+            position: relative;
+            width: 100%;
+            min-height: 1500px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            overflow: auto;
+            padding: 60px;
+        }
+
+        /* System Boundary */
+        .system-boundary {
+            position: absolute;
+            top: 50px;
+            left: 200px;
+            right: 200px;
+            bottom: 50px;
+            border: 3px solid #333;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .system-label {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: white;
+            padding: 5px 15px;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        /* Actor Styles */
+        .actor {
+            position: absolute;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .actor-stick {
+            width: 60px;
+            height: 80px;
+            margin: 0 auto 10px;
+            position: relative;
+        }
+
+        .actor-head {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #333;
+            margin: 0 auto;
+        }
+
+        .actor-body {
+            width: 2px;
+            height: 30px;
+            background: #333;
+            margin: 5px auto;
+        }
+
+        .actor-legs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .actor-leg {
+            width: 2px;
+            height: 20px;
+            background: #333;
+            transform: rotate(20deg);
+        }
+
+        .actor-leg:last-child {
+            transform: rotate(-20deg);
+        }
+
+        .actor-label {
+            font-weight: bold;
+            color: #333;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+
+        /* Guest Actor - LEFT */
+        .actor-guest {
+            top: 150px;
+            left: 50px;
+        }
+
+        /* System Actor - LEFT */
+        .actor-system {
+            top: 900px;
+            left: 50px;
+        }
+
+        /* User Actor - RIGHT */
+        .actor-user {
+            top: 150px;
+            right: 50px;
+        }
+
+        /* Admin Actor - RIGHT */
+        .actor-admin {
+            top: 900px;
+            right: 50px;
+        }
+
+        /* Use Case Styles */
+        .use-case {
+            position: absolute;
+            width: 220px;
+            height: 70px;
+            border: 2px solid #333;
+            border-radius: 35px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 0.75em;
+            padding: 8px 12px;
+            z-index: 5;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            line-height: 1.2;
+        }
+
+        .use-case:hover {
+            background: #f0f0f0;
+            transform: scale(1.05);
+        }
+
+        .use-case.premium {
+            border-color: #ffd700;
+            background: #fffacd;
+        }
+
+        /* Guest Use Cases - LEFT COLUMN */
+        .uc-01 { top: 120px; left: 250px; }
+        .uc-02 { top: 220px; left: 250px; }
+        .uc-03 { top: 320px; left: 250px; }
+
+        /* User Use Cases - RIGHT COLUMN (6 use cases) */
+        .uc-04 { top: 120px; right: 250px; }
+        .uc-05 { top: 220px; right: 250px; }
+        .uc-06 { top: 320px; right: 250px; }
+        .uc-08 { top: 420px; right: 250px; }
+        .uc-10 { top: 520px; right: 250px; }
+
+        /* Admin Use Cases - RIGHT COLUMN (lower) */
+        .uc-13 { top: 870px; right: 250px; }
+        .uc-14 { top: 970px; right: 250px; }
+        .uc-15 { top: 1070px; right: 250px; }
+        .uc-16 { top: 1170px; right: 250px; }
+        .uc-17 { top: 1270px; right: 250px; }
+        .uc-18 { top: 1370px; right: 250px; }
+
+        /* System Use Cases - LEFT COLUMN (lower) - 3 use cases */
+        .uc-notif { 
+            top: 870px; 
+            left: 250px; 
+            width: 280px;
+            font-size: 0.7em;
+        }
+        .uc-22 { top: 970px; left: 250px; }
+        .uc-23 { top: 1070px; left: 250px; }
+
+        /* Association Lines (solid) */
+        .association {
+            stroke: #333;
+            stroke-width: 2;
+            fill: none;
+            marker-end: url(#arrowhead);
+        }
+
+        /* Include Relationship (dashed with <<include>>) */
+        .include {
+            stroke: #0066cc;
+            stroke-width: 1.5;
+            stroke-dasharray: 5,5;
+            fill: none;
+            marker-end: url(#arrowhead-blue);
+        }
+
+        /* Extend Relationship (dashed with <<extend>>) */
+        .extend {
+            stroke: #cc6600;
+            stroke-width: 1.5;
+            stroke-dasharray: 5,5;
+            fill: none;
+            marker-end: url(#arrowhead-orange);
+        }
+
+        /* Relationship Labels */
+        .relationship-label {
+            font-size: 0.75em;
+            fill: #333;
+            font-weight: bold;
+            background: white;
+            padding: 2px 6px;
+        }
+
+        .relationship-label-box {
+            fill: white;
+            stroke: #ddd;
+            stroke-width: 1;
+            rx: 3;
+        }
+
+        .relationship-label-text {
+            font-size: 0.7em;
+            fill: #333;
+            font-weight: bold;
+        }
+
+        .relationship-label-detail {
+            font-size: 0.65em;
+            fill: #666;
+            font-style: italic;
+        }
+
+        .legend {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-line {
+            width: 40px;
+            height: 2px;
+            background: #333;
+        }
+
+        .legend-line.dashed {
+            background: none;
+            border-top: 2px dashed #0066cc;
+        }
+
+        .legend-line.extend {
+            border-top-color: #cc6600;
+        }
+
+        .stats {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .report-explanation {
+            margin-top: 50px;
+            padding: 30px;
+            background: #f0f7ff;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .report-explanation h2 {
+            color: #1976d2;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .report-explanation p {
+            color: #424242;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Diagram Use Case UML</h1>
+        <p class="subtitle">Sistem Rank Checker</p>
+
+        <div class="diagram-container">
+            <!-- System Boundary -->
+            <div class="system-boundary">
+                <div class="system-label">Sistem Rank Checker</div>
+            </div>
+
+            <!-- SVG for Lines and Arrows -->
+            <svg width="100%" height="100%" style="position: absolute; top: 0; left: 0; z-index: 1;">
+                <!-- Arrow Markers -->
+                <defs>
+                    <marker id="arrowhead" markerWidth="12" markerHeight="12" refX="11" refY="6" orient="auto" markerUnits="strokeWidth">
+                        <polygon points="0 0, 12 6, 0 12" fill="#333" stroke="#333" stroke-width="1" />
+                    </marker>
+                    <marker id="arrowhead-blue" markerWidth="15" markerHeight="15" refX="13" refY="7.5" orient="auto" markerUnits="strokeWidth">
+                        <polygon points="0 0, 15 7.5, 0 15" fill="#0066cc" stroke="#0066cc" stroke-width="1" />
+                    </marker>
+                    <marker id="arrowhead-orange" markerWidth="15" markerHeight="15" refX="13" refY="7.5" orient="auto" markerUnits="strokeWidth">
+                        <polygon points="0 0, 15 7.5, 0 15" fill="#cc6600" stroke="#cc6600" stroke-width="1" />
+                    </marker>
+                </defs>
+
+                <!-- Association Lines: Guest (LEFT) → Use Cases (LEFT COLUMN) -->
+                <!-- Guest actor center: x=80, y=190. Use case centers: x=350, y=155/255/355 -->
+                <line x1="80" y1="190" x2="350" y2="155" class="association" />
+                <line x1="80" y1="190" x2="350" y2="255" class="association" />
+                <line x1="80" y1="190" x2="350" y2="355" class="association" />
+
+                <!-- Association Lines: User (RIGHT) → Use Cases (RIGHT COLUMN) -->
+                <!-- User actor center: x=1520, y=190. Use case centers: x=1250, y=155/255/355/455/555 -->
+                <line x1="1520" y1="190" x2="1250" y2="155" class="association" />
+                <line x1="1520" y1="190" x2="1250" y2="255" class="association" />
+                <line x1="1520" y1="190" x2="1250" y2="355" class="association" />
+                <line x1="1520" y1="190" x2="1250" y2="455" class="association" />
+                <line x1="1520" y1="190" x2="1250" y2="555" class="association" />
+
+                <!-- Association Lines: Admin (RIGHT) → Use Cases (RIGHT COLUMN LOWER) -->
+                <!-- Admin actor center: x=1520, y=940. Use case centers: x=1250, y=905/1005/1105/1205/1305/1405 -->
+                <line x1="1520" y1="940" x2="1250" y2="905" class="association" />
+                <line x1="1520" y1="940" x2="1250" y2="1005" class="association" />
+                <line x1="1520" y1="940" x2="1250" y2="1105" class="association" />
+                <line x1="1520" y1="940" x2="1250" y2="1205" class="association" />
+                <line x1="1520" y1="940" x2="1250" y2="1305" class="association" />
+                <line x1="1520" y1="940" x2="1250" y2="1405" class="association" />
+
+                <!-- Association Lines: System (LEFT) → Use Cases (LEFT COLUMN LOWER) -->
+                <!-- System actor center: x=80, y=940. Use case centers: x=390 (notif), x=350 (others), y=905/1005/1105 -->
+                <line x1="80" y1="940" x2="390" y2="905" class="association" />
+                <line x1="80" y1="940" x2="350" y2="1005" class="association" />
+                <line x1="80" y1="940" x2="350" y2="1105" class="association" />
+
+                <!-- Include: Register (UC-02) → Notifikasi & Callback -->
+                <!-- UC-02 center: x=350, y=255. Notif center: x=390, y=905 -->
+                <line x1="350" y1="255" x2="390" y2="905" class="include" />
+                <rect x="330" y="570" width="140" height="40" class="relationship-label-box" />
+                <text x="335" y="588" class="relationship-label-text">&lt;&lt;include&gt;&gt;</text>
+                <text x="335" y="602" class="relationship-label-detail">Register → Notifikasi</text>
+
+                <!-- Include: Cek Rank (UC-06) → Google Search (UC-22) -->
+                <!-- UC-06 center: x=1250, y=355. UC-22 center: x=350, y=1005 -->
+                <line x1="1250" y1="355" x2="350" y2="1005" class="include" />
+                <rect x="680" y="670" width="140" height="40" class="relationship-label-box" />
+                <text x="685" y="688" class="relationship-label-text">&lt;&lt;include&gt;&gt;</text>
+                <text x="685" y="702" class="relationship-label-detail">Cek Rank → Google Search</text>
+
+                <!-- Include: Analisis SEO (UC-08) → Analisis AI (UC-23) -->
+                <!-- UC-08 center: x=1250, y=455. UC-23 center: x=350, y=1105 -->
+                <line x1="1250" y1="455" x2="350" y2="1105" class="include" />
+                <rect x="680" y="770" width="140" height="40" class="relationship-label-box" />
+                <text x="685" y="788" class="relationship-label-text">&lt;&lt;include&gt;&gt;</text>
+                <text x="685" y="802" class="relationship-label-detail">Analisis SEO → Analisis AI</text>
+
+                <!-- Extend: Analisis SEO (UC-08) → Cek Rank (UC-06) -->
+                <!-- UC-08 center: x=1250, y=455. UC-06 center: x=1250, y=355 -->
+                <line x1="1250" y1="455" x2="1250" y2="355" class="extend" />
+                <rect x="1230" y="390" width="130" height="40" class="relationship-label-box" />
+                <text x="1235" y="408" class="relationship-label-text" fill="#cc6600">&lt;&lt;extend&gt;&gt;</text>
+                <text x="1235" y="422" class="relationship-label-detail">Analisis SEO → Cek Rank</text>
+
+                <!-- Extend: Notifikasi & Callback → Beli Kuota (UC-10) -->
+                <!-- Notif center: x=390, y=905. UC-10 center: x=1250, y=555 -->
+                <line x1="390" y1="905" x2="1250" y2="555" class="extend" />
+                <rect x="680" y="720" width="160" height="40" class="relationship-label-box" />
+                <text x="685" y="738" class="relationship-label-text" fill="#cc6600">&lt;&lt;extend&gt;&gt;</text>
+                <text x="685" y="752" class="relationship-label-detail">Notifikasi → Beli Kuota</text>
+
+                <!-- Include: Manajemen Pembayaran (UC-15) → Notifikasi & Callback -->
+                <!-- UC-15 center: x=1250, y=1105. Notif center: x=390, y=905 -->
+                <line x1="1250" y1="1105" x2="390" y2="905" class="include" />
+                <rect x="680" y="1000" width="150" height="40" class="relationship-label-box" />
+                <text x="685" y="1018" class="relationship-label-text">&lt;&lt;include&gt;&gt;</text>
+                <text x="685" y="1032" class="relationship-label-detail">Manajemen → Notifikasi</text>
+            </svg>
+
+            <!-- Actors -->
+            <div class="actor actor-guest">
+                <div class="actor-stick">
+                    <div class="actor-head"></div>
+                    <div class="actor-body"></div>
+                    <div class="actor-legs">
+                        <div class="actor-leg"></div>
+                        <div class="actor-leg"></div>
+                    </div>
+                </div>
+                <div class="actor-label">Guest</div>
+            </div>
+
+            <div class="actor actor-user">
+                <div class="actor-stick">
+                    <div class="actor-head"></div>
+                    <div class="actor-body"></div>
+                    <div class="actor-legs">
+                        <div class="actor-leg"></div>
+                        <div class="actor-leg"></div>
+                    </div>
+                </div>
+                <div class="actor-label">User</div>
+            </div>
+
+            <div class="actor actor-admin">
+                <div class="actor-stick">
+                    <div class="actor-head"></div>
+                    <div class="actor-body"></div>
+                    <div class="actor-legs">
+                        <div class="actor-leg"></div>
+                        <div class="actor-leg"></div>
+                    </div>
+                </div>
+                <div class="actor-label">Admin</div>
+            </div>
+
+            <div class="actor actor-system">
+                <div class="actor-stick">
+                    <div class="actor-head"></div>
+                    <div class="actor-body"></div>
+                    <div class="actor-legs">
+                        <div class="actor-leg"></div>
+                        <div class="actor-leg"></div>
+                    </div>
+                </div>
+                <div class="actor-label">System</div>
+            </div>
+
+            <!-- Guest Use Cases -->
+            <div class="use-case uc-01">UC-01: Landing Page</div>
+            <div class="use-case uc-02">UC-02: Register</div>
+            <div class="use-case uc-03">UC-03: Login</div>
+
+            <!-- User Use Cases (5 use cases) -->
+            <div class="use-case uc-04">UC-04: Login/Logout</div>
+            <div class="use-case uc-05">UC-05: Dashboard</div>
+            <div class="use-case uc-06">UC-06: Cek Rank Website (History)</div>
+            <div class="use-case uc-08 premium">UC-08: Analisis SEO (Premium, History)</div>
+            <div class="use-case uc-10">UC-10: Beli Kuota (Upload Bukti, Status)</div>
+
+            <!-- Admin Use Cases -->
+            <div class="use-case uc-13">UC-13: Dashboard Admin</div>
+            <div class="use-case uc-14">UC-14: Manajemen User</div>
+            <div class="use-case uc-15">UC-15: Manajemen Pembayaran</div>
+            <div class="use-case uc-16">UC-16: Manajemen Paket</div>
+            <div class="use-case uc-17">UC-17: Manajemen AI Model</div>
+            <div class="use-case uc-18">UC-18: Manajemen API Config</div>
+
+            <!-- System Use Cases (3 use cases) -->
+            <div class="use-case uc-notif">Notifikasi & Callback (OTP, Payment, Quods, Midtrans)</div>
+            <div class="use-case uc-22">UC-22: Google Search (SerpAPI)</div>
+            <div class="use-case uc-23">UC-23: Analisis AI (Gemini/OpenAI)</div>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-line"></div>
+                <span>Association (Aktor → Use Case)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line dashed"></div>
+                <span>&lt;&lt;include&gt;&gt; (Use Case A includes Use Case B)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line extend"></div>
+                <span>&lt;&lt;extend&gt;&gt; (Use Case A extends Use Case B)</span>
+            </div>
+            <div class="legend-item">
+                <div style="width: 40px; height: 40px; border: 2px solid #ffd700; border-radius: 20px; background: #fffacd;"></div>
+                <span>Premium Use Case</span>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="stats">
+            <h3>Statistik</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Aktor</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">16</div>
+                    <div class="stat-label">Use Case</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Include</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Extend</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Guest Use Cases</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">User Use Cases</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Admin Use Cases</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">System Use Cases</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Penjelasan untuk Laporan Proyek -->
+        <div class="report-explanation">
+            <h2>Penjelasan Diagram Use Case Sistem Rank Checker</h2>
+            
+            <p>
+                Diagram Use Case ini menggambarkan interaksi antara berbagai aktor dengan sistem rank checker melalui use case yang tersedia. Sistem memiliki empat aktor utama yaitu Guest (pengunjung belum login), User (pengguna terdaftar dengan status guest atau premium), Admin (administrator sistem), dan System (sistem eksternal seperti API). Guest dapat melakukan tiga use case dasar yaitu melihat landing page, melakukan registrasi dengan verifikasi OTP, dan login ke sistem. User yang sudah terdaftar dapat melakukan login/logout, mengakses dashboard, melakukan pengecekan ranking website dengan history dan export PDF, melakukan analisis SEO dengan AI yang merupakan fitur eksklusif untuk user premium, serta membeli kuota melalui metode manual transfer atau payment gateway Midtrans.
+            </p>
+            
+            <p>
+                Admin memiliki akses untuk mengelola seluruh aspek sistem melalui enam use case yaitu dashboard admin dengan statistik dan grafik, manajemen user dengan operasi CRUD dan toggle status, manajemen pembayaran untuk approve atau reject pembayaran manual, manajemen paket kuota, manajemen konfigurasi AI model, dan manajemen konfigurasi API. System sebagai aktor eksternal bertanggung jawab untuk notifikasi dan callback dari berbagai layanan seperti OTP, payment gateway, dan integrasi dengan API eksternal seperti SerpAPI untuk pencarian Google serta API AI seperti Gemini dan OpenAI untuk analisis SEO. Diagram ini juga menunjukkan relasi include dan extend antar use case yang menggambarkan dependensi dan ekstensi fungsionalitas dalam sistem.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

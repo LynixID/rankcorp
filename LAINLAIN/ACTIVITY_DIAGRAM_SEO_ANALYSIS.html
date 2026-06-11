@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Diagram - SEO Analysis dengan AI</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 2000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .export-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .export-btn:active {
+            transform: translateY(0);
+        }
+
+        .diagram-container {
+            width: 100%;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 40px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .explanation {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .explanation h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .explanation h3 {
+            color: #667eea;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .explanation p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .explanation ul {
+            margin-left: 30px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .explanation li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Activity Diagram</h1>
+        <p class="subtitle">SEO Analysis dengan AI</p>
+
+        <div class="export-container">
+            <button class="export-btn" onclick="exportToPNG()">📥 Export PNG</button>
+        </div>
+
+        <div class="diagram-container" id="diagram-to-export">
+            <div class="mermaid">
+graph TB
+    Start([START]) --> User1[Pilih Model AI & Mulai Analisis]
+    User1 -->|Request| Sys1[Validasi: Premium & Kuota Cukup]
+    Sys1 --> SysDec1{Valid?}
+    
+    SysDec1 -->|Tidak| SysErr1[Error Message]
+    SysErr1 --> EndErr([END])
+    
+    SysDec1 -->|Ya| Sys2[Analisis Rank History & Buat Prompt]
+    Sys2 --> Sys3[Request ke AI API<br/>Gemini/OpenAI]
+    Sys3 -->|API Request| Ai1[Generate Analisis SEO]
+    Ai1 -->|API Response| Sys4[Parse & Validasi Response]
+    Sys4 --> SysDec2{Valid?}
+    
+    SysDec2 -->|Tidak| SysErr2[Error Analisis]
+    SysErr2 --> EndErr
+    
+    SysDec2 -->|Ya| Sys5[Simpan SeoAnalysis & Update Kuota]
+    Sys5 -->|Response| User2[Lihat Hasil Analisis]
+    User2 --> End([END])
+    
+    style Start fill:#4caf50,stroke:#333,stroke-width:3px,color:#fff
+    style End fill:#f44336,stroke:#333,stroke-width:3px,color:#fff
+    style EndErr fill:#f44336,stroke:#333,stroke-width:3px,color:#fff
+    style SysDec1 fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    style SysDec2 fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+            </div>
+        </div>
+
+        <!-- Explanation Section -->
+        <div class="explanation">
+            <h2>📋 Penjelasan Activity Diagram: SEO Analysis dengan AI</h2>
+            
+            <h3>1. Overview</h3>
+            <p>
+                Activity Diagram ini menggambarkan alur proses analisis SEO menggunakan AI untuk menganalisis data ranking website. 
+                Fitur ini hanya tersedia untuk user dengan status <strong>Premium</strong> dan menggunakan kuota sesuai model AI yang dipilih. 
+                Proses ini melibatkan tiga aktor: <strong>User</strong>, <strong>System</strong>, dan <strong>AI API</strong> (Gemini/OpenAI).
+            </p>
+
+            <h3>2. Alur Proses</h3>
+            <p><strong>A. Validasi</strong></p>
+            <ul>
+                <li>User pilih model AI dan mulai analisis → System validasi status premium dan kuota</li>
+                <li>Jika tidak valid: Tampilkan error, proses berakhir</li>
+            </ul>
+
+            <p><strong>B. Request AI</strong></p>
+            <ul>
+                <li>System analisis rank history dan buat prompt → Request ke AI API</li>
+                <li>AI API generate analisis → System parse dan validasi response</li>
+            </ul>
+
+            <p><strong>C. Penyimpanan & Tampilan</strong></p>
+            <ul>
+                <li>Jika valid: System simpan ke SeoAnalysis dan update kuota</li>
+                <li>System tampilkan hasil → User lihat hasil analisis</li>
+            </ul>
+
+            <h3>3. Model AI yang Tersedia</h3>
+            <ul>
+                <li><strong>Gemini:</strong> 3 kuota - Cepat & murah</li>
+                <li><strong>GPT-3.5:</strong> 2 kuota - Stabil, harga menengah</li>
+                <li><strong>GPT-4.1:</strong> 5 kuota - Terbaik, analisis mendalam</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+
+        function exportToPNG() {
+            const element = document.getElementById('diagram-to-export');
+            const margin = 50;
+            
+            const btn = document.querySelector('.export-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ Exporting...';
+            btn.disabled = true;
+
+            html2canvas(element, {
+                backgroundColor: '#ffffff',
+                scale: 2,
+                logging: false,
+                useCORS: true,
+                allowTaint: true
+            }).then(canvas => {
+                const marginCanvas = document.createElement('canvas');
+                marginCanvas.width = canvas.width + (margin * 2);
+                marginCanvas.height = canvas.height + (margin * 2);
+                const ctx = marginCanvas.getContext('2d');
+                
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, marginCanvas.width, marginCanvas.height);
+                ctx.drawImage(canvas, margin, margin);
+                
+                marginCanvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = 'Activity_Diagram_SEO_Analysis.png';
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                    
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+            }).catch(error => {
+                console.error('Export error:', error);
+                alert('Error exporting diagram. Please try again.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>

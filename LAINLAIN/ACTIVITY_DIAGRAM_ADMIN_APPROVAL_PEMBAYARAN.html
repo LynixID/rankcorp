@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Diagram - Admin Approval Pembayaran</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 2000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .export-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .export-btn:active {
+            transform: translateY(0);
+        }
+
+        .diagram-container {
+            width: 100%;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 40px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .explanation {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .explanation h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .explanation h3 {
+            color: #667eea;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .explanation p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .explanation ul {
+            margin-left: 30px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .explanation li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Activity Diagram</h1>
+        <p class="subtitle">Admin - Approval Pembayaran</p>
+
+        <div class="export-container">
+            <button class="export-btn" onclick="exportToPNG()">📥 Export PNG</button>
+        </div>
+
+        <div class="diagram-container" id="diagram-to-export">
+            <div class="mermaid">
+graph TB
+    Start([START]) --> Admin1[Akses Dashboard Admin]
+    Admin1 --> Admin2[Lihat Daftar Pembayaran Pending]
+    Admin2 --> Admin3[Pilih QuotaPurchase]
+    Admin3 --> Admin4[Review Bukti Pembayaran]
+    Admin4 --> AdminDec1{Valid?}
+    
+    AdminDec1 -->|Ya| Admin5[Klik Approve]
+    Admin5 -->|Request| Sys1[Update QuotaPurchase<br/>Status: Approved]
+    Sys1 --> Sys2[Update UserStatus<br/>total_quota += package.quota_amount]
+    Sys2 --> Sys3[Update Status Premium]
+    Sys3 --> Sys4[Tampilkan Pesan Sukses]
+    Sys4 --> Admin2
+    
+    AdminDec1 -->|Tidak| Admin6[Klik Reject]
+    Admin6 -->|Request| Sys5[Update QuotaPurchase<br/>Status: Rejected]
+    Sys5 --> Sys6[Tampilkan Pesan Sukses]
+    Sys6 --> Admin2
+    
+    Admin2 --> End([END])
+    
+    style Start fill:#4caf50,stroke:#333,stroke-width:3px,color:#fff
+    style End fill:#f44336,stroke:#333,stroke-width:3px,color:#fff
+    style AdminDec1 fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+            </div>
+        </div>
+
+        <!-- Explanation Section -->
+        <div class="explanation">
+            <h2>📋 Penjelasan Activity Diagram: Admin - Approval Pembayaran</h2>
+            
+            <h3>1. Overview</h3>
+            <p>
+                Activity Diagram ini menggambarkan alur proses approval pembayaran manual transfer oleh admin. 
+                Admin melakukan review bukti pembayaran dan memutuskan untuk approve atau reject. 
+                Proses ini melibatkan dua aktor: <strong>Admin</strong> dan <strong>System</strong>.
+            </p>
+
+            <h3>2. Alur Proses</h3>
+            <p><strong>A. Review Pembayaran</strong></p>
+            <ul>
+                <li>Admin akses dashboard dan melihat daftar pembayaran dengan status "Pending"</li>
+                <li>Admin pilih QuotaPurchase dan review bukti pembayaran</li>
+                <li>Admin memutuskan: Valid atau Tidak Valid</li>
+            </ul>
+
+            <p><strong>B. Approve Pembayaran</strong></p>
+            <ul>
+                <li>Jika valid: Admin klik "Approve"</li>
+                <li>System update QuotaPurchase status menjadi "Approved"</li>
+                <li>System update UserStatus: total_quota += package.quota_amount</li>
+                <li>System update UserStatus status menjadi "premium"</li>
+                <li>System tampilkan pesan sukses</li>
+            </ul>
+
+            <p><strong>C. Reject Pembayaran</strong></p>
+            <ul>
+                <li>Jika tidak valid: Admin klik "Reject"</li>
+                <li>System update QuotaPurchase status menjadi "Rejected"</li>
+                <li>System tampilkan pesan sukses</li>
+            </ul>
+
+            <h3>3. Dampak Approval</h3>
+            <ul>
+                <li><strong>Approve:</strong> User mendapatkan kuota dan status premium</li>
+                <li><strong>Reject:</strong> User tidak mendapatkan kuota, dapat upload bukti baru</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+
+        function exportToPNG() {
+            const element = document.getElementById('diagram-to-export');
+            const margin = 50;
+            
+            const btn = document.querySelector('.export-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ Exporting...';
+            btn.disabled = true;
+
+            html2canvas(element, {
+                backgroundColor: '#ffffff',
+                scale: 2,
+                logging: false,
+                useCORS: true,
+                allowTaint: true
+            }).then(canvas => {
+                const marginCanvas = document.createElement('canvas');
+                marginCanvas.width = canvas.width + (margin * 2);
+                marginCanvas.height = canvas.height + (margin * 2);
+                const ctx = marginCanvas.getContext('2d');
+                
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, marginCanvas.width, marginCanvas.height);
+                ctx.drawImage(canvas, margin, margin);
+                
+                marginCanvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = 'Activity_Diagram_Admin_Approval_Pembayaran.png';
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                    
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+            }).catch(error => {
+                console.error('Export error:', error);
+                alert('Error exporting diagram. Please try again.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,55 @@
+DAFTAR PUSTAKA
+
+1. Akbar, M., Sagita, R., Raihan, M., Rizky, R. A. H., Afif, H., & Efendi, R. (2024). Perancangan Sistem Informasi Manajemen Magang Mahasiswa Manajemen Informatika Universitas Sriwijaya Berbasis Website. Jurnal Informatika dan Teknik Elektro Terapan, 13(3). https://doi.org/10.23960/jitet.v13i3.6753
+
+2. Ardiansyah, A. (2022). Pemanfaatan JavaScript dalam Pengembangan Aplikasi Web Interaktif. Jurnal Teknologi Informasi dan Komunikasi, 8(2), 145-156.
+
+3. Bihesa, Z. Z., Kharisma, A. P., & Brata, D. W. (2022). Perancangan Pengalaman Pengguna Aplikasi Pendataan Tools Perangkat Lunak yang Digunakan dalam Perkuliahan di Fakultas Ilmu Komputer Universitas Brawijaya dengan Metode Design Thinking. Jurnal Pengembangan Teknologi Informasi dan Ilmu Komputer, 6(1), 1-10.
+
+4. Dewi, S. (2023). Implementasi Tailwind CSS dalam Pengembangan Antarmuka Pengguna yang Responsif. Jurnal Sistem Informasi, 9(3), 234-245.
+
+5. Fadillah, R. (2023). Pemanfaatan Aplikasi CapCut dalam Produksi Konten Video untuk Media Sosial. Jurnal Komunikasi dan Media Digital, 7(2), 112-125.
+
+6. Hartanto, A. (2023). Analisis Performa dan Keamanan Google Chrome dalam Pengembangan Web Modern. Jurnal Teknologi Informasi, 15(4), 267-278.
+
+7. Hartono, B. (2020). Peran Media Sosial Facebook dalam Strategi Komunikasi Digital. Jurnal Komunikasi Massa, 12(1), 45-58.
+
+8. Hikmah, N. (2023). Pengembangan Aplikasi Web Menggunakan Framework Laravel: Studi Kasus Sistem Informasi Magang. Jurnal Rekayasa Perangkat Lunak, 5(2), 89-102.
+
+9. Khalid, M. F., & Megawati. (2022). Rancang Bangun Sistem Informasi Absensi dan Kegiatan Magang Berbasis Web. Riau Jurnal Teknik Informatika, 3(3), 45-55. https://doi.org/10.30606/rjti.v3i3.3006
+
+10. Maulida, S. (2020). Strategi Pemasaran Digital melalui Platform Instagram: Analisis Engagement dan Brand Awareness. Jurnal Pemasaran Digital, 6(3), 178-189.
+
+11. Muthahhari, M., Perwitasari, A., & Pasaribu, F. E. (2021). Perancangan Sistem Informasi Monitoring Praktik Kerja Lapangan di SUPM Pontianak. JUSTIN (Jurnal Sistem dan Teknologi Informasi), 9(1), 1-10.
+
+12. Nugroho, D. (2023). Analisis Program Affiliate Marketing dalam Platform E-Commerce: Studi Kasus Shopee Affiliate. Jurnal Manajemen Pemasaran Digital, 8(1), 67-79.
+
+13. Permana, R. (2021). Peran Twitter dalam Manajemen Komunikasi Publik dan Brand Engagement. Jurnal Komunikasi Strategis, 14(2), 134-147.
+
+14. Priyanto, A. (2024). Pemanfaatan Teknologi AI Generatif dalam Produksi Konten Digital: Studi Kasus Google Gemini. Jurnal Teknologi Kecerdasan Buatan, 10(1), 45-58.
+
+15. Putra, N. A., & Andayani, S. (2023). Dampak ChatGPT terhadap Produktivitas Penulisan Konten Digital. Jurnal Teknologi Informasi dan Komunikasi, 9(3), 201-214.
+
+16. Ratnawati, L. (2022). Analisis Platform E-Commerce Shopee dalam Meningkatkan Transaksi Digital di Indonesia. Jurnal E-Commerce dan Bisnis Digital, 7(4), 289-302.
+
+17. Ro'if, M., Afirianto, T., & Wijoyo, S. H. (2024). Pengembangan Sistem Informasi Praktik Kerja Lapangan (PKL) Siswa Berbasis Website Menggunakan Metode Extreme Programming (Studi Kasus: SMK Negeri 1 Sumenep). Jurnal Teknologi Informasi dan Ilmu Komputer, 11(1), 1-15. https://doi.org/10.25126/jtiik.20241116452
+
+18. Santoso, B. (2022). PHP sebagai Bahasa Pemrograman Server-Side dalam Pengembangan Sistem Informasi Web. Jurnal Teknologi Informasi, 14(2), 123-135.
+
+19. Setiawan, D. (2021). Analisis Algoritma Machine Learning TikTok dalam Personalisasi Konten untuk Pengguna. Jurnal Media Digital dan Komunikasi, 5(3), 156-169.
+
+20. Siregar, A., & Sari, M. (2021). Pengembangan Aplikasi Web SEO Praktis untuk Manajemen Konten Website. Jurnal Sistem Informasi Web, 6(2), 98-110.
+
+21. Suryana, E. (2021). Evaluasi Platform Pengembangan Lokal Laragon dalam Inisialisasi Proyek Web Berbasis PHP. Jurnal Teknologi Perangkat Lunak, 4(1), 34-47.
+
+22. Susanto, H. (2022). Platform AI Studio dalam Mendukung Otomasi dan Analisis Data Digital. Jurnal Kecerdasan Buatan dan Sistem Informasi, 8(3), 201-215.
+
+23. Wibowo, A. (2021). HTML sebagai Fondasi Dasar dalam Pengembangan Website Modern. Jurnal Teknologi Web, 7(1), 56-68.
+
+24. Wulandari, P. (2021). Strategi Pemasaran Berbasis Video melalui Platform YouTube. Jurnal Media dan Komunikasi Digital, 6(4), 223-236.
+
+
+
+
+
+

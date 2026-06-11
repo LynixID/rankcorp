@@ -1,58 +1,49 @@
-<!DOCTYPE html>
-<html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Search Rank - RankCorp</title>
-    <link rel="icon" type="image/png" href="../../../media/assets/favicon.png">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      body {
-        font-family: "Inter", sans-serif;
-      }
-      .shadow-subtle {
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-      }
-      .input-focus-line:focus {
-        border-bottom-color: #2563eb; /* blue-600 */
-        box-shadow: none;
-      }
-      .btn-gradient {
-        background-image: linear-gradient(
-          to right,
-          #3b82f6 0%,
-          #2563eb 51%,
-          #3b82f6 100%
-        );
-        background-size: 200% auto;
-        transition: 0.5s;
-      }
-      .btn-gradient:hover {
-        background-position: right center;
-      }
-    </style>
-  </head>
-  <body class="bg-gray-50 text-gray-800 antialiased flex flex-col min-h-screen">
-    {# Navbar Anda - Pastikan file 'core/navbar.html' ada di direktori yang benar #}
-    {% include 'core/navbar.html' %} 
+{% extends 'core/base_user.html' %}
+{% load static %} 
+{% load humanize %}
 
-    {# Django Load Tags #}
-    {% load static %} 
-    {% load humanize %}
+{% block title %}Cek Ranking - U-Rank{% endblock %}
 
-    {# Modal Alert Section #}
-    {% if messages %}
+{% block extra_css %}
+<style>
+  .input-modern {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid rgba(6, 182, 212, 0.2);
+    border-radius: 12px;
+    padding: 12px 16px;
+    transition: all 0.3s ease;
+  }
+  .input-modern:focus {
+    outline: none;
+    border-color: #06b6d4;
+    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+    background: white;
+  }
+  .select-modern {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid rgba(6, 182, 212, 0.2);
+    border-radius: 12px;
+    padding: 12px 16px;
+    transition: all 0.3s ease;
+  }
+  .select-modern:focus {
+    outline: none;
+    border-color: #06b6d4;
+    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+    background: white;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+{% if messages %}
     <div
       id="modal-overlay"
-      class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50 transition-opacity duration-300 ease-out opacity-0"
+      class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50"
     >
       <div
         id="modal-box"
-        class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 relative transform scale-95 opacity-0 transition-all duration-300 ease-out"
+        class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 relative"
       >
         <button
           onclick="closeModal()"
@@ -60,174 +51,163 @@
         >
           &times;
         </button>
-
-        {% for message in messages %}
-          {# SUCCESS MESSAGE #}
-          {% if message.tags == 'success' %}
-            <div class="flex items-center text-green-600 mb-4">
-              <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-              <h2 class="text-xl font-semibold">Sukses!</h2>
-            </div>
-            <p class="text-gray-700 mb-4">{{ message }}</p>
-            <div class="flex justify-end mt-6">
-              <button
-                onclick="closeModal()"
-                class="px-5 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors"
-              >
-                Tutup
-              </button>
-            </div>
-
-          {# INFO MESSAGE #}
-          {% elif message.tags == 'info' %}
-            <div class="flex items-center text-blue-600 mb-4">
-              <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-              <h2 class="text-xl font-semibold">Informasi</h2>
-            </div>
-            <p class="text-gray-700 mb-4">{{ message }}</p>
-            <div class="flex justify-end mt-6">
-              <button
-                onclick="closeModal()"
-                class="px-5 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors"
-              >
-                Tutup
-              </button>
-            </div>
-
-          {# WARNING MESSAGE #}
-          {% elif message.tags == 'warning' %}
-            <div class="flex items-center text-yellow-600 mb-4">
-              <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-              </svg>
-              <h2 class="text-xl font-semibold">Peringatan</h2>
-            </div>
-            <p class="text-gray-700 mb-4">{{ message }}</p>
-            <div class="flex justify-end mt-6">
-              <button
-                onclick="closeModal()"
-                class="px-5 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors"
-              >
-                Tutup
-              </button>
-            </div>
-
-          {# ERROR MESSAGE #}
-          {% elif message.tags == 'error' %}
-            <div class="flex items-center text-red-600 mb-4">
-              <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-              <h2 class="text-xl font-semibold">Error!</h2>
-            </div>
-            <p class="text-gray-700 mb-4">{{ message }}</p>
-            <div class="flex justify-between mt-6 space-x-3">
-                <a
-                  href="{% url 'buy_quota' %}"
-                  class="px-5 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors flex-grow text-center"
-                >
-                  Beli Kuota
-                </a>
-                <button
-                  onclick="closeModal()"
-                  class="px-5 py-2 bg-gray-300 text-gray-800 font-medium rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 transition-colors"
-                >
-                  Tutup
-                </button>
-            </div>
-
-          {# DEFAULT MESSAGE (if tags are not specified or recognized) #}
-          {% else %}
-            <div class="flex items-center text-gray-800 mb-4">
-                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-                <h2 class="text-xl font-semibold">Pesan</h2>
-            </div>
-            <p class="text-gray-700 mb-4">{{ message }}</p>
-            <div class="flex justify-end mt-6">
-              <button
-                onclick="closeModal()"
-                class="px-5 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors"
-              >
-                Tutup
-              </button>
-            </div>
-          {% endif %}
-        {% endfor %}
+        {% for message in messages %} {% if message.tags == 'success' %}
+        <div class="flex items-center text-green-600 mb-4">
+          <h2 class="text-xl font-semibold">Sukses!</h2>
+        </div>
+        <p class="text-gray-700 mb-4">{{ message }}</p>
+        {% else %} {% if message.tags == 'info' %}
+        <div class="flex items-center text-blue-600 mb-4">
+          <h2 class="text-xl font-semibold">Informasi</h2>
+        </div>
+        <p class="text-gray-700 mb-4">{{ message }}</p>
+        {% else %} {% if message.tags == 'warning' %}
+        <div class="flex items-center text-yellow-600 mb-4">
+          <h2 class="text-xl font-semibold">Peringatan</h2>
+        </div>
+        <p class="text-gray-700 mb-4">{{ message }}</p>
+        {% else %} {% if message.tags == 'error' %}
+        <div class="flex items-center text-red-600 mb-4">
+          <h2 class="text-xl font-semibold">Error!</h2>
+        </div>
+        <p class="text-gray-700 mb-4">{{ message }}</p>
+        {% else %}
+        <div class="flex items-center text-gray-800 mb-4">
+          <h2 class="text-xl font-semibold">Pesan</h2>
+        </div>
+        <p class="text-gray-700 mb-4">{{ message }}</p>
+        {% endif %} {% endif %} {% endif %} {% endif %} {% endfor %}
+        <div class="flex justify-end mt-6">
+          <button
+            onclick="closeModal()"
+            class="px-5 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors"
+          >
+            Tutup
+          </button>
+        </div>
       </div>
     </div>
     {% endif %}
 
-    <main class="flex-grow flex items-center justify-center p-4 sm:p-6 lg:p-10">
-      <div class="container mx-auto max-w-6xl">
-        <h1
-          class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-10 text-center leading-tight"
-        >
-          Alat Profesional untuk
-          <span class="text-blue-600">Cek Ranking Website</span> di Google
-        </h1>
+<div class="container mx-auto px-6 md:px-12 lg:px-16 xl:px-20 py-12">
+  <div class="max-w-6xl mx-auto">
+    <h1
+      class="text-4xl lg:text-5xl font-black text-slate-900 mb-10 text-center leading-tight fade-in-up"
+      style="font-family: 'Space Grotesk', sans-serif;"
+    >
+      <span data-i18n="search_title">Alat Profesional untuk</span>
+      <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600" data-i18n="search_title_highlight">Cek Ranking Website</span> <span data-i18n="search_title_suffix">di Google</span>
+    </h1>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          {# Input Form Card #}
-          <div
-            class="bg-white p-8 sm:p-10 rounded-2xl shadow-subtle border border-gray-100"
-          >
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+      {# Input Form Card #}
+      <div
+        class="card-glass p-8 sm:p-10 rounded-2xl fade-in-up"
+      >
             <h2
-              class="text-2xl font-semibold text-gray-800 mb-6 text-center flex items-center justify-center"
+              class="text-2xl font-bold text-slate-900 mb-6 text-center flex items-center justify-center"
+              style="font-family: 'Space Grotesk', sans-serif;"
             >
-              <svg
-                class="w-6 h-6 mr-2 text-blue-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                ></path>
-              </svg>
-              Input Data Pencarian
+              <i class="fas fa-edit text-cyan-600 mr-3 text-xl"></i>
+              <span data-i18n="search_form_title">Input Data Pencarian</span>
             </h2>
             <form method="POST" action="{% url 'cek_rank' %}" class="space-y-6">
               {% csrf_token %}
-              <div>
-                <label
-                  for="keyword"
-                  class="block text-sm font-medium text-gray-700 mb-1"
-                  >Kata Kunci</label
-                >
-                <input
-                  type="text"
-                  id="keyword"
-                  name="keyword"
-                  class="mt-1 p-3 w-full border-b-2 border-gray-200 bg-gray-50 rounded-t-lg focus:outline-none input-focus-line transition duration-200"
-                  required
-                  placeholder="Contoh: harga laptop gaming 2024"
-                />
+              <div class="mb-6">
+                <div class="mb-2 flex items-center justify-between">
+                  <label class="block text-sm font-semibold text-slate-700 mb-1"
+                    data-i18n="search_history_label">Histori Pencarian</label
+                  >
+                  <label class="flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      id="toggleHistoryDropdown"
+                      class="form-checkbox h-4 w-4 text-blue-600 transition cursor-pointer"
+                      onchange="toggleHistoryDropdown()"
+                    />
+                    <span class="text-sm text-gray-600 cursor-pointer" data-i18n="search_history_show"
+                      >Tampilkan</span
+                    >
+                  </label>
+                </div>
+                <div id="historyDropdownWrapper" style="display: none">
+                  <div class="relative">
+                    <button
+                      type="button"
+                      id="historyDropdownBtn"
+                      class="w-full text-left input-modern flex justify-between items-center"
+                    >
+                      <span id="selectedHistory"
+                        data-i18n-placeholder="search_history_placeholder"
+                        >Pilih histori pencarian...</span
+                      >
+                      <svg
+                        class="w-5 h-5 ml-2 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </button>
+                    <div
+                      id="historyDropdown"
+                      class="absolute left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-40 max-h-60 overflow-y-auto hidden"
+                    >
+                      {% for item in unique_history %}
+                      <div
+                        class="px-4 py-2 hover:bg-blue-50 cursor-pointer text-sm text-gray-700"
+                        onclick="fillFromHistory('{{ item.keyword|escapejs }}', '{{ item.domain|escapejs }}')"
+                      >
+                        <span class="font-semibold">{{ item.keyword }}</span>
+                        &ndash; <span>{{ item.domain }}</span>
+                      </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
               </div>
-
               <div>
-                <label
-                  for="domain"
-                  class="block text-sm font-medium text-gray-700 mb-1"
-                  >Domain Target</label
-                >
-                <input
-                  type="text"
-                  id="domain"
-                  name="domain"
-                  class="mt-1 p-3 w-full border-b-2 border-gray-200 bg-gray-50 rounded-t-lg focus:outline-none input-focus-line transition duration-200"
-                  required
-                  placeholder="contoh: tokolaptop.com"
-                />
+                <div>
+                  <label
+                    for="keyword"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    data-i18n="search_keyword_label"
+                    >Kata Kunci</label
+                  >
+                  <input
+                    type="text"
+                    id="keyword"
+                    name="keyword"
+                    class="mt-1 w-full input-modern"
+                    required
+                    placeholder="Contoh: harga laptop gaming 2024"
+                    data-i18n-placeholder="search_keyword_placeholder"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    for="domain"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    data-i18n="search_domain_label"
+                    >Domain Target</label
+                  >
+                  <input
+                    type="text"
+                    id="domain"
+                    name="domain"
+                    class="mt-1 w-full input-modern"
+                    required
+                    placeholder="contoh: tokolaptop.com"
+                    data-i18n-placeholder="search_domain_placeholder"
+                  />
+                </div>
               </div>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -235,12 +215,13 @@
                   <label
                     for="hl"
                     class="block text-sm font-medium text-gray-700 mb-1"
+                    data-i18n="search_serp_lang_label"
                     >Bahasa SERP</label
                   >
                   <select
                     id="hl"
                     name="hl"
-                    class="mt-1 p-3 w-full border-b-2 border-gray-200 bg-gray-50 rounded-t-lg focus:outline-none input-focus-line transition duration-200"
+                    class="mt-1 w-full input-modern"
                   >
                     <option value="id">Indonesia</option>
                     <option value="en">English</option>
@@ -251,12 +232,13 @@
                   <label
                     for="gl"
                     class="block text-sm font-medium text-gray-700 mb-1"
+                    data-i18n="search_country_label"
                     >Negara</label
                   >
                   <select
                     id="gl"
                     name="gl"
-                    class="mt-1 p-3 w-full border-b-2 border-gray-200 bg-gray-50 rounded-t-lg focus:outline-none input-focus-line transition duration-200"
+                    class="mt-1 w-full input-modern"
                   >
                     <option value="id">Indonesia</option>
                     <option value="sg">Singapore</option>
@@ -268,12 +250,13 @@
                   <label
                     for="google_domain"
                     class="block text-sm font-medium text-gray-700 mb-1"
+                    data-i18n="search_google_domain_label"
                     >Google Domain</label
                   >
                   <select
                     id="google_domain"
                     name="google_domain"
-                    class="mt-1 p-3 w-full border-b-2 border-gray-200 bg-gray-50 rounded-t-lg focus:outline-none input-focus-line transition duration-200"
+                    class="mt-1 w-full input-modern"
                   >
                     <option value="google.co.id">google.co.id</option>
                     <option value="google.com">google.com</option>
@@ -285,12 +268,13 @@
                   <label
                     for="num"
                     class="block text-sm font-medium text-gray-700 mb-1"
+                    data-i18n="search_results_count_label"
                     >Jumlah Hasil</label
                   >
                   <select
                     id="num"
                     name="num"
-                    class="mt-1 p-3 w-full border-b-2 border-gray-200 bg-gray-50 rounded-t-lg focus:outline-none input-focus-line transition duration-200"
+                    class="mt-1 w-full input-modern"
                   >
                     <option value="10">10 Hasil</option>
                     <option value="50">50 Hasil</option>
@@ -302,9 +286,9 @@
               <div class="flex justify-center pt-4">
                 <button
                   type="submit"
-                  class="btn-gradient text-white font-semibold px-8 py-3 rounded-lg shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 transition duration-300 transform hover:-translate-y-0.5"
+                  class="btn-pill btn-primary text-white font-semibold px-8 py-3 focus:outline-none transition duration-300 transform hover:-translate-y-0.5"
                 >
-                  Cek Rank Sekarang
+                  <span data-i18n="search_btn">Cek Rank Sekarang</span>
                 </button>
               </div>
             </form>
@@ -333,41 +317,32 @@
                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                   ></path>
                 </svg>
-                Hasil Pengecekan
+                <span data-i18n="search_result_title">Hasil Pengecekan</span>
               </h2>
-              <p class="mb-2 text-lg text-gray-600 text-center">
-                Domain:
-                <span class="font-bold text-blue-600">{{ result.domain }}</span>
+              <p class="mb-2 text-lg text-slate-600 text-center">
+                <span data-i18n="search_result_domain">Domain:</span>
+                <span class="font-bold text-cyan-600">{{ result.domain }}</span>
               </p>
-              <p class="mb-6 text-lg text-gray-600 text-center">
-                Kata Kunci:
+              <p class="mb-6 text-lg text-slate-600 text-center">
+                <span data-i18n="search_result_keyword">Kata Kunci:</span>
                 <span class="italic font-medium">"{{ result.keyword }}"</span>
               </p>
-              <div class="bg-blue-50 p-4 rounded-lg mb-6 text-center">
-                <p class="text-xl font-bold text-blue-700">
-                  Ditemukan di
-                  <span class="text-blue-900">{{ result.total_found }}</span>
-                  posisi dari
-                  <span class="text-blue-900">{{ result.num }}</span> hasil
-                  teratas.
+              <div class="bg-gradient-to-r from-cyan-50 to-blue-50 p-4 rounded-xl mb-6 text-center border border-cyan-200">
+                <p class="text-xl font-bold text-slate-800">
+                  <span data-i18n="search_result_found">Ditemukan di</span>
+                  <span class="text-cyan-600">{{ result.total_found }}</span>
+                  <span data-i18n="search_result_position_from">posisi dari</span>
+                  <span class="text-cyan-600">{{ result.num }}</span> <span data-i18n="search_result_top">hasil teratas.</span>
                 </p>
               </div>
 
               {% if result.total_found > 0 %}
-              <div class="overflow-x-auto border border-gray-200 rounded-lg">
-                <table class="min-w-full divide-y divide-gray-200">
-                  <thead class="bg-gray-50">
+              <div class="overflow-x-auto table-modern">
+                <table class="min-w-full divide-y divide-slate-200">
+                  <thead class="bg-gradient-to-r from-cyan-50 to-blue-50">
                     <tr>
-                      <th
-                        class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        Posisi
-                      </th>
-                      <th
-                        class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        URL
-                      </th>
+                      <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-i18n="search_col_position">Posisi</th>
+                      <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-i18n="search_col_url">URL</th>
                     </tr>
                   </thead>
                   <tbody class="bg-white divide-y divide-gray-100">
@@ -410,35 +385,22 @@
                     d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   ></path>
                 </svg>
-                <p class="text-red-700 text-lg font-medium mt-2">
+                <p class="text-red-700 text-lg font-medium mt-2" data-i18n="search_not_found">
                   Domain tidak ditemukan dalam hasil pencarian.
                 </p>
-                <p class="text-red-500 text-sm mt-1">
+                <p class="text-red-500 text-sm mt-1" data-i18n="search_not_found_hint">
                   Coba periksa kembali kata kunci atau domain Anda.
                 </p>
               </div>
               {% endif %}
             </div>
             {% else %}
-            <div class="text-center text-gray-500 p-6">
-              <svg
-                class="mx-auto h-24 w-24 text-blue-400 mb-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.192-2.058-.557-3.006z"
-                ></path>
-              </svg>
-              <p class="text-xl font-medium text-gray-700">
+            <div class="text-center text-slate-500 p-6">
+              <i class="fas fa-search text-6xl text-cyan-300 mb-4"></i>
+              <p class="text-xl font-medium text-slate-700" data-i18n="search_empty_title">
                 Siap untuk memulai?
               </p>
-              <p class="mt-2 text-md text-gray-600">
+              <p class="mt-2 text-md text-slate-600" data-i18n="search_empty_desc">
                 Masukkan detail pencarian Anda pada formulir di sebelah kiri.
               </p>
             </div>
@@ -446,49 +408,61 @@
           </div>
         </div>
       </div>
-    </main>
+    </div>
+{% endblock %}
 
-    {# JavaScript for Modal #}
+{% block extra_js %}
     <script>
-      function showModal() {
-        const overlay = document.getElementById("modal-overlay");
-        const modalBox = document.getElementById("modal-box");
-
-        if (overlay && modalBox) {
-          overlay.classList.remove("hidden");
-          requestAnimationFrame(() => {
-            overlay.classList.remove("opacity-0");
-            overlay.classList.add("opacity-100");
-            modalBox.classList.remove("scale-95", "opacity-0");
-            modalBox.classList.add("scale-100", "opacity-100");
-          });
-        }
-      }
-
       function closeModal() {
-        const overlay = document.getElementById("modal-overlay");
-        const modalBox = document.getElementById("modal-box");
-
-        if (overlay && modalBox) {
-          modalBox.classList.remove("scale-100", "opacity-100");
-          modalBox.classList.add("scale-95", "opacity-0");
-          overlay.classList.remove("opacity-100");
-          overlay.classList.add("opacity-0");
-
-          modalBox.addEventListener("transitionend", function handler() {
-            overlay.classList.add("hidden");
-            modalBox.removeEventListener("transitionend", handler);
-          });
-        }
+        document.getElementById("modal-overlay").classList.add("hidden");
       }
-
-      document.addEventListener("DOMContentLoaded", (event) => {
-        // Only show modal if there are messages and the modal structure exists
-        const modalOverlay = document.getElementById("modal-overlay");
-        if (modalOverlay && modalOverlay.querySelector('.max-w-md')) {
-          showModal();
+      document.addEventListener("DOMContentLoaded", function () {
+        const overlay = document.getElementById("modal-overlay");
+        if (overlay) {
+          overlay.classList.remove("opacity-0");
+          overlay.classList.add("opacity-100");
         }
       });
+      // Dropdown toggle
+      document.addEventListener("DOMContentLoaded", function () {
+        const btn = document.getElementById("historyDropdownBtn");
+        const dropdown = document.getElementById("historyDropdown");
+        if (btn && dropdown) {
+          btn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            dropdown.classList.toggle("hidden");
+          });
+          document.addEventListener("click", function (e) {
+            if (!dropdown.classList.contains("hidden")) {
+              dropdown.classList.add("hidden");
+            }
+          });
+        }
+      });
+      // Isi field dari histori
+      function fillFromHistory(keyword, domain) {
+        document.getElementById("keyword").value = keyword;
+        document.getElementById("domain").value = domain;
+        document.getElementById("selectedHistory").textContent =
+          keyword + " – " + domain;
+        document.getElementById("historyDropdown").classList.add("hidden");
+      }
+
+      // function toggleHistoryDropdown() {
+      //   var checkbox = document.getElementById("toggleHistoryDropdown");
+      //   var wrapper = document.getElementById("historyDropdownWrapper");
+      //   if (checkbox.checked) {
+      //     wrapper.style.display = "block";
+      //   } else {
+      //     wrapper.style.display = "none";
+      //   }
+      // }
+      document.addEventListener("DOMContentLoaded", function () {
+        const checkbox = document.getElementById("toggleHistoryDropdown");
+        const wrapper = document.getElementById("historyDropdownWrapper");
+        checkbox.addEventListener("change", function () {
+          wrapper.style.display = checkbox.checked ? "block" : "none";
+        });
+      });
     </script>
-  </body>
-</html>
+{% endblock %}

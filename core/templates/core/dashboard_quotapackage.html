@@ -1,0 +1,242 @@
+{% load humanize %}
+
+<div class="card-glass p-6 sm:p-8 rounded-2xl">
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+    <div>
+      <h2 class="text-2xl md:text-3xl font-black text-slate-900 mb-2" style="font-family: 'Space Grotesk', sans-serif;">
+        <i class="fas fa-box text-cyan-600 mr-2"></i>
+        Daftar Paket Kuota
+      </h2>
+      <p class="text-sm text-slate-600">
+        Kelola daftar paket kuota yang tersedia.
+      </p>
+    </div>
+    <button
+      onclick="openQuotaModal('add')"
+      class="btn-pill btn-primary mt-3 md:mt-0 shadow-sm hover:shadow-md"
+    >
+      <i class="fas fa-plus mr-2"></i>
+      Tambah Paket
+    </button>
+  </div>
+
+  <div class="overflow-x-auto table-modern">
+    <table class="min-w-full divide-y divide-slate-200 text-sm">
+      <thead class="bg-gradient-to-r from-cyan-50 to-blue-50">
+        <tr>
+          <th class="px-4 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
+            Nama Paket
+          </th>
+          <th class="px-4 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Harga</th>
+          <th class="px-4 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
+            Jumlah Kuota
+          </th>
+          <th class="px-4 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Aksi</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-slate-100">
+        {% for package in packages %}
+        <tr class="hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 transition duration-150 ease-in-out">
+          <td class="px-4 py-3 font-semibold text-slate-800">{{ package.name }}</td>
+          <td class="px-4 py-3 text-slate-700 font-medium">Rp{{ package.price|intcomma }}</td>
+          <td class="px-4 py-3 text-slate-700">{{ package.quota_amount }}</td>
+          <td class="px-4 py-3 space-x-2">
+            <button
+              onclick="openQuotaModal('edit', '{{ package.id }}', '{{ package.name }}', '{{ package.price }}', '{{ package.quota_amount }}')"
+              class="inline-flex items-center px-3 py-1.5 text-xs font-medium bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg transition duration-150 shadow-sm hover:shadow-md"
+            >
+              <i class="fas fa-edit mr-1"></i>Edit
+            </button>
+            <button
+              onclick="openDeleteModal('{{ package.id }}', '{{ package.name }}')"
+              class="inline-flex items-center px-3 py-1.5 text-xs font-medium bg-red-500 hover:bg-red-600 text-white rounded-lg transition duration-150 shadow-sm hover:shadow-md"
+            >
+              <i class="fas fa-trash mr-1"></i>Hapus
+            </button>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4" class="px-4 py-8 text-center text-slate-500">
+            <div class="flex flex-col items-center">
+              <i class="fas fa-box-open text-4xl text-slate-300 mb-2"></i>
+              <p class="text-sm font-medium">Tidak ada paket ditemukan</p>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal Form Tambah/Edit Paket -->
+<div
+  id="quotaModal"
+  class="fixed inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm hidden flex items-center justify-center transition-opacity duration-300 ease-out"
+>
+  <div
+    class="card-glass rounded-2xl shadow-2xl w-full max-w-md p-6 transform transition-transform duration-300 ease-in-out scale-95"
+    id="modalContent"
+  >
+    <h3 id="modalTitle" class="text-xl font-black text-slate-900 mb-4" style="font-family: 'Space Grotesk', sans-serif;">
+      <i class="fas fa-box text-cyan-600 mr-2"></i>
+      Form Paket
+    </h3>
+    <form id="quotaForm" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="package_id" id="packageId" />
+      <div class="mb-4">
+        <label class="block text-sm font-semibold text-slate-700 mb-2">
+          <i class="fas fa-tag text-cyan-600 mr-1"></i>Nama Paket
+        </label>
+        <input
+          type="text"
+          name="name"
+          id="name"
+          required
+          class="w-full input-modern"
+        />
+      </div>
+      <div class="mb-4">
+        <label class="block text-sm font-semibold text-slate-700 mb-2">
+          <i class="fas fa-money-bill-wave text-cyan-600 mr-1"></i>Harga (Rp)
+        </label>
+        <input
+          type="number"
+          name="price"
+          id="price"
+          required
+          class="w-full input-modern"
+        />
+      </div>
+      <div class="mb-6">
+        <label class="block text-sm font-semibold text-slate-700 mb-2">
+          <i class="fas fa-cubes text-cyan-600 mr-1"></i>Jumlah Kuota
+        </label>
+        <input
+          type="number"
+          name="quota_amount"
+          id="quota_amount"
+          required
+          class="w-full input-modern"
+        />
+      </div>
+      <div class="flex justify-end space-x-2">
+        <button
+          type="button"
+          onclick="closeQuotaModal()"
+          class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg transition font-medium text-sm shadow-sm hover:shadow-md"
+        >
+          Batal
+        </button>
+        <button
+          type="submit"
+          class="btn-pill btn-primary shadow-sm hover:shadow-md"
+        >
+          <i class="fas fa-save mr-2"></i>Simpan
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Konfirmasi Hapus -->
+<div
+  id="deleteModal"
+  class="fixed inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm hidden flex items-center justify-center transition-opacity duration-300 ease-out"
+>
+  <div
+    class="card-glass rounded-2xl shadow-2xl w-full max-w-sm p-6 transform transition-transform duration-300 ease-in-out scale-95"
+    id="deleteModalContent"
+  >
+    <div class="flex items-center mb-4">
+      <div class="flex-shrink-0">
+        <svg class="h-8 w-8 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+        </svg>
+      </div>
+      <h3 class="ml-3 text-lg font-black text-slate-900" style="font-family: 'Space Grotesk', sans-serif;">Konfirmasi Hapus</h3>
+    </div>
+    <p id="deleteMessage" class="text-sm text-slate-600 mb-6">
+      Yakin ingin menghapus paket ini?
+    </p>
+    <div class="flex justify-end space-x-2">
+      <button
+        onclick="closeDeleteModal()"
+        class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg transition font-medium text-sm shadow-sm hover:shadow-md"
+      >
+        Batal
+      </button>
+      <a
+        id="confirmDeleteBtn"
+        href="#"
+        class="btn-pill bg-red-600 hover:bg-red-700 text-white shadow-sm hover:shadow-md"
+        ><i class="fas fa-trash mr-2"></i>Hapus</a
+      >
+    </div>
+  </div>
+</div>
+
+<script>
+  // Use window object to avoid redeclaration errors with HTMX
+  if (typeof window.currentDeleteModelId === 'undefined') {
+    window.currentDeleteModelId = null;
+  }
+
+  function openQuotaModal(mode, id = "", name = "", price = "", quota = "") {
+    const modal = document.getElementById("quotaModal");
+    const content = document.getElementById("modalContent");
+    modal.classList.remove("hidden");
+    setTimeout(() => {
+      content.classList.remove("scale-95");
+      content.classList.add("scale-100");
+    }, 10);
+
+    document.getElementById("modalTitle").innerHTML = mode === "add" 
+      ? '<i class="fas fa-plus text-cyan-600 mr-2"></i>Tambah Paket Kuota' 
+      : '<i class="fas fa-edit text-cyan-600 mr-2"></i>Edit Paket Kuota';
+    document.getElementById("packageId").value = id;
+    document.getElementById("name").value = name;
+    document.getElementById("price").value = price;
+    document.getElementById("quota_amount").value = quota;
+    document.getElementById("quotaForm").action =
+      mode === "add"
+        ? '{% url "add_quota_package" %}'
+        : `/update-quota-package/${id}/`;
+  }
+
+  function closeQuotaModal() {
+    const modal = document.getElementById("quotaModal");
+    const content = document.getElementById("modalContent");
+    content.classList.remove("scale-100");
+    content.classList.add("scale-95");
+    setTimeout(() => {
+      modal.classList.add("hidden");
+    }, 200);
+  }
+
+  function openDeleteModal(id, name) {
+    window.currentDeleteModelId = id;
+    const modal = document.getElementById("deleteModal");
+    const content = document.getElementById("deleteModalContent");
+    modal.classList.remove("hidden");
+    setTimeout(() => {
+      content.classList.remove("scale-95");
+      content.classList.add("scale-100");
+    }, 10);
+
+    document.getElementById("deleteMessage").textContent = `Hapus paket "${name}"?`;
+    document.getElementById("confirmDeleteBtn").href = `/delete-quota-package/${id}/`;
+  }
+
+  function closeDeleteModal() {
+    const modal = document.getElementById("deleteModal");
+    const content = document.getElementById("deleteModalContent");
+    content.classList.remove("scale-100");
+    content.classList.add("scale-95");
+    setTimeout(() => {
+      modal.classList.add("hidden");
+    }, 200);
+  }
+</script>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detail Analisis SEO - U-Rank</title>
+    {% load static %}
+    <link rel="icon" type="image/png" href="/media/assets/loggo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .shadow-subtle {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      }
+      .btn-back {
+        color: #2563eb;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        margin-top: 1.5rem;
+        transition: color 0.2s;
+      }
+      .btn-back:hover {
+        color: #1d4ed8;
+        text-decoration: underline;
+      }
+      .analysis-content {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        line-height: 1.8;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 text-gray-800 antialiased flex flex-col min-h-screen">
+    {% include 'core/navbar.html' %}
+    <main class="flex-grow flex justify-center p-4 sm:p-6 lg:p-10 mt-20">
+      <div
+        class="container mx-auto max-w-4xl bg-white p-8 sm:p-10 rounded-2xl shadow-subtle border border-gray-100"
+      >
+        <h1
+          class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 text-center flex items-center justify-center"
+        >
+          <svg
+            class="w-7 h-7 mr-2 text-purple-600"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            ></path>
+          </svg>
+          Detail Analisis SEO
+        </h1>
+
+        <!-- Informasi Analisis -->
+        <div class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-6 mb-6 border border-purple-100">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Keyword</label>
+              <p class="text-lg font-bold text-blue-700 mt-1">{{ analysis.keyword }}</p>
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Domain</label>
+              <p class="text-lg font-bold text-gray-800 mt-1">{{ analysis.domain }}</p>
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Model AI</label>
+              <p class="text-lg font-semibold text-purple-700 mt-1">
+                <i class="fas fa-robot mr-2"></i>{{ analysis.model_used }}
+              </p>
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Waktu Analisis</label>
+              <p class="text-lg text-gray-700 mt-1">
+                <i class="far fa-clock mr-2"></i>{{ analysis.created_at|date:"d M Y, H:i" }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metadata (jika ada) -->
+        {% if analysis.metadata %}
+        <div class="bg-gray-50 rounded-lg p-6 mb-6 border border-gray-200">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+            <i class="fas fa-chart-line mr-2 text-cyan-600"></i>
+            Statistik Analisis
+          </h3>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {% if analysis.metadata.trend %}
+            <div class="text-center">
+              <p class="text-xs text-gray-500 mb-1">Trend</p>
+              <p class="text-lg font-bold text-gray-800">{{ analysis.metadata.trend }}</p>
+            </div>
+            {% endif %}
+            {% if analysis.metadata.stability %}
+            <div class="text-center">
+              <p class="text-xs text-gray-500 mb-1">Stabilitas</p>
+              <p class="text-lg font-bold text-gray-800">{{ analysis.metadata.stability }}</p>
+            </div>
+            {% endif %}
+            {% if analysis.metadata.avg_rank %}
+            <div class="text-center">
+              <p class="text-xs text-gray-500 mb-1">Rata-rata Rank</p>
+              <p class="text-lg font-bold text-gray-800">{{ analysis.metadata.avg_rank }}</p>
+            </div>
+            {% endif %}
+            {% if analysis.metadata.data_points %}
+            <div class="text-center">
+              <p class="text-xs text-gray-500 mb-1">Data Points</p>
+              <p class="text-lg font-bold text-gray-800">{{ analysis.metadata.data_points }}</p>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Hasil Analisis -->
+        <div class="bg-white rounded-lg p-6 border border-gray-200 mb-6">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+            <i class="fas fa-file-alt mr-2 text-cyan-600"></i>
+            Hasil Analisis
+          </h3>
+          <div class="analysis-content text-gray-700 bg-gray-50 rounded-lg p-6 border border-gray-100">
+            {{ analysis.analysis }}
+          </div>
+        </div>
+
+        <!-- Tombol Kembali -->
+        <div class="flex justify-center">
+          <a href="{% url 'seo_analysis_history' %}" class="btn-back">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Kembali ke Riwayat Analisis
+          </a>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
+
+

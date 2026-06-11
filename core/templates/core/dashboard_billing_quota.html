@@ -1,52 +1,74 @@
-<div class="bg-white shadow rounded-xl p-6">
-  <div class="flex items-center justify-between mb-4">
+<div class="card-glass p-6 sm:p-8 rounded-2xl">
+  <div class="flex items-center justify-between mb-6">
     <div>
-      <h2 class="text-2xl font-bold text-gray-800">Pembayaran Kuota</h2>
-      <p class="text-sm text-gray-500">Kelola pembelian kuota dari pengguna di sini.</p>
+      <h2 class="text-2xl md:text-3xl font-black text-slate-900 mb-2" style="font-family: 'Space Grotesk', sans-serif;">
+        <i class="fas fa-university text-cyan-600 mr-2"></i>
+        Pembayaran Kuota
+      </h2>
+      <p class="text-sm text-slate-600">Kelola pembelian kuota dari pengguna di sini.</p>
     </div>
   </div>
 
-  <div class="overflow-x-auto">
-    <table class="min-w-full divide-y divide-gray-200 text-sm">
-      <thead class="bg-gray-50">
+  <div class="overflow-x-auto table-modern">
+    <table class="min-w-full divide-y divide-slate-200 text-sm">
+      <thead class="bg-gradient-to-r from-cyan-50 to-blue-50">
         <tr>
-          <th class="px-4 py-3 text-left font-semibold text-gray-600">Username</th>
-          <th class="px-4 py-3 text-left font-semibold text-gray-600">Paket</th>
-          <th class="px-4 py-3 text-left font-semibold text-gray-600">Status</th>
-          <th class="px-4 py-3 text-left font-semibold text-gray-600">Bukti</th>
-          <th class="px-4 py-3 text-left font-semibold text-gray-600">Aksi</th>
+          <th class="px-4 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Username</th>
+          <th class="px-4 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Paket</th>
+          <th class="px-4 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Status</th>
+          <th class="px-4 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Bukti</th>
+          <th class="px-4 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Aksi</th>
         </tr>
       </thead>
-      <tbody class="bg-white divide-y divide-gray-100">
+      <tbody class="bg-white divide-y divide-slate-100">
         {% for billing in billing_users %}
-        <tr class="hover:bg-gray-50">
-          <td class="px-4 py-3">{{ billing.user.username }}</td>
-          <td class="px-4 py-3">{{ billing.package.name }} ({{ billing.package.quota_amount }} kuota)</td>
+        <tr class="hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 transition duration-150 ease-in-out">
+          <td class="px-4 py-3 font-semibold text-slate-800">{{ billing.user.username }}</td>
+          <td class="px-4 py-3 text-slate-700">{{ billing.package.name }} ({{ billing.package.quota_amount }} kuota)</td>
           <td class="px-4 py-3">
             {% if billing.status == "approved" %}
-              <span class="inline-flex items-center px-2 py-1 rounded bg-green-100 text-green-700 font-medium">Disetujui</span>
+              <span class="inline-flex items-center px-2 py-1 rounded-full bg-green-100 text-green-700 font-medium text-xs">
+                <i class="fas fa-check-circle mr-1 text-[8px]"></i>Disetujui
+              </span>
             {% elif billing.status == "rejected" %}
-              <span class="inline-flex items-center px-2 py-1 rounded bg-red-100 text-red-700 font-medium">Ditolak</span>
+              <span class="inline-flex items-center px-2 py-1 rounded-full bg-red-100 text-red-700 font-medium text-xs">
+                <i class="fas fa-times-circle mr-1 text-[8px]"></i>Ditolak
+              </span>
             {% else %}
-              <span class="inline-flex items-center px-2 py-1 rounded bg-yellow-100 text-yellow-700 font-medium">Pending</span>
+              <span class="inline-flex items-center px-2 py-1 rounded-full bg-yellow-100 text-yellow-700 font-medium text-xs">
+                <i class="fas fa-clock mr-1 text-[8px]"></i>Pending
+              </span>
             {% endif %}
           </td>
           <td class="px-4 py-3">
-            <img src="{{ billing.payment_proof.url }}" alt="Bukti" class="h-10 w-10 rounded cursor-pointer hover:ring-2 hover:ring-blue-300"
-                 onclick="openImageModal('{{ billing.payment_proof.url }}')">
-          </td>
-          <td class="px-4 py-3 space-x-1">
-            {% if billing.status == "pending" %}
-            <a href="{% url 'approve_quota' billing.id %}" class="px-2 py-1 bg-green-500 hover:bg-green-600 text-white rounded text-xs">Approve</a>
-            <a href="{% url 'reject_quota' billing.id %}" class="px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-xs">Reject</a>
+            {% if billing.payment_proof %}
+              <img src="{{ billing.payment_proof.url }}" alt="Bukti" class="h-12 w-12 rounded-lg cursor-pointer hover:ring-2 hover:ring-cyan-300 shadow-sm transition duration-150"
+                   onclick="openImageModal('{{ billing.payment_proof.url }}')">
             {% else %}
-            <span class="text-gray-400 text-xs">Sudah diproses</span>
+              <span class="text-slate-400 text-xs">Tidak ada bukti</span>
+            {% endif %}
+          </td>
+          <td class="px-4 py-3 space-x-2">
+            {% if billing.status == "pending" %}
+            <button onclick="confirmAction('approve', '{{ billing.id }}', '{{ billing.user.username }}')" class="inline-flex items-center px-3 py-1.5 text-xs font-medium bg-green-500 hover:bg-green-600 text-white rounded-lg transition duration-150 shadow-sm hover:shadow-md">
+              <i class="fas fa-check mr-1"></i>Setuju
+            </button>
+            <button onclick="confirmAction('reject', '{{ billing.id }}', '{{ billing.user.username }}')" class="inline-flex items-center px-3 py-1.5 text-xs font-medium bg-red-500 hover:bg-red-600 text-white rounded-lg transition duration-150 shadow-sm hover:shadow-md">
+              <i class="fas fa-times mr-1"></i>Tolak
+            </button>
+            {% else %}
+            <span class="text-slate-400 text-xs">Sudah diproses</span>
             {% endif %}
           </td>
         </tr>
         {% empty %}
         <tr>
-          <td colspan="5" class="text-center text-gray-500 py-4">Tidak ada data pembelian kuota.</td>
+          <td colspan="5" class="px-4 py-8 text-center text-slate-500">
+            <div class="flex flex-col items-center">
+              <i class="fas fa-university text-4xl text-slate-300 mb-2"></i>
+              <p class="text-sm font-medium">Tidak ada data pembelian kuota</p>
+            </div>
+          </td>
         </tr>
         {% endfor %}
       </tbody>
@@ -55,28 +77,130 @@
 </div>
 
 <!-- Modal Gambar -->
-<div id="imageModal" class="fixed inset-0 bg-black bg-opacity-70 hidden z-50 flex items-center justify-center">
-  <div class="relative">
-    <img id="modalImage" src="" alt="Bukti Pembayaran" class="max-w-full max-h-screen rounded shadow-lg">
-    <button onclick="closeImageModal()" class="absolute top-2 right-2 bg-white text-gray-700 rounded-full p-1 hover:bg-gray-200">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-        <path fill-rule="evenodd" d="M6.293 6.293a1 1 0 011.414 0L10 8.586l2.293-2.293a1 1 0 111.414 1.414L11.414 10l2.293 2.293a1 1 0 01-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 01-1.414-1.414L8.586 10 6.293 7.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
-      </svg>
+<div id="imageModal" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm hidden z-50 flex items-center justify-center transition-opacity duration-300">
+  <div class="relative bg-white rounded-xl p-4 shadow-2xl">
+    <img id="modalImage" src="" alt="Bukti Pembayaran" class="max-w-full max-h-[90vh] rounded-lg shadow-lg">
+    <button onclick="closeImageModal()" class="absolute top-4 right-4 bg-white text-slate-700 rounded-full p-2 hover:bg-slate-200 shadow-lg transition duration-150">
+      <i class="fas fa-times text-lg"></i>
     </button>
   </div>
 </div>
 
+<!-- Modal Konfirmasi -->
+<div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm hidden z-50 flex items-center justify-center transition-opacity duration-300">
+  <div class="card-glass rounded-2xl shadow-2xl p-6 max-w-md w-full mx-4 transform scale-95 transition-transform duration-300">
+    <div class="flex items-center mb-4">
+      <div class="flex-shrink-0">
+        <svg class="h-8 w-8 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+        </svg>
+      </div>
+      <div class="ml-3">
+        <h3 class="text-lg font-black text-slate-900" id="confirmTitle" style="font-family: 'Space Grotesk', sans-serif;">Konfirmasi Aksi</h3>
+      </div>
+    </div>
+    <div class="mb-6">
+      <p class="text-sm text-slate-600" id="confirmMessage">Apakah Anda yakin ingin melakukan aksi ini?</p>
+    </div>
+    <div class="flex justify-end space-x-3">
+      <button onclick="closeConfirmModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg transition font-medium text-sm shadow-sm hover:shadow-md">
+        Batal
+      </button>
+      <button onclick="executeAction()" class="btn-pill btn-primary shadow-sm hover:shadow-md" id="confirmButton">
+        Konfirmasi
+      </button>
+    </div>
+  </div>
+</div>
+
 <script>
+  // Use window object to avoid redeclaration errors with HTMX
+  if (typeof window.currentAction === 'undefined') {
+    window.currentAction = '';
+  }
+  if (typeof window.currentBillingId === 'undefined') {
+    window.currentBillingId = null;
+  }
+
   function openImageModal(url) {
     const modal = document.getElementById('imageModal');
     const img = document.getElementById('modalImage');
     img.src = url;
     modal.classList.remove('hidden');
+    setTimeout(() => {
+      modal.querySelector('.bg-white').classList.remove('scale-95');
+      modal.querySelector('.bg-white').classList.add('scale-100');
+    }, 10);
   }
 
   function closeImageModal() {
     const modal = document.getElementById('imageModal');
-    modal.classList.add('hidden');
-    document.getElementById('modalImage').src = "";
+    const content = modal.querySelector('.bg-white');
+    if (content) {
+      content.classList.remove('scale-100');
+      content.classList.add('scale-95');
+    }
+    setTimeout(() => {
+      modal.classList.add('hidden');
+      document.getElementById('modalImage').src = "";
+    }, 200);
+  }
+
+  function confirmAction(action, billingId, username) {
+    window.currentAction = action;
+    window.currentBillingId = billingId;
+    
+    const modal = document.getElementById('confirmModal');
+    const title = document.getElementById('confirmTitle');
+    const message = document.getElementById('confirmMessage');
+    const button = document.getElementById('confirmButton');
+    
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+      modal.querySelector('.card-glass').classList.remove('scale-95');
+      modal.querySelector('.card-glass').classList.add('scale-100');
+    }, 10);
+    
+    if (action === 'approve') {
+      title.innerHTML = '<i class="fas fa-check-circle text-green-500 mr-2"></i>Konfirmasi Setuju';
+      message.textContent = `Apakah Anda yakin ingin menyetujui pembelian kuota untuk user "${username}"?`;
+      button.innerHTML = '<i class="fas fa-check mr-2"></i>Setuju';
+      button.className = 'btn-pill bg-green-600 hover:bg-green-700 text-white shadow-sm hover:shadow-md';
+    } else if (action === 'reject') {
+      title.innerHTML = '<i class="fas fa-times-circle text-red-500 mr-2"></i>Konfirmasi Tolak';
+      message.textContent = `Apakah Anda yakin ingin menolak pembelian kuota untuk user "${username}"?`;
+      button.innerHTML = '<i class="fas fa-times mr-2"></i>Tolak';
+      button.className = 'btn-pill bg-red-600 hover:bg-red-700 text-white shadow-sm hover:shadow-md';
+    }
+  }
+
+  function closeConfirmModal() {
+    const modal = document.getElementById('confirmModal');
+    const content = modal.querySelector('.card-glass');
+    if (content) {
+      content.classList.remove('scale-100');
+      content.classList.add('scale-95');
+    }
+    setTimeout(() => {
+      modal.classList.add('hidden');
+    }, 200);
+    window.currentAction = '';
+    window.currentBillingId = null;
+  }
+
+  function executeAction() {
+    if (window.currentAction && window.currentBillingId) {
+      let url = '';
+      if (window.currentAction === 'approve') {
+        url = `/approve-quota/${window.currentBillingId}/`;
+      } else if (window.currentAction === 'reject') {
+        url = `/reject-quota/${window.currentBillingId}/`;
+      }
+      
+      if (url) {
+        window.location.href = url;
+      }
+    }
+    closeConfirmModal();
   }
 </script>

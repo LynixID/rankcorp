@@ -1,0 +1,439 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-27 15:42+0700\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: .\core\templates\core\dashboard_admin.html:7
+msgid "Admin Dashboard"
+msgstr "Dasbor Admin"
+
+#: .\core\templates\core\dashboard_admin.html:226
+msgid "Admin Panel"
+msgstr "Panel Admin"
+
+#: .\core\templates\core\dashboard_admin.html:241
+msgid "Dashboard"
+msgstr "Dasbor"
+
+#: .\core\templates\core\dashboard_admin.html:257
+msgid "Pengguna"
+msgstr "Pengguna"
+
+#: .\core\templates\core\dashboard_admin.html:268
+msgid "Sistem"
+msgstr "Sistem"
+
+#: .\core\templates\core\dashboard_admin.html:280
+msgid "Konfigurasi API"
+msgstr "Konfigurasi API"
+
+#: .\core\templates\core\dashboard_admin.html:292
+msgid "Paket Kuota"
+msgstr "Paket Kuota"
+
+#: .\core\templates\core\dashboard_admin.html:304
+msgid "Konfigurasi Model AI"
+msgstr "Konfigurasi Model AI"
+
+#: .\core\templates\core\dashboard_admin.html:315
+msgid "Pembayaran"
+msgstr "Pembayaran"
+
+#: .\core\templates\core\dashboard_admin.html:327
+msgid "Transfer Bank"
+msgstr "Transfer Bank"
+
+#: .\core\templates\core\dashboard_admin.html:339
+msgid "Gateway Pembayaran"
+msgstr "Gateway Pembayaran"
+
+#: .\core\templates\core\dashboard_admin.html:363
+#: .\core\templates\core\dashboard_admin.html:418
+msgid "Keluar"
+msgstr "Keluar"
+
+#: .\core\templates\core\dashboard_admin.html:401
+msgid "Konfirmasi Keluar"
+msgstr "Konfirmasi Keluar"
+
+#: .\core\templates\core\dashboard_admin.html:404
+msgid "Apakah Anda yakin ingin keluar dari sistem?"
+msgstr "Apakah Anda yakin ingin keluar dari sistem?"
+
+#: .\core\templates\core\dashboard_admin.html:411
+#: .\core\templates\core\navbar.html:255
+msgid "Batal"
+msgstr "Batal"
+
+#: .\core\templates\core\landing.html:9
+msgid "U-Rank - Pantau Ranking SEO Website Anda di Google Real-time"
+msgstr "U-Rank - Pantau Peringkat SEO Situs Web Anda di Google secara Real-time"
+
+#: .\core\templates\core\landing.html:15
+msgid ""
+"U-Rank adalah alat cek ranking SEO yang akurat dan real-time. Pantau posisi "
+"keyword & domain website Anda di hasil pencarian Google, analisis performa "
+"SERP, dan optimalkan strategi SEO Anda sekarang juga."
+msgstr ""
+"U-Rank adalah alat pemeriksa peringkat SEO yang akurat dan real-time. Pantau "
+"posisi kata kunci & domain situs web Anda di hasil pencarian Google, "
+"analisis kinerja SERP, dan optimalkan strategi SEO Anda sekarang juga."
+
+#: .\core\templates\core\landing.html:346
+#: .\core\templates\core\landing.html:365
+#: .\core\templates\core\landing.html:588
+msgid "Fitur"
+msgstr "Fitur"
+
+#: .\core\templates\core\landing.html:347
+#: .\core\templates\core\landing.html:366
+#: .\core\templates\core\landing.html:504
+#: .\core\templates\core\landing.html:589
+msgid "Layanan"
+msgstr "Layanan"
+
+#: .\core\templates\core\landing.html:348
+#: .\core\templates\core\landing.html:367
+#: .\core\templates\core\landing.html:590
+msgid "Cara Kerja"
+msgstr "Cara Kerja"
+
+#: .\core\templates\core\landing.html:349
+#: .\core\templates\core\landing.html:368
+#: .\core\templates\core\login.html:7
+msgid "Login"
+msgstr "Masuk"
+
+#: .\core\templates\core\landing.html:350
+#: .\core\templates\core\landing.html:369
+msgid "Daftar Gratis"
+msgstr "Daftar Gratis"
+
+#: .\core\templates\core\landing.html:359
+msgid "Menu"
+msgstr "Menu"
+
+#: .\core\templates\core\landing.html:392
+msgid ""
+"Pantau ranking SEO website Anda di Google dengan akurat dan real-time. "
+"Optimalkan strategi SEO dengan data yang tepat."
+msgstr ""
+"Pantau peringkat SEO situs web Anda di Google secara akurat dan real-time. "
+"Optimalkan strategi SEO Anda dengan data yang tepat."
+
+#: .\core\templates\core\landing.html:396
+msgid "Mulai Gratis"
+msgstr "Mulai Gratis"
+
+#: .\core\templates\core\landing.html:399
+msgid "Pelajari Lebih"
+msgstr "Pelajari Lebih Lanjut"
+
+#: .\core\templates\core\landing.html:429
+msgid "Akurat"
+msgstr "Akurat"
+
+#: .\core\templates\core\landing.html:431
+msgid "Data Terverifikasi"
+msgstr "Data Terverifikasi"
+
+#: .\core\templates\core\landing.html:435
+msgid "Instan"
+msgstr "Instan"
+
+#: .\core\templates\core\landing.html:437
+msgid "Update Ranking"
+msgstr "Pembaruan Peringkat"
+
+#: .\core\templates\core\landing.html:463
+msgid "Cara Kerja yang"
+msgstr "Cara Kerja yang"
+
+#: .\core\templates\core\landing.html:463
+msgid "Sederhana"
+msgstr "Sederhana"
+
+#: .\core\templates\core\landing.html:466
+msgid ""
+"Dengan teknologi AI canggih, U-Rank memudahkan Anda untuk memantau dan "
+"menganalisis ranking website secara real-time. Proses yang cepat, akurat, "
+"dan mudah digunakan."
+msgstr ""
+"Dengan teknologi AI canggih, U-Rank memudahkan Anda memantau dan "
+"menganalisis peringkat situs web Anda secara real-time. Proses yang cepat, "
+"akurat, dan mudah digunakan."
+
+#: .\core\templates\core\landing.html:472
+msgid "Daftar & Login"
+msgstr "Daftar & Masuk"
+
+#: .\core\templates\core\landing.html:473
+msgid "Buat akun gratis dengan verifikasi OTP via WhatsApp"
+msgstr "Buat akun gratis dengan verifikasi OTP via WhatsApp"
+
+#: .\core\templates\core\landing.html:479
+msgid "Input Keyword & Domain"
+msgstr "Masukkan Kata Kunci & Domain"
+
+#: .\core\templates\core\landing.html:480
+msgid "Masukkan keyword dan domain yang ingin Anda pantau"
+msgstr "Masukkan kata kunci dan domain yang ingin Anda pantau"
+
+#: .\core\templates\core\landing.html:486
+msgid "Analisis & Optimasi"
+msgstr "Analisis & Optimasi"
+
+#: .\core\templates\core\landing.html:487
+msgid "Dapatkan laporan ranking real-time dan optimalkan SEO Anda"
+msgstr "Dapatkan laporan peringkat real-time dan optimalkan SEO Anda"
+
+#: .\core\templates\core\landing.html:492
+msgid "Coba Sekarang"
+msgstr "Coba Sekarang"
+
+#: .\core\templates\core\landing.html:504
+msgid "Unggulan"
+msgstr "Unggulan"
+
+#: .\core\templates\core\landing.html:507
+msgid ""
+"Fitur-fitur canggih yang membantu Anda mengoptimalkan strategi SEO dengan "
+"lebih efektif"
+msgstr ""
+"Fitur-fitur canggih yang membantu Anda mengoptimalkan strategi SEO Anda "
+"dengan lebih efektif"
+
+#: .\core\templates\core\landing.html:517
+msgid "Cek Ranking Real-time"
+msgstr "Pemeriksaan Peringkat Real-time"
+
+#: .\core\templates\core\landing.html:519
+msgid ""
+"Pantau posisi keyword dan domain website Anda di Google secara real-time "
+"dengan akurasi tinggi."
+msgstr ""
+"Pantau posisi kata kunci dan domain situs web Anda di Google secara real-"
+"time dengan akurasi tinggi."
+
+#: .\core\templates\core\landing.html:528
+msgid "Analisis SEO dengan AI"
+msgstr "Analisis SEO dengan AI"
+
+#: .\core\templates\core\landing.html:530
+msgid ""
+"Dapatkan analisis mendalam menggunakan teknologi AI untuk optimasi SEO yang "
+"lebih baik."
+msgstr ""
+"Dapatkan analisis mendalam menggunakan teknologi AI untuk optimisasi SEO "
+"yang lebih baik."
+
+#: .\core\templates\core\landing.html:539
+msgid "History & Trend"
+msgstr "Riwayat & Tren"
+
+#: .\core\templates\core\landing.html:541
+msgid ""
+"Lihat riwayat perubahan ranking dan analisis trend untuk strategi SEO jangka "
+"panjang."
+msgstr ""
+"Lihat riwayat perubahan peringkat dan analisis tren untuk strategi SEO "
+"jangka panjang Anda."
+
+#: .\core\templates\core\landing.html:548
+msgid "Lihat Semua Fitur"
+msgstr "Lihat Semua Fitur"
+
+#: .\core\templates\core\landing.html:564
+msgid "Siap Optimalkan SEO Anda?"
+msgstr "Siap Mengoptimalkan SEO Anda?"
+
+#: .\core\templates\core\landing.html:567
+msgid ""
+"Mulai pantau ranking website Anda sekarang dan dapatkan data akurat untuk "
+"strategi SEO yang lebih baik."
+msgstr ""
+"Mulai pantau peringkat situs web Anda sekarang dan dapatkan data akurat "
+"untuk strategi SEO yang lebih baik."
+
+#: .\core\templates\core\landing.html:570
+msgid "Daftar Gratis Sekarang"
+msgstr "Daftar Gratis Sekarang"
+
+#: .\core\templates\core\landing.html:582
+msgid ""
+"Alat monitoring ranking SEO real-time terdepan untuk membantu Anda menguasai "
+"hasil pencarian Google."
+msgstr ""
+"Alat pemantauan peringkat SEO real-time terkemuka untuk membantu Anda "
+"mendominasi hasil pencarian Google."
+
+#: .\core\templates\core\landing.html:586
+msgid "Navigasi"
+msgstr "Navigasi"
+
+#: .\core\templates\core\landing.html:594
+msgid "Dukungan"
+msgstr "Dukungan"
+
+#: .\core\templates\core\landing.html:596
+msgid "Pusat Bantuan"
+msgstr "Pusat Bantuan"
+
+#: .\core\templates\core\landing.html:597
+#: .\core\templates\core\landing.html:602
+msgid "Kontak Kami"
+msgstr "Hubungi Kami"
+
+#: .\core\templates\core\landing.html:598
+msgid "Kebijakan Privasi"
+msgstr "Kebijakan Privasi"
+
+#: .\core\templates\core\landing.html:603
+msgid "Email: support@u-rank.id"
+msgstr "Email: support@u-rank.id"
+
+#: .\core\templates\core\landing.html:604
+msgid "WhatsApp: +62 812-3456-7890"
+msgstr "WhatsApp: +62 812-3456-7890"
+
+#: .\core\templates\core\landing.html:608
+msgid "Hak Cipta Dilindungi."
+msgstr "Hak Cipta Dilindungi."
+
+#: .\core\templates\core\login.html:137
+msgid "Welcome Back"
+msgstr "Selamat Datang Kembali"
+
+#: .\core\templates\core\login.html:140
+msgid "Sign in to your account"
+msgstr "Masuk ke akun Anda"
+
+#: .\core\templates\core\login.html:150
+#: .\core\templates\core\register.html:147
+msgid "Username"
+msgstr "Nama Pengguna"
+
+#: .\core\templates\core\login.html:160
+#: .\core\templates\core\register.html:157
+msgid "Your username"
+msgstr "Nama pengguna Anda"
+
+#: .\core\templates\core\login.html:167
+#: .\core\templates\core\register.html:200
+msgid "Password"
+msgstr "Kata Sandi"
+
+#: .\core\templates\core\login.html:198
+msgid "Remember me"
+msgstr "Ingat saya"
+
+#: .\core\templates\core\login.html:204
+msgid "Forgot password?"
+msgstr "Lupa kata sandi?"
+
+#: .\core\templates\core\login.html:212
+msgid "Sign In"
+msgstr "Masuk"
+
+#: .\core\templates\core\login.html:218
+msgid "Don't have an account?"
+msgstr "Belum punya akun?"
+
+#: .\core\templates\core\login.html:222
+#: .\core\templates\core\register.html:256
+msgid "Sign up"
+msgstr "Daftar"
+
+#: .\core\templates\core\navbar.html:26
+msgid "Check Rank"
+msgstr "Cek Peringkat"
+
+#: .\core\templates\core\navbar.html:31
+msgid "Histori"
+msgstr "Riwayat"
+
+#: .\core\templates\core\navbar.html:40
+msgid "Kuota"
+msgstr "Kuota"
+
+#: .\core\templates\core\navbar.html:123
+msgid "Pembelian Kuota"
+msgstr "Beli Kuota"
+
+#: .\core\templates\core\navbar.html:131
+msgid "Status Pembelian"
+msgstr "Status Pembelian"
+
+#: .\core\templates\core\navbar.html:139
+msgid "Pengaturan"
+msgstr "Pengaturan"
+
+#: .\core\templates\core\navbar.html:154
+#: .\core\templates\core\navbar.html:260
+msgid "Logout"
+msgstr "Keluar"
+
+#: .\core\templates\core\navbar.html:245
+msgid "Konfirmasi Logout"
+msgstr "Konfirmasi Keluar"
+
+#: .\core\templates\core\navbar.html:248
+msgid "Apakah Anda yakin ingin logout dari akun ini?"
+msgstr "Apakah Anda yakin ingin keluar dari akun ini?"
+
+#: .\core\templates\core\register.html:7
+msgid "Daftar"
+msgstr "Daftar"
+
+#: .\core\templates\core\register.html:134
+msgid "Create Account"
+msgstr "Buat Akun"
+
+#: .\core\templates\core\register.html:137
+msgid "Sign up to get started"
+msgstr "Daftar untuk memulai"
+
+#: .\core\templates\core\register.html:164
+msgid "Email"
+msgstr "Email"
+
+#: .\core\templates\core\register.html:174
+msgid "Your email"
+msgstr "Email Anda"
+
+#: .\core\templates\core\register.html:181
+msgid "WhatsApp Number (62xxx)"
+msgstr "Nomor WhatsApp (62xxx)"
+
+#: .\core\templates\core\register.html:193
+msgid "Nomor harus dimulai dengan 62 dan minimal 11 digit"
+msgstr "Nomor harus dimulai dengan 62 dan minimal 11 digit"
+
+#: .\core\templates\core\register.html:227
+msgid "Confirm Password"
+msgstr "Konfirmasi Kata Sandi"
+
+#: .\core\templates\core\register.html:246
+msgid "Sign Up"
+msgstr "Daftar"
+
+#: .\core\templates\core\register.html:252
+msgid "Already have an account?"
+msgstr "Sudah punya akun?"
+
+#: .\rankchecker\settings.py:118
+msgid "English"
+msgstr "Inggris"
+
+#: .\rankchecker\settings.py:119
+msgid "Indonesian"
+msgstr "Indonesia"

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowchart - Algoritma Analisis Trend Ranking</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 2000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .export-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .export-btn:active {
+            transform: translateY(0);
+        }
+
+        .diagram-container {
+            width: 100%;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 40px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .explanation {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .explanation h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .explanation h3 {
+            color: #667eea;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .explanation p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .explanation ul {
+            margin-left: 30px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .explanation li {
+            margin-bottom: 8px;
+        }
+
+        .report-explanation {
+            margin-top: 50px;
+            padding: 30px;
+            background: #f0f7ff;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .report-explanation h2 {
+            color: #1976d2;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .report-explanation p {
+            color: #424242;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Flowchart</h1>
+        <p class="subtitle">Algoritma Analisis Trend Ranking</p>
+
+        <div class="export-container">
+            <button class="export-btn" onclick="exportToPNG()">📥 Export PNG</button>
+        </div>
+
+        <div class="diagram-container" id="diagram-to-export">
+            <div class="mermaid">
+flowchart TD
+    Start([MULAI]) --> Input1[/"Input: Data History Ranking<br/>tanggal, posisi rank, URL"/]
+    Input1 --> CekData{Data History<br/>>= 2?}
+    
+    CekData -->|Tidak| Return1[Return: Tidak Cukup Data]
+    Return1 --> End([SELESAI])
+    
+    CekData -->|Ya| HitungTrend[Hitung Perubahan Rank<br/>Rank Pertama vs Rank Terakhir]
+    HitungTrend --> TentukanTrend{Rank Naik,<br/>Turun, atau Stabil?}
+    
+    TentukanTrend -->|Naik| TrendUp[Trend: Meningkat]
+    TentukanTrend -->|Turun| TrendDown[Trend: Menurun]
+    TentukanTrend -->|Sama| TrendStable[Trend: Stabil]
+    
+    TrendUp --> HitungRata
+    TrendDown --> HitungRata
+    TrendStable --> HitungRata
+    
+    HitungRata[Hitung Rata-rata Rank] --> HitungVariance[Hitung Variasi Rank<br/>Loop semua data history]
+    HitungVariance --> CekStability{Variasi<br/>< 5?}
+    
+    CekStability -->|Ya| StabilityStable[Stability: Stabil]
+    CekStability -->|Tidak| StabilityFluct[Stability: Fluktuatif]
+    
+    StabilityStable --> Return2[Return: Trend, Stability,<br/>Rata-rata Rank]
+    StabilityFluct --> Return2
+    Return2 --> End
+    
+    style Start fill:#4caf50,stroke:#333,stroke-width:3px,color:#fff
+    style End fill:#f44336,stroke:#333,stroke-width:3px,color:#fff
+    style CekData fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    style TentukanTrend fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    style CekStability fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    style HitungTrend fill:#2196f3,stroke:#333,stroke-width:2px,color:#fff
+    style HitungRata fill:#2196f3,stroke:#333,stroke-width:2px,color:#fff
+    style HitungVariance fill:#2196f3,stroke:#333,stroke-width:2px,color:#fff
+    style TrendUp fill:#4caf50,stroke:#333,stroke-width:2px,color:#fff
+    style TrendDown fill:#f44336,stroke:#333,stroke-width:2px,color:#fff
+    style TrendStable fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    style StabilityStable fill:#4caf50,stroke:#333,stroke-width:2px,color:#fff
+    style StabilityFluct fill:#f44336,stroke:#333,stroke-width:2px,color:#fff
+            </div>
+        </div>
+
+        <!-- Explanation Section -->
+        <div class="explanation">
+            <h2>📋 Penjelasan Flowchart: Algoritma Analisis Trend Ranking</h2>
+            
+            <h3>1. Overview</h3>
+            <p>
+                Flowchart ini menggambarkan algoritma perhitungan trend dan stability dari data ranking history. 
+                Algoritma ini menganalisis perubahan ranking dari waktu ke waktu untuk menentukan apakah ranking meningkat, menurun, atau stabil, 
+                serta menentukan apakah pergerakan ranking stabil atau fluktuatif.
+            </p>
+
+            <h3>2. Alur Proses</h3>
+            <p><strong>A. Inisialisasi & Validasi Data</strong></p>
+            <ul>
+                <li>Input: rank_history (array of objects dengan {date, rank, url})</li>
+                <li>Inisialisasi default: trend = 'tidak cukup data', stability = 'tidak cukup data', avg_rank = 0</li>
+                <li>Cek apakah len(rank_history) >= 2 (minimal 2 data untuk analisis)</li>
+                <li>Jika tidak cukup data → Set avg_rank = rank_history[0]['rank'], return dengan default values</li>
+            </ul>
+
+            <p><strong>B. Perhitungan Trend</strong></p>
+            <ul>
+                <li><strong>first_rank</strong>: Ranking pertama (index 0) - ranking tertua</li>
+                <li><strong>last_rank</strong>: Ranking terakhir (index -1) - ranking terbaru</li>
+                <li><strong>rank_change</strong>: first_rank - last_rank</li>
+                <li>Decision logic:</li>
+                <ul>
+                    <li>Jika rank_change > 0 → trend = 'meningkat' (ranking naik, angka lebih kecil = lebih baik)</li>
+                    <li>Jika rank_change < 0 → trend = 'menurun' (ranking turun, angka lebih besar = lebih buruk)</li>
+                    <li>Jika rank_change == 0 → trend = 'stabil' (ranking tidak berubah)</li>
+                </ul>
+            </ul>
+
+            <p><strong>C. Perhitungan Average Rank</strong></p>
+            <ul>
+                <li>avg_rank = sum(rank_history[i]['rank']) / len(rank_history)</li>
+                <li>Menghitung rata-rata ranking dari semua data history</li>
+            </ul>
+
+            <p><strong>D. Perhitungan Variance & Stability (LOOP)</strong></p>
+            <ul>
+                <li>Inisialisasi rank_variance = 0</li>
+                <li>Loop melalui semua rank_history:</li>
+                <ul>
+                    <li>Untuk setiap rank_history[i]:</li>
+                    <li>diff = rank_history[i]['rank'] - avg_rank</li>
+                    <li>square = diff² (variance calculation)</li>
+                    <li>rank_variance += square</li>
+                </ul>
+                <li>Setelah loop: rank_variance = rank_variance / len(rank_history)</li>
+                <li>Decision logic:</li>
+                <ul>
+                    <li>Jika rank_variance < 5 → stability = 'stabil' (perubahan kecil)</li>
+                    <li>Jika rank_variance >= 5 → stability = 'fluktuatif' (perubahan besar)</li>
+                </ul>
+            </ul>
+
+            <p><strong>E. Return Result</strong></p>
+            <ul>
+                <li>Return object: {trend, stability, avg_rank}</li>
+                <li>Data ini digunakan sebagai metadata untuk SEO Analysis</li>
+            </ul>
+
+            <h3>3. Decision Points</h3>
+            <ul>
+                <li><strong>5 Decision Points</strong>: Validasi data, trend direction (2 checks), loop iteration, stability threshold</li>
+                <li><strong>Loop</strong>: Iterasi melalui semua rank_history untuk menghitung variance</li>
+            </ul>
+
+            <h3>4. Formula Matematis</h3>
+            <ul>
+                <li><strong>Average Rank</strong>: μ = (Σ rank_i) / n</li>
+                <li><strong>Variance</strong>: σ² = Σ(rank_i - μ)² / n</li>
+                <li><strong>Threshold Stability</strong>: variance < 5 = stabil, >= 5 = fluktuatif</li>
+            </ul>
+
+            <h3>5. Interpretasi Hasil</h3>
+            <ul>
+                <li><strong>Trend 'meningkat'</strong>: Ranking naik (posisi lebih baik), angka rank lebih kecil</li>
+                <li><strong>Trend 'menurun'</strong>: Ranking turun (posisi lebih buruk), angka rank lebih besar</li>
+                <li><strong>Trend 'stabil'</strong>: Ranking tidak berubah</li>
+                <li><strong>Stability 'stabil'</strong>: Perubahan ranking konsisten, variance rendah</li>
+                <li><strong>Stability 'fluktuatif'</strong>: Perubahan ranking tidak konsisten, variance tinggi</li>
+            </ul>
+
+            <h3>6. Kompleksitas</h3>
+            <ul>
+                <li><strong>Time Complexity</strong>: O(n) dimana n = jumlah data rank_history</li>
+                <li><strong>Space Complexity</strong>: O(1) - hanya menggunakan variabel konstan</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+
+        function exportToPNG() {
+            const element = document.getElementById('diagram-to-export');
+            const margin = 50;
+            
+            const btn = document.querySelector('.export-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ Exporting...';
+            btn.disabled = true;
+
+            html2canvas(element, {
+                backgroundColor: '#ffffff',
+                scale: 2,
+                logging: false,
+                useCORS: true,
+                allowTaint: true
+            }).then(canvas => {
+                const marginCanvas = document.createElement('canvas');
+                marginCanvas.width = canvas.width + (margin * 2);
+                marginCanvas.height = canvas.height + (margin * 2);
+                const ctx = marginCanvas.getContext('2d');
+                
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, marginCanvas.width, marginCanvas.height);
+                ctx.drawImage(canvas, margin, margin);
+                
+                marginCanvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = 'Flowchart_Analisis_Trend.png';
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                    
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+            }).catch(error => {
+                console.error('Export error:', error);
+                alert('Error exporting diagram. Please try again.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
+    </script>
+
+    <!-- Penjelasan untuk Laporan Proyek -->
+    <div class="container">
+        <div class="report-explanation">
+            <h2>Penjelasan Flowchart Algoritma Analisis Trend Ranking</h2>
+            
+            <p>
+                Flowchart ini menggambarkan algoritma analisis trend dan stabilitas ranking yang digunakan untuk menganalisis pergerakan posisi ranking website dari waktu ke waktu. Algoritma ini memerlukan minimal 2 data history ranking untuk dapat melakukan analisis yang akurat. Proses dimulai dengan validasi jumlah data history, kemudian sistem akan menghitung trend ranking dengan membandingkan ranking pertama (ranking tertua) dengan ranking terakhir (ranking terbaru). Perhitungan trend didasarkan pada perubahan ranking, dimana jika ranking naik (angka lebih kecil berarti posisi lebih baik), trend dinyatakan sebagai 'meningkat', sebaliknya jika ranking turun dinyatakan sebagai 'menurun', dan jika tidak ada perubahan dinyatakan sebagai 'stabil'.
+            </p>
+            
+            <p>
+                Sistem juga menghitung average rank dengan menjumlahkan semua ranking dan membaginya dengan jumlah data history. Untuk menentukan stabilitas ranking, sistem menggunakan perhitungan variance yang dilakukan melalui iterasi terhadap semua data history dengan rumus statistik standar. Jika variance kurang dari 5, stabilitas dinyatakan sebagai 'stabil' yang menunjukkan perubahan ranking yang konsisten, sedangkan jika variance 5 atau lebih dinyatakan sebagai 'fluktuatif' yang menunjukkan perubahan ranking yang tidak konsisten. Hasil analisis trend dan stabilitas ini kemudian digunakan sebagai metadata dalam proses SEO Analysis dengan AI untuk memberikan konteks yang lebih kaya dalam analisis.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+

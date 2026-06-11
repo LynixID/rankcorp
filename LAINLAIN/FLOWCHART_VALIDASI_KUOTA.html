@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowchart - Algoritma Validasi & Pengurangan Kuota</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 2000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .export-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .export-btn:active {
+            transform: translateY(0);
+        }
+
+        .diagram-container {
+            width: 100%;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 40px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .explanation {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .explanation h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .explanation h3 {
+            color: #667eea;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .explanation p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .explanation ul {
+            margin-left: 30px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .explanation li {
+            margin-bottom: 8px;
+        }
+
+        .report-explanation {
+            margin-top: 50px;
+            padding: 30px;
+            background: #f0f7ff;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .report-explanation h2 {
+            color: #1976d2;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .report-explanation p {
+            color: #424242;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Flowchart</h1>
+        <p class="subtitle">Algoritma Validasi & Pengurangan Kuota</p>
+
+        <div class="export-container">
+            <button class="export-btn" onclick="exportToPNG()">📥 Export PNG</button>
+        </div>
+
+        <div class="diagram-container" id="diagram-to-export">
+            <div class="mermaid">
+flowchart TD
+    Start([MULAI]) --> Input1[/"Input: User,<br/>Jenis Aksi,<br/>Biaya Kuota"/]
+    Input1 --> CekStatus{UserStatus<br/>Ada?}
+    
+    CekStatus -->|Tidak| Err1[Error: Status Tidak Ditemukan]
+    Err1 --> EndErr([SELESAI])
+    
+    CekStatus -->|Ya| CekKuota{Sisa Kuota<br/>>= Biaya?}
+    
+    CekKuota -->|Tidak| Err2[Error: Kuota Tidak Cukup]
+    Err2 --> EndErr
+    
+    CekKuota -->|Ya| KurangiKuota[Kurangi Kuota User<br/>Simpan ke Database]
+    KurangiKuota --> Success[Return: Berhasil]
+    Success --> End([SELESAI])
+    
+    style Start fill:#4caf50,stroke:#333,stroke-width:3px,color:#fff
+    style End fill:#f44336,stroke:#333,stroke-width:3px,color:#fff
+    style EndErr fill:#f44336,stroke:#333,stroke-width:3px,color:#fff
+    style CekStatus fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    style CekKuota fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    style KurangiKuota fill:#9c27b0,stroke:#333,stroke-width:2px,color:#fff
+    style Success fill:#4caf50,stroke:#333,stroke-width:2px,color:#fff
+            </div>
+        </div>
+
+        <!-- Explanation Section -->
+        <div class="explanation">
+            <h2>📋 Penjelasan Flowchart: Algoritma Validasi & Pengurangan Kuota</h2>
+            
+            <h3>1. Overview</h3>
+            <p>
+                Flowchart ini menggambarkan algoritma validasi dan pengurangan kuota user. 
+                Algoritma ini digunakan sebelum melakukan aksi yang membutuhkan kuota (seperti cek rank atau SEO analysis) 
+                untuk memastikan user memiliki kuota yang cukup.
+            </p>
+
+            <h3>2. Alur Proses</h3>
+            <p><strong>A. Input Parameter</strong></p>
+            <ul>
+                <li><strong>user</strong>: User object yang akan divalidasi</li>
+                <li><strong>action_type</strong>: Tipe aksi yang akan dilakukan (opsional, untuk logging)</li>
+                <li><strong>quota_cost</strong>: Jumlah kuota yang dibutuhkan untuk aksi tersebut</li>
+            </ul>
+
+            <p><strong>B. Validasi UserStatus</strong></p>
+            <ul>
+                <li>Cek apakah UserStatus exists untuk user tersebut</li>
+                <li>Jika tidak ada → Error: UserStatus tidak ditemukan, proses berakhir</li>
+                <li>Jika ada → Ambil UserStatus object dari database</li>
+            </ul>
+
+            <p><strong>C. Perhitungan Remaining Quota</strong></p>
+            <ul>
+                <li>Hitung remaining quota: remaining = total_quota - used_quota</li>
+                <li>Formula ini menggunakan method remaining_quota() dari model UserStatus</li>
+            </ul>
+
+            <p><strong>D. Validasi Kuota Cukup</strong></p>
+            <ul>
+                <li>Cek apakah remaining >= quota_cost</li>
+                <li>Jika tidak cukup → Error dengan informasi sisa kuota dan kuota yang dibutuhkan</li>
+                <li>Jika cukup → Lanjut ke pengurangan kuota</li>
+            </ul>
+
+            <p><strong>E. Pengurangan Kuota</strong></p>
+            <ul>
+                <li>Update used_quota: user_status.used_quota += quota_cost</li>
+                <li>Save perubahan ke database: user_status.save()</li>
+                <li>Return success message</li>
+            </ul>
+
+            <h3>3. Decision Points</h3>
+            <ul>
+                <li><strong>2 Decision Points</strong>: Validasi UserStatus exists, validasi kuota cukup</li>
+                <li><strong>Error Handling</strong>: Setiap validasi yang gagal akan mengembalikan error message spesifik</li>
+            </ul>
+
+            <h3>4. Penggunaan di Sistem</h3>
+            <ul>
+                <li><strong>Cek Rank</strong>: quota_cost = 1 (setiap cek rank mengurangi 1 kuota)</li>
+                <li><strong>SEO Analysis</strong>: quota_cost bervariasi berdasarkan model AI:</li>
+                <ul>
+                    <li>Gemini: 3 kuota</li>
+                    <li>GPT-3.5: 2 kuota</li>
+                    <li>GPT-4.1: 5 kuota</li>
+                </ul>
+            </ul>
+
+            <h3>5. Keamanan & Konsistensi</h3>
+            <ul>
+                <li><strong>Atomic Operation</strong>: Validasi dan update dilakukan dalam satu flow untuk mencegah race condition</li>
+                <li><strong>Database Transaction</strong>: Save operation memastikan data konsisten</li>
+                <li><strong>Error Prevention</strong>: Validasi dilakukan sebelum aksi untuk mencegah aksi dengan kuota tidak cukup</li>
+            </ul>
+
+            <h3>6. Catatan Implementasi</h3>
+            <ul>
+                <li>Algoritma ini diimplementasikan secara inline di views.py, bukan sebagai fungsi terpisah</li>
+                <li>Validasi kuota dilakukan di awal proses (sebelum request API) untuk efisiensi</li>
+                <li>Pengurangan kuota dilakukan setelah proses sukses (setelah mendapatkan hasil) untuk akurasi</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+
+        function exportToPNG() {
+            const element = document.getElementById('diagram-to-export');
+            const margin = 50;
+            
+            const btn = document.querySelector('.export-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ Exporting...';
+            btn.disabled = true;
+
+            html2canvas(element, {
+                backgroundColor: '#ffffff',
+                scale: 2,
+                logging: false,
+                useCORS: true,
+                allowTaint: true
+            }).then(canvas => {
+                const marginCanvas = document.createElement('canvas');
+                marginCanvas.width = canvas.width + (margin * 2);
+                marginCanvas.height = canvas.height + (margin * 2);
+                const ctx = marginCanvas.getContext('2d');
+                
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, marginCanvas.width, marginCanvas.height);
+                ctx.drawImage(canvas, margin, margin);
+                
+                marginCanvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = 'Flowchart_Validasi_Kuota.png';
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                    
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+            }).catch(error => {
+                console.error('Export error:', error);
+                alert('Error exporting diagram. Please try again.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
+    </script>
+
+    <!-- Penjelasan untuk Laporan Proyek -->
+    <div class="container">
+        <div class="report-explanation">
+            <h2>Penjelasan Flowchart Algoritma Validasi & Pengurangan Kuota</h2>
+            
+            <p>
+                Flowchart ini menggambarkan algoritma validasi dan pengurangan kuota yang merupakan komponen penting dalam sistem manajemen kuota. Algoritma ini digunakan di berbagai proses dalam sistem, seperti pengecekan ranking dan analisis SEO dengan AI. Proses dimulai dengan validasi keberadaan UserStatus untuk memastikan pengguna memiliki record status di database, kemudian sistem akan menghitung sisa kuota yang tersedia dengan mengurangi total kuota dengan kuota yang telah digunakan.
+            </p>
+            
+            <p>
+                Sistem kemudian membandingkan sisa kuota dengan biaya kuota yang diperlukan untuk aksi yang akan dilakukan, dimana biaya kuota bervariasi tergantung jenis aksi. Jika sisa kuota mencukupi, sistem akan melakukan pengurangan kuota dengan menambahkan biaya kuota ke used_quota dan menyimpan perubahan ke database. Operasi ini dirancang secara atomic untuk mencegah race condition dan memastikan konsistensi data. Validasi kuota dilakukan di awal proses sebelum melakukan request ke API eksternal untuk efisiensi, sedangkan pengurangan kuota dilakukan setelah proses sukses untuk memastikan kuota hanya dikurangi ketika hasil berhasil diperoleh.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+

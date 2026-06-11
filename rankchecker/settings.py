@@ -10,22 +10,39 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load environment variables from .env file if it exists
+env_file = BASE_DIR / '.env'
+if env_file.exists():
+    with open(env_file, 'r', encoding='utf-8') as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith('#'):
+                if '=' in line:
+                    key, val = line.split('=', 1)
+                    os.environ[key.strip()] = val.strip()
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-dc8*o4-j%pq6tb$g@k*mcm^4l7(x8_*m9%qmv78_-ka82-i3gd'
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-dc8*o4-j%pq6tb$g@k*mcm^4l7(x8_*m9%qmv78_-ka82-i3gd')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+                '127.0.0.1',
+                'localhost', 
+                '7eef-125-166-3-38.ngrok-free.app', 
+                '.trycloudflare.com']
+
 
 
 # Application definition
@@ -126,9 +143,25 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'core.CustomUser'
 
-QUODS_DEVICE_KEY = 'TMeTyUimv75LmlHRlCutowWU2z86QW'
+# QUODS
+QUODS_DEVICE_KEY = os.getenv('QUODS_DEVICE_KEY', '')
+QUODS_BEARER_TOKEN = os.getenv('QUODS_BEARER_TOKEN', '')
+
 
 LOGIN_URL = '/login/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Midtrans Key
+MIDTRANS_SERVER_KEY = os.getenv('MIDTRANS_SERVER_KEY', '')
+MIDTRANS_CLIENT_KEY = os.getenv('MIDTRANS_CLIENT_KEY', '')
+MIDTRANS_IS_PRODUCTION = os.getenv('MIDTRANS_IS_PRODUCTION', 'False').lower() == 'true'
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://7eef-125-166-3-38.ngrok-free.app",
+    "https://misc-tests-boxing-reservation.trycloudflare.com",
+]
+
+# SerpAPI Configuration
+SERPAPI_KEY = os.getenv('SERPAPI_KEY', '')

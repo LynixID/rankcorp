@@ -1,108 +1,456 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Detail Histori - RankCorp</title>
-  <link rel="icon" type="image/png" href="../../../media/assets/favicon.png">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    /* Mengatur font Inter sebagai font utama untuk seluruh body */
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-    /* Shadow kustom yang lebih halus, sesuai Opsi 1 */
-    .shadow-subtle {
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    }
-    /* Gaya tombol kembali yang disesuaikan */
-    .btn-back {
-        color: #2563eb; /* blue-600 */
-        font-weight: 500; /* font-medium */
-        display: inline-flex;
-        align-items: center;
-        margin-top: 1.5rem; /* mt-6 */
-        transition: color 0.2s ease-in-out;
-    }
-    .btn-back:hover {
-        color: #1d4ed8; /* blue-700 */
-        text-decoration: underline;
-    }
-  </style>
-</head>
-<body class="bg-gray-50 text-gray-800 antialiased flex flex-col min-h-screen">
+{% extends 'core/base_user.html' %}
+{% load static %}
 
-  {% include 'core/navbar.html' %}
-  <main class="flex-grow flex justify-center p-4 sm:p-6 lg:p-10">
-    <div class="container mx-auto max-w-5xl bg-white p-8 sm:p-10 rounded-2xl shadow-subtle border border-gray-100">
-      <h1 class="text-3xl font-extrabold text-gray-900 mb-8 text-center leading-tight flex items-center justify-center">
-        <svg class="w-8 h-8 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5 5 0 0010 0l-3-9m-3 0V3m0 3V2.22c0 .493.385.952.955 1.157L12 5.5l.955-2.123c.57-.205.955-.664.955-1.157V3m-3 0V2.22c0 .493.385.952.955 1.157L12 5.5l.955-2.123c.57-.205.955-.664.955-1.157V3"></path></svg>
-        Detail Performa Ranking
-      </h1>
-      <p class="text-lg text-gray-700 mb-6 text-center">
-        <strong>Kata Kunci:</strong> <span class="font-semibold text-blue-600">{{ keyword }}</span> |
-        <strong>Domain:</strong> <span class="font-semibold text-blue-600">{{ domain }}</span>
-      </p>
+{% block title %}Detail Histori - U-Rank{% endblock %}
 
-      {% if results %}
-      <div class="bg-gray-50 shadow-sm rounded-lg p-4 mb-8 border border-gray-200">
-        <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">Tren Ranking Historis</h3>
-        <canvas id="rankChart" height="150"></canvas>
-      </div>
+{% block extra_css %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+{% endblock %}
 
-      <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">Data Detail Ranking</h3>
-      <div class="overflow-x-auto border border-gray-200 rounded-lg">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal & Waktu</th>
-              <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rank</th>
-              <th class="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">URL Hasil</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-100">
-            {% for item in results %}
-            <tr class="hover:bg-gray-50 transition duration-150 ease-in-out">
-              <td class="py-3 px-4 text-sm font-medium text-gray-700">{{ item.checked_at|date:"d M Y, H:i" }}</td>
-              <td class="py-3 px-4 text-sm font-bold text-blue-600">{{ item.rank }}</td>
-              <td class="py-3 px-4 text-sm">
-                <a href="{{ item.url_result }}" target="_blank" rel="noopener noreferrer"
-                   class="text-blue-600 hover:text-blue-800 hover:underline break-all">
-                  {{ item.url_result|truncatechars:50 }}
-                </a>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-      {% else %}
-      <div class="text-center text-gray-500 p-6">
-        <svg class="mx-auto h-24 w-24 text-blue-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-        <p class="text-xl font-medium text-gray-700">Tidak ada data historis untuk kombinasi ini.</p>
-        <p class="mt-2 text-md text-gray-600">Pastikan Kata Kunci dan Domain sudah benar, atau lakukan pengecekan rank baru.</p>
+{% block content %}
+<div class="w-full px-2 sm:px-4 md:px-6 lg:px-8 xl:px-10 py-12">
+      <!-- Django Messages -->
+      {% if messages %}
+      <div
+        class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md"
+      >
+        {% for message in messages %}
+        <div
+          class="mb-4 p-4 rounded-lg shadow-lg {% if message.tags == 'error' %}bg-red-100 border border-red-400 text-red-700{% elif message.tags == 'success' %}bg-green-100 border border-green-400 text-green-700{% elif message.tags == 'warning' %}bg-yellow-100 border border-yellow-400 text-yellow-700{% else %}bg-blue-100 border border-blue-400 text-blue-700{% endif %}"
+        >
+          <div class="flex items-center">
+            {% if message.tags == 'error' %}
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            {% elif message.tags == 'success' %}
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zM9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            {% elif message.tags == 'warning' %}
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fill-rule="evenodd"
+                d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            {% else %}
+            <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fill-rule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            {% endif %}
+            <div>
+              <p class="text-sm font-medium">{{ message }}</p>
+            </div>
+            <button
+              onclick="this.parentElement.parentElement.remove()"
+              class="ml-auto text-gray-400 hover:text-gray-600"
+            >
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        {% endfor %}
       </div>
       {% endif %}
 
-      <a href="{% url 'history_summary' %}" class="btn-back">
-        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-        Kembali ke Ringkasan Histori
-      </a>
-    </div>
-  </main>
+  <div class="w-full">
+    <div class="card-glass p-6 sm:p-8 md:p-10 rounded-2xl fade-in-up">
+      <h1
+        class="text-3xl md:text-4xl font-black text-slate-900 mb-8 text-center leading-tight flex items-center justify-center"
+        style="font-family: 'Space Grotesk', sans-serif;"
+      >
+        <i class="fas fa-chart-line text-cyan-600 mr-3 text-3xl"></i>
+        <span data-i18n="history_detail_title">Detail Performa Ranking</span>
+      </h1>
+      <p class="text-lg text-slate-700 mb-6 text-center">
+        <strong data-i18n="history_detail_keyword">Kata Kunci:</strong>
+        <span class="font-semibold text-cyan-600">{{ keyword }}</span> |
+        <strong data-i18n="history_detail_domain">Domain:</strong>
+        <span class="font-semibold text-cyan-600">{{ domain }}</span>
+      </p>
 
-  <canvas id="rankChart" height="200"></canvas>
+      {% if results %}
+      <!-- Layout untuk XL: Grafik kiri (2/3), List kanan (1/3) -->
+      <!-- Layout untuk mobile/tablet: Stacked vertikal -->
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        <!-- Panel Kiri: Grafik (2/3 lebar untuk XL) -->
+        <div class="xl:col-span-2">
+          <div
+            class="bg-gradient-to-r from-cyan-50 to-blue-50 shadow-sm rounded-xl p-4 mb-6 xl:mb-0 border border-cyan-200 fade-in-up"
+            style="animation-delay: 0.2s;"
+          >
+            <h3 class="text-xl font-bold text-slate-800 mb-4 text-center" style="font-family: 'Space Grotesk', sans-serif;" data-i18n="history_detail_rank_trend">
+              Tren Ranking Historis
+            </h3>
+            <canvas id="rankChart" height="150"></canvas>
+          </div>
+        </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <!-- Panel Kanan: List Pencarian dengan Pagination (1/3 lebar untuk XL) -->
+        <div class="xl:col-span-1">
+          <div class="card-glass rounded-xl p-4 fade-in-up">
+            <h3 class="text-xl font-bold text-slate-800 mb-4 text-center" style="font-family: 'Space Grotesk', sans-serif;" data-i18n="history_detail_rank_data">
+              Data Detail Ranking
+            </h3>
+            
+            <!-- Tabel List Pencarian -->
+            <div class="overflow-x-auto table-modern mb-4">
+              <table class="min-w-full divide-y divide-slate-200">
+                <thead class="bg-gradient-to-r from-cyan-50 to-blue-50">
+                  <tr>
+                    <th class="py-2 px-2 text-left text-xs font-bold text-slate-700 uppercase tracking-wider" data-i18n="history_detail_col_date">
+                      Tanggal & Waktu
+                    </th>
+                    <th class="py-2 px-2 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
+                      Rank
+                    </th>
+                    <th class="py-2 px-2 text-left text-xs font-bold text-slate-700 uppercase tracking-wider" data-i18n="history_detail_col_url">
+                      URL Hasil
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-slate-100">
+                  {% for item in results %}
+                  <tr class="hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 transition duration-150 ease-in-out">
+                    <td class="py-2 px-2 text-xs font-medium text-slate-700">
+                      {{ item.checked_at|date:"d M Y, H:i" }}
+                    </td>
+                    <td class="py-2 px-2 text-xs font-bold text-cyan-600">
+                      {{ item.rank }}
+                    </td>
+                    <td class="py-2 px-2 text-xs">
+                      <a
+                        href="{{ item.url_result }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-cyan-600 hover:text-cyan-700 hover:underline break-all"
+                        title="{{ item.url_result }}"
+                        >{{ item.url_result|truncatechars:30 }}</a
+                      >
+                    </td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="3" class="py-4 text-center text-slate-500 text-sm" data-i18n="dash_empty">
+                      Tidak ada data.
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Pagination -->
+            {% if page_obj.has_other_pages %}
+            <div class="mt-4 flex flex-col items-center justify-between space-y-2">
+              <!-- Info halaman -->
+              <div class="text-xs text-gray-700 text-center">
+                Menampilkan
+                <span class="font-medium">{{ page_obj.start_index }}</span>
+                sampai
+                <span class="font-medium">{{ page_obj.end_index }}</span> dari
+                <span class="font-medium">{{ page_obj.paginator.count }}</span>
+                data
+              </div>
+
+              <!-- Navigation -->
+              <div class="flex items-center space-x-2">
+                <!-- Previous Page -->
+                {% if page_obj.has_previous %}
+                <a
+                  href="?page={{ page_obj.previous_page_number }}"
+                  class="px-2 py-1 text-xs font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-gray-700 transition duration-200"
+                >
+                  Prev
+                </a>
+                {% endif %}
+
+                <!-- Current Page Info -->
+                <span class="px-2 py-1 text-xs font-medium text-gray-700">
+                  {{ page_obj.number }}/{{ page_obj.paginator.num_pages }}
+                </span>
+
+                <!-- Next Page -->
+                {% if page_obj.has_next %}
+                <a
+                  href="?page={{ page_obj.next_page_number }}"
+                  class="px-2 py-1 text-xs font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-gray-700 transition duration-200"
+                >
+                  Next
+                </a>
+                {% endif %}
+              </div>
+            </div>
+            {% endif %}
+
+            <!-- Tombol Analisis SEO di bawah list -->
+            <div class="mt-6 pt-4 border-t border-slate-200">
+              <div class="flex items-center justify-between mb-3">
+                <h3 class="text-lg font-semibold text-slate-800" data-i18n="history_detail_seo_analysis">Analisa SEO</h3>
+                <a
+                  href="{% url 'seo_analysis_history' %}"
+                  id="btnAnalysisHistory"
+                  class="inline-flex items-center justify-center w-7 h-7 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition duration-200 group relative shadow-sm hover:shadow-md"
+                  title="Riwayat Analisa"
+                >
+                  <svg
+                    class="w-3 h-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path>
+                  </svg>
+                </a>
+              </div>
+
+              {% if user_status and user_status.status == 'premium' %}
+              <!-- Model Selection Dropdown -->
+              <div class="mb-3">
+                <label
+                  for="modelSelect"
+                  class="block text-xs font-medium text-gray-700 mb-1"
+                >
+                  Pilih Model AI:
+                </label>
+                <select
+                  id="modelSelect"
+                  class="w-full px-2 py-1.5 text-xs border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                >
+                  {% if ai_models %}
+                    {% for model in ai_models %}
+                      <option value="{{ model.model_name }}" data-cost="{{ model.quota_cost }}" {% if forloop.first %}selected{% endif %}>
+                        {% if model.model_name == 'gemini' %}🔷{% elif model.model_name == 'gpt-3.5-turbo' %}💰{% elif model.model_name == 'gpt-4-1106-preview' %}🤖{% else %}🤖{% endif %}
+                        {{ model.display_name }} - {{ model.quota_cost }} <span data-i18n="nav_quota_label">Kuota</span>
+                      </option>
+                    {% endfor %}
+                  {% else %}
+                    <option value="gemini" data-cost="3" selected>🔷 Gemini (Google) - 3 Kuota</option>
+                    <option value="gpt-3.5-turbo" data-cost="2">💰 GPT-3.5 (OpenAI) - 2 Kuota</option>
+                    <option value="gpt-4-1106-preview" data-cost="5">🤖 GPT-4.1 (OpenAI) - 5 Kuota</option>
+                  {% endif %}
+                </select>
+                <div class="mt-1 text-xs text-gray-500">
+                  <span id="modelInfo">Gemini: cepat & murah, GPT-3.5: stabil, GPT-4.1: terbaik</span>
+                </div>
+              </div>
+
+              <!-- Tombol aktif untuk user premium -->
+              <button
+                id="analyzeBtn"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded text-sm transition duration-200"
+                type="button"
+              >
+                <span data-i18n="history_detail_analyze_btn">Analisa SEO Website</span>
+              </button>
+              {% else %}
+              <!-- Tombol disabled untuk user non-premium -->
+              <button
+                id="analyzeBtn"
+                class="w-full bg-gray-400 text-gray-600 font-bold py-2 px-3 rounded text-sm cursor-not-allowed transition duration-200"
+                disabled
+                title="Fitur ini hanya tersedia untuk user Premium"
+                onclick="showPremiumPopup()"
+              >
+                <div class="flex items-center justify-center">
+                  <svg
+                    class="w-3 h-3 mr-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                    ></path>
+                  </svg>
+                  Analisa SEO Website
+                </div>
+              </button>
+              <div class="text-center text-xs text-gray-600 mt-2">
+                <p class="font-medium text-yellow-600" data-i18n="dash_premium">Fitur Premium</p>
+                <p class="text-xs text-gray-500 mt-1" data-i18n="history_detail_premium_hint">
+                  Upgrade ke Premium untuk mengakses analisa SEO
+                </p>
+              </div>
+              {% endif %}
+
+              <div
+                id="analysisResult"
+                class="mt-3 text-gray-700 text-xs whitespace-pre-line"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Konfirmasi Analisa SEO (di luar grid) -->
+      {% if user_status and user_status.status == 'premium' %}
+      <div
+        id="confirmAnalysisModal"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden transition-opacity duration-300 opacity-0"
+      >
+        <div
+          class="bg-white rounded-xl shadow-2xl max-w-md w-full p-8 relative animate-modal-in"
+        >
+          <button
+            id="closeConfirmAnalysisModalBtn"
+            class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 text-2xl"
+          >
+            &times;
+          </button>
+          <div class="text-center">
+            <div
+              class="w-14 h-14 bg-gradient-to-r from-blue-500 to-blue-700 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
+              <svg
+                class="w-7 h-7 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z"
+                />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="history_detail_modal_title">
+              Konfirmasi Analisa SEO
+            </h3>
+            <div
+              id="confirmModelInfo"
+              class="mb-2 text-sm text-gray-700 font-medium"
+            ></div>
+            <p class="text-gray-600 mb-6" data-i18n="history_detail_modal_body">
+              Analisa SEO akan menggunakan kuota dan memerlukan waktu beberapa detik. Lanjutkan analisa sekarang?
+            </p>
+            <div class="flex justify-center gap-4 mt-6">
+              <button
+                id="cancelAnalysisBtn"
+                class="px-5 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold transition duration-200"
+                data-i18n="dash_btn_cancel"
+              >
+                Batal
+              </button>
+              <button
+                id="confirmAnalysisBtn"
+                class="px-5 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold transition duration-200 shadow"
+                data-i18n="history_detail_modal_confirm"
+              >
+                Ya, Analisa
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+        {% else %}
+        <div class="text-center text-gray-500 p-6">
+          <svg
+            class="mx-auto h-24 w-24 text-blue-400 mb-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            ></path>
+          </svg>
+          <p class="text-xl font-medium text-gray-700" data-i18n="history_detail_empty">
+            Tidak ada data historis untuk kombinasi ini.
+          </p>
+          <p class="mt-2 text-md text-gray-600" data-i18n="history_detail_empty_hint">
+            Pastikan Kata Kunci dan Domain sudah benar, atau lakukan pengecekan rank baru.
+          </p>
+        </div>
+        {% endif %}
+
+        <a href="{% url 'history_summary' %}" class="btn-back">
+          <svg
+            class="w-4 h-4 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            ></path>
+          </svg>
+          <span data-i18n="history_detail_back">Kembali ke Ringkasan Histori</span>
+        </a>
+      </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
+        // Auto-hide messages after 5 seconds
+        const messages = document.querySelectorAll(
+          '[class*="bg-red-100"], [class*="bg-green-100"], [class*="bg-yellow-100"], [class*="bg-blue-100"]'
+        );
+        messages.forEach((message) => {
+          setTimeout(() => {
+            message.style.transition = "opacity 0.5s ease-out";
+            message.style.opacity = "0";
+            setTimeout(() => {
+              message.remove();
+            }, 500);
+          }, 5000);
+        });
+
         const ctx = document.getElementById("rankChart").getContext("2d");
 
+        // Memastikan bahwa data JSON yang di-render oleh Django benar-benar valid
         const labels = JSON.parse("{{ dates|escapejs }}");
         const datasets = JSON.parse("{{ datasets|escapejs }}");
+        const rankHistory = JSON.parse("{{ rank_history_json|escapejs }}");
 
         new Chart(ctx, {
           type: "line",
@@ -136,7 +484,981 @@
             },
           },
         });
+
+        // Analisa SEO
+        const analyzeBtn = document.getElementById("analyzeBtn");
+        const analysisResult = document.getElementById("analysisResult");
+
+        // Fungsi untuk mempercantik hasil analisis
+        function formatAnalysisText(text) {
+          if (!text) return "";
+
+          // Heading: **Judul:**
+          text = text.replace(
+            /\*\*([^*]+)\*\*:/g,
+            '<h4 class="font-bold text-blue-700 mt-4 mb-2 flex items-center"><svg class="w-4 h-4 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>$1</h4>'
+          );
+          // Bold: **teks**
+          text = text.replace(
+            /\*\*([^*]+)\*\*/g,
+            '<span class="font-bold text-blue-700">$1</span>'
+          );
+
+          // Pisahkan baris
+          const lines = text.split("\n");
+          let html = "";
+          let inOl = false,
+            inUl = false;
+
+          lines.forEach((line) => {
+            // Ordered list (angka di awal)
+            if (/^\d+\./.test(line.trim())) {
+              if (!inOl) {
+                html +=
+                  '<ol class="list-decimal list-inside ml-4 mb-3 space-y-1">';
+                inOl = true;
+              }
+              html += `<li class="text-gray-700">${line.replace(
+                /^\d+\.\s*/,
+                ""
+              )}</li>`;
+            }
+            // Unordered list (* di awal)
+            else if (/^\*\s+/.test(line.trim())) {
+              if (!inUl) {
+                html +=
+                  '<ul class="list-disc list-inside ml-4 mb-3 space-y-1">';
+                inUl = true;
+              }
+              html += `<li class="text-gray-700">${line.replace(
+                /^\*\s+/,
+                ""
+              )}</li>`;
+            }
+            // Heading sudah diformat di atas
+            else if (line.trim().startsWith("<h4")) {
+              if (inOl) {
+                html += "</ol>";
+                inOl = false;
+              }
+              if (inUl) {
+                html += "</ul>";
+                inUl = false;
+              }
+              html += line;
+            }
+            // Kosong (paragraf baru)
+            else if (line.trim() === "") {
+              if (inOl) {
+                html += "</ol>";
+                inOl = false;
+              }
+              if (inUl) {
+                html += "</ul>";
+                inUl = false;
+              }
+            }
+            // Paragraf biasa
+            else {
+              if (inOl) {
+                html += "</ol>";
+                inOl = false;
+              }
+              if (inUl) {
+                html += "</ul>";
+                inUl = false;
+              }
+              html += `<p class="mb-3 text-gray-700 leading-relaxed">${line.trim()}</p>`;
+            }
+          });
+          if (inOl) html += "</ol>";
+          if (inUl) html += "</ul>";
+          return html;
+        }
+
+        // Fungsi untuk menganalisis data dan mengupdate summary cards dengan metadata
+        function updateSummaryCards(analysisText, metadata = null) {
+          const seoStatusEl = document.getElementById("seoStatus");
+          const rankingTrendEl = document.getElementById("rankingTrend");
+          const recommendationCountEl = document.getElementById(
+            "recommendationCount"
+          );
+
+          // Jika ada metadata dari backend, gunakan itu
+          if (metadata) {
+            // Update berdasarkan metadata backend
+            let seoStatus = "Stabil";
+            let seoColor = "text-green-700";
+
+            // Tentukan status SEO berdasarkan tren dan stabilitas
+            if (
+              metadata.trend === "meningkat" &&
+              metadata.stability === "stabil"
+            ) {
+              seoStatus = "Baik";
+              seoColor = "text-green-700";
+            } else if (metadata.trend === "menurun") {
+              seoStatus = "Perlu Perbaikan";
+              seoColor = "text-red-700";
+            } else if (metadata.stability === "fluktuatif") {
+              seoStatus = "Tidak Stabil";
+              seoColor = "text-yellow-700";
+            }
+
+            // Update tren ranking
+            let rankingTrend =
+              metadata.trend.charAt(0).toUpperCase() + metadata.trend.slice(1);
+            let trendColor = "text-blue-700";
+
+            if (metadata.trend === "meningkat") {
+              trendColor = "text-green-700";
+            } else if (metadata.trend === "menurun") {
+              trendColor = "text-red-700";
+            } else if (metadata.trend === "stabil") {
+              trendColor = "text-blue-700";
+            }
+
+            // Update elements dengan metadata
+            seoStatusEl.textContent = seoStatus;
+            seoStatusEl.className = `text-lg font-bold ${seoColor}`;
+
+            rankingTrendEl.textContent = rankingTrend;
+            rankingTrendEl.className = `text-lg font-bold ${trendColor}`;
+
+            // Tambahkan info tambahan jika tersedia
+            if (metadata.avg_rank) {
+              rankingTrendEl.innerHTML += `<br><span class="text-xs text-gray-500">Rata-rata: ${metadata.avg_rank}</span>`;
+            }
+
+            if (metadata.data_points) {
+              seoStatusEl.innerHTML += `<br><span class="text-xs text-gray-500">${metadata.data_points} data</span>`;
+            }
+          } else {
+            // Fallback ke analisis text-based (untuk kompatibilitas)
+            const seoKeywords = [
+              "baik",
+              "bagus",
+              "optimal",
+              "excellent",
+              "good",
+            ];
+            const seoNegativeKeywords = [
+              "buruk",
+              "jelek",
+              "rendah",
+              "poor",
+              "bad",
+            ];
+
+            let seoStatus = "Stabil";
+            let seoColor = "text-green-700";
+
+            if (
+              seoKeywords.some((keyword) =>
+                analysisText.toLowerCase().includes(keyword)
+              )
+            ) {
+              seoStatus = "Baik";
+              seoColor = "text-green-700";
+            } else if (
+              seoNegativeKeywords.some((keyword) =>
+                analysisText.toLowerCase().includes(keyword)
+              )
+            ) {
+              seoStatus = "Perlu Perbaikan";
+              seoColor = "text-red-700";
+            }
+
+            // Analisis tren ranking
+            const trendKeywords = [
+              "naik",
+              "meningkat",
+              "up",
+              "rise",
+              "improve",
+            ];
+            const trendDownKeywords = [
+              "turun",
+              "menurun",
+              "down",
+              "decline",
+              "drop",
+            ];
+
+            let rankingTrend = "Stabil";
+            let trendColor = "text-blue-700";
+
+            if (
+              trendKeywords.some((keyword) =>
+                analysisText.toLowerCase().includes(keyword)
+              )
+            ) {
+              rankingTrend = "Meningkat";
+              trendColor = "text-green-700";
+            } else if (
+              trendDownKeywords.some((keyword) =>
+                analysisText.toLowerCase().includes(keyword)
+              )
+            ) {
+              rankingTrend = "Menurun";
+              trendColor = "text-red-700";
+            }
+
+            // Update elements
+            seoStatusEl.textContent = seoStatus;
+            seoStatusEl.className = `text-lg font-bold ${seoColor}`;
+
+            rankingTrendEl.textContent = rankingTrend;
+            rankingTrendEl.className = `text-lg font-bold ${trendColor}`;
+          }
+
+          // Hitung jumlah rekomendasi dari text
+          const recommendations = analysisText.match(/\d+\./g) || [];
+          const recommendationCount = recommendations.length;
+          recommendationCountEl.textContent = `${recommendationCount} item`;
+        }
+
+        // Fungsi untuk download analisis sebagai PDF
+        function downloadAnalysis() {
+          console.log("Download function called");
+
+          const modalContent = document.getElementById("modalAnalysisContent");
+          if (!modalContent) {
+            console.error("Modal content not found");
+            alert("Konten analisis tidak ditemukan. Silakan coba lagi.");
+            return;
+          }
+
+          const content = modalContent.innerText;
+          console.log("Content length:", content.length);
+
+          if (!content || content.trim().length === 0) {
+            console.error("Content is empty");
+            alert(
+              "Konten analisis kosong. Silakan lakukan analisis terlebih dahulu."
+            );
+            return;
+          }
+
+          // Coba download sebagai PDF menggunakan jsPDF jika tersedia
+          if (typeof window.jspdf !== "undefined") {
+            try {
+              console.log("Using jsPDF for PDF generation");
+              // Jika jsPDF tersedia, buat PDF
+              const { jsPDF } = window.jspdf;
+              const doc = new jsPDF();
+
+              // Add header
+              doc.setFontSize(16);
+              doc.setTextColor(37, 99, 235);
+              doc.text("Analisa SEO Website", 20, 20);
+
+              doc.setFontSize(10);
+              doc.setTextColor(0, 0, 0);
+              doc.text(`Keyword: {{ keyword }}`, 20, 35);
+              doc.text(`Domain: {{ domain }}`, 20, 40);
+              doc.text(
+                `Tanggal: ${new Date().toLocaleDateString("id-ID")}`,
+                20,
+                45
+              );
+
+              // Split content into pages
+              const lines = doc.splitTextToSize(content, 170);
+              let y = 60;
+
+              // Add content
+              doc.setFontSize(10);
+              for (let i = 0; i < lines.length; i++) {
+                if (y > 270) {
+                  doc.addPage();
+                  y = 20;
+                }
+                doc.text(lines[i], 20, y);
+                y += 5;
+              }
+
+              const filename = `analisa-seo-{{ keyword }}-${
+                new Date().toISOString().split("T")[0]
+              }.pdf`;
+              doc.save(filename);
+              console.log("PDF saved successfully:", filename);
+            } catch (error) {
+              console.error("Error creating PDF:", error);
+              alert("Gagal membuat PDF. Mencoba download sebagai HTML...");
+              // Fallback ke HTML download
+              downloadAsHTML(content);
+            }
+          } else {
+            console.log("jsPDF not available, using HTML fallback");
+            // Fallback: download sebagai HTML yang bisa dikonversi ke PDF
+            downloadAsHTML(content);
+          }
+        }
+
+        // Fungsi helper untuk download sebagai HTML
+        function downloadAsHTML(content) {
+          console.log("Downloading as HTML");
+          const htmlContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                  <meta charset="UTF-8">
+                  <title>Analisa SEO - {{ keyword }} - {{ domain }}</title>
+                  <style>
+                    body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+                    h1 { color: #2563eb; border-bottom: 2px solid #2563eb; padding-bottom: 10px; }
+                    h2 { color: #374151; margin-top: 20px; }
+                    .header { background: #f3f4f6; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+                    .info { margin-bottom: 10px; }
+                    .section { margin-bottom: 20px; }
+                    .recommendation { background: #f9fafb; padding: 10px; margin: 5px 0; border-left: 4px solid #2563eb; }
+                    @media print { body { margin: 0; } }
+                  </style>
+                </head>
+                <body>
+                  <div class="header">
+                    <h1>Analisa SEO Website</h1>
+                    <div class="info"><strong>Keyword:</strong> {{ keyword }}</div>
+                    <div class="info"><strong>Domain:</strong> {{ domain }}</div>
+                    <div class="info"><strong>Tanggal Analisis:</strong> ${new Date().toLocaleDateString(
+                      "id-ID"
+                    )}</div>
+                  </div>
+
+                  <div class="section">
+                    <pre style="white-space: pre-wrap; font-family: inherit;">${content}</pre>
+                  </div>
+
+                  <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb; font-size: 12px; color: #6b7280;">
+                    <p>Dokumen ini dibuat oleh U-Rank - Sistem Analisis SEO</p>
+                    <p>Tanggal: ${new Date().toLocaleString("id-ID")}</p>
+                  </div>
+                </body>
+                </html>
+              `;
+
+          const blob = new Blob([htmlContent], { type: "text/html" });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `analisa-seo-{{ keyword }}-${
+            new Date().toISOString().split("T")[0]
+          }.html`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+
+          console.log("HTML file downloaded successfully");
+          // Tampilkan pesan bahwa file HTML bisa dikonversi ke PDF
+          alert(
+            'File HTML telah didownload. Anda dapat membuka file ini di browser dan menggunakan "Print to PDF" untuk mengkonversi ke PDF.'
+          );
+        }
+
+        // Fungsi untuk menampilkan metadata di modal
+        function showMetadataInModal(metadata) {
+          const metadataContainer =
+            document.getElementById("metadataContainer");
+          if (metadataContainer && metadata) {
+            let metadataHtml = `
+                  <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                    <h4 class="text-sm font-semibold text-blue-800 mb-2 flex items-center">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      Informasi Analisis
+                    </h4>
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 text-sm">
+                `;
+
+            if (metadata.trend) {
+              const trendColor =
+                metadata.trend === "meningkat"
+                  ? "text-green-600"
+                  : metadata.trend === "menurun"
+                  ? "text-red-600"
+                  : "text-blue-600";
+              metadataHtml += `
+                    <div class="text-center">
+                      <div class="font-medium text-gray-700">Tren</div>
+                      <div class="${trendColor} font-semibold">${
+                metadata.trend.charAt(0).toUpperCase() + metadata.trend.slice(1)
+              }</div>
+                    </div>
+                  `;
+            }
+
+            if (metadata.stability) {
+              const stabilityColor =
+                metadata.stability === "stabil"
+                  ? "text-green-600"
+                  : "text-yellow-600";
+              metadataHtml += `
+                    <div class="text-center">
+                      <div class="font-medium text-gray-700">Stabilitas</div>
+                      <div class="${stabilityColor} font-semibold">${
+                metadata.stability.charAt(0).toUpperCase() +
+                metadata.stability.slice(1)
+              }</div>
+                    </div>
+                  `;
+            }
+
+            if (metadata.avg_rank) {
+              metadataHtml += `
+                    <div class="text-center">
+                      <div class="font-medium text-gray-700">Rata-rata Rank</div>
+                      <div class="text-blue-600 font-semibold">${metadata.avg_rank}</div>
+                    </div>
+                  `;
+            }
+
+            if (metadata.data_points) {
+              metadataHtml += `
+                    <div class="text-center">
+                      <div class="font-medium text-gray-700">Data Points</div>
+                      <div class="text-gray-600 font-semibold">${metadata.data_points}</div>
+                    </div>
+                  `;
+            }
+
+            // Tambahkan informasi model AI
+            if (metadata.model_used) {
+              const modelIcons = {
+                "gpt-3.5-turbo": "💰",
+                "gpt-4o": "🤖",
+                "gpt-4o-mini": "⭐",
+              };
+              const modelNames = {
+                "gpt-3.5-turbo": "GPT-3.5",
+                "gpt-4o": "GPT-4o",
+                "gpt-4o-mini": "GPT-4o-mini",
+              };
+              metadataHtml += `
+                    <div class="text-center">
+                      <div class="font-medium text-gray-700">Model AI</div>
+                      <div class="text-purple-600 font-semibold flex items-center justify-center">
+                        <span class="mr-1">${
+                          modelIcons[metadata.model_used] || "🤖"
+                        }</span>
+                        ${
+                          modelNames[metadata.model_used] || metadata.model_used
+                        }
+                      </div>
+                    </div>
+                  `;
+            }
+
+            metadataHtml += `
+                    </div>
+                  </div>
+                `;
+
+            metadataContainer.innerHTML = metadataHtml;
+            metadataContainer.classList.remove("hidden");
+          }
+        }
+
+        // Tambahkan modal untuk detail analisis
+        const modalHtml = `
+          <div id="analysisModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden transition-opacity duration-300 opacity-0 backdrop-blur-sm">
+            <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full mx-4 relative overflow-hidden animate-modal-in">
+              <!-- Header -->
+              <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4 text-white">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 class="text-xl font-bold">Detail Analisa SEO</h3>
+                      <p class="text-blue-100 text-sm">Analisa mendalam performa website Anda</p>
+                    </div>
+                  </div>
+                  <button id="closeModalBtn" class="text-white hover:text-blue-200 transition-colors duration-200">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Content -->
+              <div class="p-6 max-h-[70vh] overflow-y-auto">
+                <!-- Metadata Container -->
+                <div id="metadataContainer" class="hidden"></div>
+
+                <!-- Summary Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                  <div class="bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-lg p-4">
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3">
+                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                        </svg>
+                      </div>
+                      <div>
+                        <p class="text-sm text-green-600 font-medium">Status SEO</p>
+                        <p class="text-lg font-bold text-green-700" id="seoStatus">Analisis...</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-lg p-4">
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3">
+                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                      </div>
+                      <div>
+                        <p class="text-sm text-blue-600 font-medium">Tren Ranking</p>
+                        <p class="text-lg font-bold text-blue-700" id="rankingTrend">Analisis...</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 rounded-lg p-4">
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-3">
+                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                      </div>
+                      <div>
+                        <p class="text-sm text-purple-600 font-medium">Rekomendasi</p>
+                        <p class="text-lg font-bold text-purple-700" id="recommendationCount">Analisis...</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="bg-gray-50 rounded-lg p-6">
+                  <div class="flex items-center mb-4">
+                    <svg class="w-5 h-5 text-gray-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <h4 class="text-lg font-semibold text-gray-800">Analisa Detail</h4>
+                  </div>
+                  <div id="modalAnalysisContent" class="prose prose-sm max-w-none text-gray-700 leading-relaxed"></div>
+                </div>
+
+                <!-- Action Buttons -->
+                <!--
+                <div class="flex justify-end space-x-3 mt-6 pt-4 border-t border-gray-200">
+                  <button onclick="window.print()" class="flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition duration-200">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                    </svg>
+                    Cetak
+                  </button>
+                  <button onclick="downloadAnalysis()" class="flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    Download Laporan
+                  </button>
+                </div>
+                -->
+              </div>
+        </div>
+      </div>`;
+        document.body.insertAdjacentHTML("beforeend", modalHtml);
+
+        // Tambahkan modal untuk premium popup
+        const premiumModalHtml = `
+          <div id="premiumModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden transition-opacity duration-300 opacity-0">
+            <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6 relative animate-modal-in">
+              <button id="closePremiumModalBtn" class="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl">&times;</button>
+              <div class="text-center">
+                <div class="w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Fitur Premium</h3>
+                <p class="text-gray-600 mb-6">Analisa SEO adalah fitur eksklusif untuk user Premium. Upgrade akun Anda untuk mengakses fitur ini dan mendapatkan analisa mendalam tentang performa SEO website Anda.</p>
+                <div class="space-y-3">
+                  <a href="{% url 'buy_quota' %}" class="block w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 px-4 rounded-lg transition duration-200">
+                    Upgrade ke Premium
+                  </a>
+                  <button id="closePremiumModalBtn2" class="block w-full bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 px-4 rounded-lg transition duration-200">
+                    Nanti Saja
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>`;
+        document.body.insertAdjacentHTML("beforeend", premiumModalHtml);
+        const analysisModal = document.getElementById("analysisModal");
+        const closeModalBtn = document.getElementById("closeModalBtn");
+        const modalAnalysisContent = document.getElementById(
+          "modalAnalysisContent"
+        );
+
+        // Modal premium
+        const premiumModal = document.getElementById("premiumModal");
+        const closePremiumModalBtn = document.getElementById(
+          "closePremiumModalBtn"
+        );
+        const closePremiumModalBtn2 = document.getElementById(
+          "closePremiumModalBtn2"
+        );
+
+        // Tambahkan animasi modal dan print styles
+        const style = document.createElement("style");
+        style.innerHTML = `
+            @keyframes modalIn { from { transform: translateY(40px) scale(0.98); opacity: 0; } to { transform: none; opacity: 1; } }
+            @keyframes modalOut { from { opacity: 1; } to { opacity: 0; transform: translateY(40px) scale(0.98); } }
+            .animate-modal-in { animation: modalIn 0.3s cubic-bezier(.4,0,.2,1); }
+            .animate-modal-out { animation: modalOut 0.2s cubic-bezier(.4,0,.2,1); }
+
+                @media print {
+                  body * { visibility: hidden; }
+                  #analysisModal, #analysisModal * { visibility: visible; }
+                  #analysisModal { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+                  #analysisModal .bg-gradient-to-r { background: #2563eb !important; }
+                  button { display: none !important; }
+                }
+
+                .prose h4 {
+                  border-left: 4px solid #2563eb;
+                  padding-left: 12px;
+                  margin-top: 24px;
+                  margin-bottom: 16px;
+                }
+
+                .prose p {
+                  line-height: 1.7;
+                  margin-bottom: 12px;
+                }
+
+                .prose ul, .prose ol {
+                  margin-bottom: 16px;
+                }
+
+                .prose li {
+                  margin-bottom: 4px;
+                }
+            `;
+        document.head.appendChild(style);
+
+        // Fungsi untuk memotong teks ke N kata
+        function truncateWords(text, n) {
+          const words = text.split(/\s+/);
+          if (words.length <= n) return text;
+          return words.slice(0, n).join(" ") + "...";
+        }
+
+        let fullAnalysisRaw = "";
+        let fullAnalysisHtml = "";
+        let currentMetadata = null; // Untuk menyimpan metadata dari response
+
+        // Fungsi untuk menampilkan popup premium
+        function showPremiumPopup() {
+          premiumModal.classList.remove("hidden");
+          setTimeout(() => {
+            premiumModal.classList.remove("opacity-0");
+          }, 10);
+        }
+
+        // Event handlers untuk modal premium
+        closePremiumModalBtn.onclick = function () {
+          premiumModal.classList.add("opacity-0");
+          setTimeout(() => {
+            premiumModal.classList.add("hidden");
+          }, 200);
+        };
+
+        closePremiumModalBtn2.onclick = function () {
+          premiumModal.classList.add("opacity-0");
+          setTimeout(() => {
+            premiumModal.classList.add("hidden");
+          }, 200);
+        };
+
+        // Close modal premium jika klik di luar konten
+        premiumModal.onclick = function (e) {
+          if (e.target === premiumModal) {
+            premiumModal.classList.add("opacity-0");
+            setTimeout(() => {
+              premiumModal.classList.add("hidden");
+            }, 200);
+          }
+        };
+
+        // Spinner HTML
+        const spinnerHtml = `
+              <div class="flex flex-col items-center justify-center py-6">
+                <div class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-2"></div>
+                <div class="text-blue-600 font-medium">Menganalisa...</div>
+              </div>
+            `;
+
+        // Loading state untuk summary cards
+        function showLoadingState() {
+          const cards = ["seoStatus", "rankingTrend", "recommendationCount"];
+          cards.forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) {
+              el.innerHTML =
+                '<div class="w-4 h-4 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>';
+            }
+          });
+        }
+
+        // Fungsi untuk reset metadata saat memulai analisis baru
+        function resetAnalysisState() {
+          currentMetadata = null;
+          const metadataContainer =
+            document.getElementById("metadataContainer");
+          if (metadataContainer) {
+            metadataContainer.classList.add("hidden");
+            metadataContainer.innerHTML = "";
+          }
+        }
+
+        // Cek status premium user dari template
+        const isPremiumUser =
+          "{{ user_status.status|default:'guest' }}" === "premium";
+
+        // Model selection handler
+        const modelSelect = document.getElementById("modelSelect");
+        const modelInfo = document.getElementById("modelInfo");
+        const confirmModelInfo = document.getElementById("confirmModelInfo");
+
+        // Data model dari database atau fallback
+        const modelDescriptions = JSON.parse("{{ ai_models_json|escapejs }}");
+        const modelCost = JSON.parse("{{ ai_models_cost_json|escapejs }}");
+
+        function updateConfirmModelInfo() {
+          const selected = modelSelect.value;
+          let label = "";
+          if (selected === "gemini") label = "🔷 Gemini (Google)";
+          else if (selected === "gpt-3.5-turbo") label = "💰 GPT-3.5 (OpenAI)";
+          else if (selected === "gpt-4-1106-preview")
+            label = "🤖 GPT-4.1 (OpenAI)";
+          confirmModelInfo.innerHTML = `<span class='font-semibold'>Model: ${label}</span> <span class='ml-2 text-blue-600'>(Cost: ${modelCost[selected]} Kuota)</span>`;
+        }
+
+        if (modelSelect) {
+          modelSelect.addEventListener("change", function () {
+            const selectedModel = this.value;
+            modelInfo.textContent = modelDescriptions[selectedModel] || "";
+            updateConfirmModelInfo();
+          });
+          updateConfirmModelInfo();
+        }
+
+        // Event listener untuk tombol analisa (hanya untuk premium)
+        if (isPremiumUser) {
+          analyzeBtn?.addEventListener("click", function (e) {
+            e.preventDefault();
+            // Tampilkan modal konfirmasi
+            confirmAnalysisModal.classList.remove("hidden");
+            setTimeout(() => {
+              confirmAnalysisModal.classList.remove("opacity-0");
+            }, 10);
+          });
+        } else {
+          // Event listener untuk tombol non-premium (menampilkan popup)
+          analyzeBtn?.addEventListener("click", function () {
+            showPremiumPopup();
+          });
+        }
+
+        // Konfirmasi modal logic
+        const confirmAnalysisModal = document.getElementById(
+          "confirmAnalysisModal"
+        );
+        const closeConfirmAnalysisModalBtn = document.getElementById(
+          "closeConfirmAnalysisModalBtn"
+        );
+        const cancelAnalysisBtn = document.getElementById("cancelAnalysisBtn");
+        const confirmAnalysisBtn =
+          document.getElementById("confirmAnalysisBtn");
+        let pendingAnalysisAction = null;
+        // Hanya untuk user premium
+        if (isPremiumUser) {
+          analyzeBtn?.addEventListener("click", function (e) {
+            e.preventDefault();
+            // Tampilkan modal konfirmasi
+            confirmAnalysisModal.classList.remove("hidden");
+            setTimeout(() => {
+              confirmAnalysisModal.classList.remove("opacity-0");
+            }, 10);
+          });
+          // Tutup modal konfirmasi
+          function closeConfirmModal() {
+            confirmAnalysisModal.classList.add("opacity-0");
+            setTimeout(() => {
+              confirmAnalysisModal.classList.add("hidden");
+            }, 200);
+          }
+          closeConfirmAnalysisModalBtn.onclick = closeConfirmModal;
+          cancelAnalysisBtn.onclick = closeConfirmModal;
+          confirmAnalysisModal.onclick = function (e) {
+            if (e.target === confirmAnalysisModal) closeConfirmModal();
+          };
+          // Jika user konfirmasi, jalankan analisa
+          confirmAnalysisBtn.onclick = function () {
+            closeConfirmModal();
+            // Jalankan proses analisa SEO seperti sebelumnya
+            analysisResult.innerHTML = spinnerHtml;
+            showLoadingState();
+            resetAnalysisState();
+            const selectedModel = modelSelect ? modelSelect.value : "gpt-4o";
+            fetch("{% url 'seo_analysis' %}", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}",
+              },
+              body: JSON.stringify({
+                keyword: "{{ keyword }}",
+                domain: "{{ domain }}",
+                rank_history: rankHistory,
+                model: selectedModel,
+              }),
+            })
+              .then((res) => {
+                if (!res.ok) {
+                  return res.json().then((errorData) => {
+                    throw new Error(JSON.stringify(errorData));
+                  });
+                }
+                return res.json();
+              })
+              .then((data) => {
+                fullAnalysisRaw = data.analysis || "";
+                fullAnalysisHtml = formatAnalysisText(fullAnalysisRaw);
+                currentMetadata = data.metadata || null;
+                updateSummaryCards(fullAnalysisRaw, currentMetadata);
+                const preview = truncateWords(fullAnalysisRaw, 50);
+                let qualityIndicator = "";
+                if (data.metadata && data.metadata.analysis_quality) {
+                  const quality = data.metadata.analysis_quality;
+                  const qualityColor =
+                    quality === "high" ? "text-green-600" : "text-yellow-600";
+                  const qualityText =
+                    quality === "high"
+                      ? "Analisis Berkualitas Tinggi"
+                      : "Analisis Standar";
+                  qualityIndicator = `<div class="text-center mb-3"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${qualityColor} bg-green-100">
+                        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                        </svg>
+                        ${qualityText}
+                      </span></div>`;
+                }
+                analysisResult.innerHTML =
+                  qualityIndicator +
+                  formatAnalysisText(preview) +
+                  '<button class="mt-4 flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded shadow transition cursor-pointer mx-auto" id="showDetailAnalysis">' +
+                  '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m6 0a6 6 0 11-12 0 6 6 0 0112 0zm6 0a6 6 0 11-12 0 6 6 0 0112 0z"/></svg>' +
+                  "Lihat Detail" +
+                  "</button>";
+                document.getElementById("showDetailAnalysis").onclick =
+                  function () {
+                    modalAnalysisContent.innerHTML = fullAnalysisHtml;
+                    if (currentMetadata) {
+                      showMetadataInModal(currentMetadata);
+                    }
+                    analysisModal.classList.remove("hidden");
+                    setTimeout(() => {
+                      analysisModal.classList.remove("opacity-0");
+                    }, 10);
+                  };
+              })
+              .catch((error) => {
+                try {
+                  const errorData = JSON.parse(error.message);
+                  analysisResult.innerHTML = `
+                        <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                          <div class="flex items-center">
+                            <svg class="w-5 h-5 text-red-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                            </svg>
+                            <div>
+                              <h4 class="text-sm font-medium text-red-800">${
+                                errorData.error || "Terjadi Kesalahan"
+                              }</h4>
+                              <p class="text-sm text-red-700 mt-1">${
+                                errorData.message ||
+                                "Terjadi kesalahan saat menganalisa."
+                              }</p>
+                              ${
+                                errorData.upgrade_url
+                                  ? `
+                                <div class="mt-3">
+                                  <a href="${errorData.upgrade_url}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                    </svg>
+                                    Upgrade ke Premium
+                                  </a>
+                                </div>
+                              `
+                                  : ""
+                              }
+                            </div>
+                          </div>
+                        </div>
+                      `;
+                } catch (parseError) {
+                  analysisResult.innerHTML = `
+                        <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                          <div class="flex items-center">
+                            <svg class="w-5 h-5 text-red-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                            </svg>
+                            <div>
+                              <h4 class="text-sm font-medium text-red-800">Terjadi Kesalahan</h4>
+                              <p class="text-sm text-red-700 mt-1">Terjadi kesalahan saat menganalisa.</p>
+                            </div>
+                          </div>
+                        </div>
+                      `;
+                }
+              });
+          };
+        }
+
+        // Event close modal
+        closeModalBtn.onclick = function () {
+          analysisModal.classList.add("opacity-0");
+          setTimeout(() => {
+            analysisModal.classList.add("hidden");
+            // Sembunyikan metadata saat modal ditutup
+            const metadataContainer =
+              document.getElementById("metadataContainer");
+            if (metadataContainer) {
+              metadataContainer.classList.add("hidden");
+              metadataContainer.innerHTML = "";
+            }
+          }, 200);
+        };
+        // Close modal jika klik di luar konten
+        analysisModal.onclick = function (e) {
+          if (e.target === analysisModal) {
+            analysisModal.classList.add("opacity-0");
+            setTimeout(() => {
+              analysisModal.classList.add("hidden");
+              // Sembunyikan metadata saat modal ditutup
+              const metadataContainer =
+                document.getElementById("metadataContainer");
+              if (metadataContainer) {
+                metadataContainer.classList.add("hidden");
+                metadataContainer.innerHTML = "";
+              }
+            }, 200);
+          }
+        };
       });
     </script>
-</body>
-</html>
+{% endblock %}

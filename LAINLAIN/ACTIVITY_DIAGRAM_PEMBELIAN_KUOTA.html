@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Diagram - Pembelian Kuota</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 2000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .export-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .export-btn:active {
+            transform: translateY(0);
+        }
+
+        .diagram-container {
+            width: 100%;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 40px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .explanation {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .explanation h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .explanation h3 {
+            color: #667eea;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .explanation p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .explanation ul {
+            margin-left: 30px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .explanation li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Activity Diagram</h1>
+        <p class="subtitle">Pembelian Kuota (Manual Transfer & Midtrans)</p>
+
+        <div class="export-container">
+            <button class="export-btn" onclick="exportToPNG()">📥 Export PNG</button>
+        </div>
+
+        <div class="diagram-container" id="diagram-to-export">
+            <div class="mermaid">
+graph TB
+    Start([START]) --> User1[Pilih Paket Kuota]
+    User1 --> UserDec1{Metode Pembayaran?}
+    
+    %% Manual Transfer Flow
+    UserDec1 -->|Manual| User2[Transfer Bank & Upload Bukti]
+    User2 -->|Request| Sys1[Buat QuotaPurchase<br/>Status: Pending]
+    Sys1 --> Admin1[Admin Review & Approve]
+    Admin1 --> AdminDec1{Valid?}
+    
+    AdminDec1 -->|Tidak| Admin2[Reject]
+    Admin2 --> EndErr1([END])
+    
+    AdminDec1 -->|Ya| Sys2[Update Kuota & Status Premium]
+    Sys2 --> User3[Status Approved]
+    User3 --> End1([END])
+    
+    %% Midtrans Flow
+    UserDec1 -->|Midtrans| User4[Pilih Metode & Bayar]
+    User4 -->|Request| Sys3[Buat Transaction & Request Snap Token]
+    Sys3 -->|API Request| Mid1[Proses Pembayaran]
+    Mid1 -->|Callback| Sys4{Status Settlement?}
+    
+    Sys4 -->|Tidak| EndErr2([END])
+    Sys4 -->|Ya| Sys5[Update Kuota & Status Premium<br/>Kirim Notifikasi WhatsApp]
+    Sys5 --> User5[Terima Notifikasi]
+    User5 --> End2([END])
+    
+    style Start fill:#4caf50,stroke:#333,stroke-width:3px,color:#fff
+    style End1 fill:#f44336,stroke:#333,stroke-width:3px,color:#fff
+    style End2 fill:#f44336,stroke:#333,stroke-width:3px,color:#fff
+    style EndErr1 fill:#f44336,stroke:#333,stroke-width:3px,color:#fff
+    style EndErr2 fill:#f44336,stroke:#333,stroke-width:3px,color:#fff
+    style UserDec1 fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    style AdminDec1 fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    style Sys4 fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+            </div>
+        </div>
+
+        <!-- Explanation Section -->
+        <div class="explanation">
+            <h2>📋 Penjelasan Activity Diagram: Pembelian Kuota</h2>
+            
+            <h3>1. Overview</h3>
+            <p>
+                Activity Diagram ini menggambarkan alur proses pembelian kuota dengan dua metode pembayaran: 
+                <strong>Manual Transfer</strong> (butuh approval admin) dan <strong>Midtrans Payment Gateway</strong> (otomatis). 
+                Proses ini melibatkan empat aktor: <strong>User</strong>, <strong>System</strong>, <strong>Admin</strong>, dan <strong>Midtrans</strong>.
+            </p>
+
+            <h3>2. Alur Proses - Manual Transfer</h3>
+            <ul>
+                <li>User transfer bank dan upload bukti → System buat QuotaPurchase (Pending)</li>
+                <li>Admin review dan approve → System update kuota dan status premium</li>
+                <li>Jika reject: Proses berakhir</li>
+            </ul>
+
+            <h3>3. Alur Proses - Midtrans</h3>
+            <ul>
+                <li>User bayar di Midtrans → System terima callback</li>
+                <li>Jika settlement: System update kuota, status premium, dan kirim notifikasi WhatsApp</li>
+                <li>Jika tidak settlement: Proses berakhir</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+
+        function exportToPNG() {
+            const element = document.getElementById('diagram-to-export');
+            const margin = 50;
+            
+            const btn = document.querySelector('.export-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ Exporting...';
+            btn.disabled = true;
+
+            html2canvas(element, {
+                backgroundColor: '#ffffff',
+                scale: 2,
+                logging: false,
+                useCORS: true,
+                allowTaint: true
+            }).then(canvas => {
+                const marginCanvas = document.createElement('canvas');
+                marginCanvas.width = canvas.width + (margin * 2);
+                marginCanvas.height = canvas.height + (margin * 2);
+                const ctx = marginCanvas.getContext('2d');
+                
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, marginCanvas.width, marginCanvas.height);
+                ctx.drawImage(canvas, margin, margin);
+                
+                marginCanvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = 'Activity_Diagram_Pembelian_Kuota.png';
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                    
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+            }).catch(error => {
+                console.error('Export error:', error);
+                alert('Error exporting diagram. Please try again.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>

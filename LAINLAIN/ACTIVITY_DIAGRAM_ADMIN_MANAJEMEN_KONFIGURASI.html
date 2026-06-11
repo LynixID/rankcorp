@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Diagram - Admin Manajemen Konfigurasi</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 2000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .export-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .export-btn:active {
+            transform: translateY(0);
+        }
+
+        .diagram-container {
+            width: 100%;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 40px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .explanation {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .explanation h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .explanation h3 {
+            color: #667eea;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .explanation p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .explanation ul {
+            margin-left: 30px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .explanation li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Activity Diagram</h1>
+        <p class="subtitle">Admin - Manajemen Konfigurasi</p>
+
+        <div class="export-container">
+            <button class="export-btn" onclick="exportToPNG()">📥 Export PNG</button>
+        </div>
+
+        <div class="diagram-container" id="diagram-to-export">
+            <div class="mermaid">
+graph TB
+    Start([START]) --> Admin1[Akses Dashboard Admin]
+    Admin1 --> AdminDec1{Pilih Konfigurasi?}
+    
+    %% AI Model Config Flow
+    AdminDec1 -->|AI Model| Admin2[Lihat Daftar AI Model Config]
+    Admin2 --> AdminDec2{Pilih Aksi?}
+    
+    AdminDec2 -->|Add| Admin3[Isi Form Model Baru<br/>Model Name, Display Name,<br/>Quota Cost, API Key]
+    Admin3 -->|Request| Sys1[Create AiModelConfig]
+    Sys1 --> Sys2[Tampilkan Pesan Sukses]
+    Sys2 --> Admin2
+    
+    AdminDec2 -->|Update| Admin4[Edit Model Config]
+    Admin4 --> Admin5[Update Data Model<br/>Display Name, Quota Cost,<br/>API Key, Is Active]
+    Admin5 -->|Request| Sys3[Update AiModelConfig]
+    Sys3 --> Sys4[Tampilkan Pesan Sukses]
+    Sys4 --> Admin2
+    
+    AdminDec2 -->|Delete| Admin6[Delete Model Config]
+    Admin6 --> Sys5[Delete AiModelConfig]
+    Sys5 --> Sys6[Tampilkan Pesan Sukses]
+    Sys6 --> Admin2
+    
+    AdminDec2 -->|Toggle| Admin7[Toggle Is Active]
+    Admin7 -->|Request| Sys7[Update Is Active Status]
+    Sys7 --> Sys8[Tampilkan Pesan Sukses]
+    Sys8 --> Admin2
+    
+    %% API Config Flow
+    AdminDec1 -->|API Config| Admin8[Lihat Daftar API Config]
+    Admin8 --> Admin9[Pilih API Config<br/>SerpAPI, Google Search, Bing]
+    Admin9 --> Admin10[Update Konfigurasi<br/>API Key, Base URL,<br/>Max Results, Timeout]
+    Admin10 -->|Request| Sys9[Update ApiConfig]
+    Sys9 --> Sys10[Tampilkan Pesan Sukses]
+    Sys10 --> Admin8
+    
+    Admin8 --> Admin11[Toggle Is Active]
+    Admin11 -->|Request| Sys11[Update Is Active Status]
+    Sys11 --> Sys12[Tampilkan Pesan Sukses]
+    Sys12 --> Admin8
+    
+    Admin2 --> End([END])
+    Admin8 --> End
+    
+    style Start fill:#4caf50,stroke:#333,stroke-width:3px,color:#fff
+    style End fill:#f44336,stroke:#333,stroke-width:3px,color:#fff
+    style AdminDec1 fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    style AdminDec2 fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+            </div>
+        </div>
+
+        <!-- Explanation Section -->
+        <div class="explanation">
+            <h2>📋 Penjelasan Activity Diagram: Admin - Manajemen Konfigurasi</h2>
+            
+            <h3>1. Overview</h3>
+            <p>
+                Activity Diagram ini menggambarkan alur proses manajemen konfigurasi sistem oleh admin. 
+                Admin dapat mengelola konfigurasi AI Model dan API Config. 
+                Proses ini melibatkan dua aktor: <strong>Admin</strong> dan <strong>System</strong>.
+            </p>
+
+            <h3>2. Alur Proses - AI Model Config</h3>
+            <p><strong>A. CRUD Operations</strong></p>
+            <ul>
+                <li><strong>Add:</strong> Admin isi form model baru → System create AiModelConfig</li>
+                <li><strong>Update:</strong> Admin edit model → System update AiModelConfig</li>
+                <li><strong>Delete:</strong> Admin delete model → System delete AiModelConfig</li>
+                <li><strong>Toggle:</strong> Admin toggle is_active → System update status</li>
+            </ul>
+
+            <p><strong>B. Data yang Dikelola</strong></p>
+            <ul>
+                <li>Model Name (gemini, gpt-3.5-turbo, gpt-4-1106-preview)</li>
+                <li>Display Name</li>
+                <li>Quota Cost (biaya kuota per penggunaan)</li>
+                <li>API Key (untuk akses API)</li>
+                <li>Is Active (status aktif/nonaktif)</li>
+            </ul>
+
+            <h3>3. Alur Proses - API Config</h3>
+            <p><strong>A. Update Konfigurasi</strong></p>
+            <ul>
+                <li>Admin pilih API Config (SerpAPI, Google Search, Bing)</li>
+                <li>Admin update: API Key, Base URL, Max Results, Timeout</li>
+                <li>System update ApiConfig → Tampilkan pesan sukses</li>
+            </ul>
+
+            <p><strong>B. Toggle Status</strong></p>
+            <ul>
+                <li>Admin toggle is_active → System update status</li>
+                <li>API yang nonaktif tidak akan digunakan oleh system</li>
+            </ul>
+
+            <h3>4. Manfaat</h3>
+            <ul>
+                <li>Fleksibilitas: Update konfigurasi tanpa deploy ulang</li>
+                <li>Keamanan: API keys disimpan di database</li>
+                <li>Kontrol: Admin dapat mengaktifkan/nonaktifkan model/API</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+
+        function exportToPNG() {
+            const element = document.getElementById('diagram-to-export');
+            const margin = 50;
+            
+            const btn = document.querySelector('.export-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ Exporting...';
+            btn.disabled = true;
+
+            html2canvas(element, {
+                backgroundColor: '#ffffff',
+                scale: 2,
+                logging: false,
+                useCORS: true,
+                allowTaint: true
+            }).then(canvas => {
+                const marginCanvas = document.createElement('canvas');
+                marginCanvas.width = canvas.width + (margin * 2);
+                marginCanvas.height = canvas.height + (margin * 2);
+                const ctx = marginCanvas.getContext('2d');
+                
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, marginCanvas.width, marginCanvas.height);
+                ctx.drawImage(canvas, margin, margin);
+                
+                marginCanvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = 'Activity_Diagram_Admin_Manajemen_Konfigurasi.png';
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                    
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+            }).catch(error => {
+                console.error('Export error:', error);
+                alert('Error exporting diagram. Please try again.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>
+

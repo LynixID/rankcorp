@@ -1,0 +1,724 @@
+{% csrf_token %}
+
+<!-- Add CSRF token meta tag for JavaScript access -->
+<meta name="csrf-token" content="{{ csrf_token }}">
+
+<div class="space-y-6">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl md:text-3xl font-black text-slate-900 mb-2" style="font-family: 'Space Grotesk', sans-serif;">
+        <i class="fas fa-cog text-cyan-600 mr-2"></i>
+        Konfigurasi API
+      </h1>
+      <p class="text-slate-600 text-sm">Kelola konfigurasi API untuk sistem</p>
+    </div>
+  </div>
+
+  <!-- API Config Cards -->
+  <div class="grid gap-6">
+    {% for config in api_configs %}
+    <div class="card-glass p-6 rounded-2xl" data-config-id="{{ config.id }}">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h3 class="text-xl font-black text-slate-900 mb-1" style="font-family: 'Space Grotesk', sans-serif;">
+            <i class="fas fa-plug text-cyan-600 mr-2"></i>
+            {{ config.get_api_name_display }}
+          </h3>
+          <p class="text-sm text-slate-600">{{ config.description }}</p>
+        </div>
+        <div class="flex space-x-2">
+          <button 
+            onclick="toggleEditMode('{{ config.id }}')" 
+            id="edit-btn-{{ config.id }}"
+            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-150 shadow-sm hover:shadow-md font-medium text-sm"
+          >
+            <i class="fas fa-edit mr-1"></i>Edit
+          </button>
+          <button 
+            onclick="showDebugModal('{{ config.id }}', '/admin/api-config/{{ config.id }}/test/', '{{ config.get_api_name_display }}', '{{ config.api_key|escapejs }}', '{{ config.base_url|escapejs }}', '{{ config.max_results }}', '{{ config.timeout }}', '{{ config.description|escapejs }}', '{{ config.is_active }}', '{{ config.created_at|date:"Y-m-d H:i:s" }}')" 
+            class="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg transition duration-150 shadow-sm hover:shadow-md font-medium text-sm"
+            title="Debug: Tampilkan detail konfigurasi API"
+          >
+            <i class="fas fa-bug mr-1"></i>Debug
+          </button>
+          <button 
+            onclick="saveApiConfig('{{ config.id }}')" 
+            id="save-btn-{{ config.id }}"
+            class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-150 hidden disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md font-medium text-sm"
+            disabled
+          >
+            <i class="fas fa-save mr-1"></i>Simpan
+          </button>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">
+            <i class="fas fa-key text-cyan-600 mr-1"></i>API Key
+          </label>
+          <input 
+            type="text" 
+            id="api-key-{{ config.id }}"
+            value="{{ config.api_key }}"
+            class="w-full input-modern disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled
+            data-original="{{ config.api_key|escapejs }}"
+          />
+        </div>
+        
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">
+            <i class="fas fa-link text-cyan-600 mr-1"></i>Base URL
+          </label>
+          <input 
+            type="text" 
+            id="base-url-{{ config.id }}"
+            value="{{ config.base_url }}"
+            class="w-full input-modern disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled
+            data-original="{{ config.base_url|escapejs }}"
+          />
+        </div>
+        
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">
+            <i class="fas fa-list-ol text-cyan-600 mr-1"></i>Max Results
+          </label>
+          <input 
+            type="number" 
+            id="max-results-{{ config.id }}"
+            value="{{ config.max_results }}"
+            class="w-full input-modern disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled
+            data-original="{{ config.max_results|escapejs }}"
+          />
+        </div>
+        
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">
+            <i class="fas fa-hourglass-half text-cyan-600 mr-1"></i>Timeout (detik)
+          </label>
+          <input 
+            type="number" 
+            id="timeout-{{ config.id }}"
+            value="{{ config.timeout }}"
+            class="w-full input-modern disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled
+            data-original="{{ config.timeout|escapejs }}"
+          />
+        </div>
+        
+        <div class="md:col-span-2">
+          <label class="block text-sm font-semibold text-slate-700 mb-2">
+            <i class="fas fa-file-alt text-cyan-600 mr-1"></i>Deskripsi
+          </label>
+          <textarea 
+            id="description-{{ config.id }}"
+            class="w-full input-modern disabled:opacity-50 disabled:cursor-not-allowed resize-none"
+            rows="3"
+            disabled
+            data-original="{{ config.description|escapejs }}"
+          >{{ config.description }}</textarea>
+        </div>
+        
+        <input 
+          type="hidden" 
+          id="is-active-{{ config.id }}"
+          value="true"
+          data-original="true"
+        />
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Debug Modal -->
+<div id="debugModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm hidden z-50 flex items-center justify-center transition-opacity duration-300">
+  <div class="card-glass rounded-2xl shadow-2xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto transform scale-95 transition-transform duration-300">
+    <div class="flex items-center justify-between mb-6">
+      <h3 class="text-xl font-black text-slate-900" style="font-family: 'Space Grotesk', sans-serif;">
+        <i class="fas fa-bug text-yellow-500 mr-2"></i>
+        Debug - Konfigurasi API
+      </h3>
+      <button 
+        onclick="closeDebugModal()" 
+        class="text-slate-400 hover:text-slate-700 transition duration-150 text-2xl"
+      >
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 mb-2">API Name</label>
+        <div id="debug-api-name" class="px-4 py-3 bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-xl text-slate-900 font-semibold"></div>
+      </div>
+      
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 mb-2">API Key</label>
+        <div id="debug-api-key" class="px-4 py-3 bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-xl text-slate-900 font-mono text-sm break-all"></div>
+      </div>
+      
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 mb-2">Base URL</label>
+        <div id="debug-base-url" class="px-4 py-3 bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-xl text-slate-900"></div>
+      </div>
+      
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">Max Results</label>
+          <div id="debug-max-results" class="px-4 py-3 bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-xl text-slate-900"></div>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">Timeout (detik)</label>
+          <div id="debug-timeout" class="px-4 py-3 bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-xl text-slate-900"></div>
+        </div>
+      </div>
+      
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 mb-2">Deskripsi</label>
+        <div id="debug-description" class="px-4 py-3 bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-xl text-slate-900 min-h-[60px]"></div>
+      </div>
+      
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">Status</label>
+          <div id="debug-status" class="px-4 py-3 rounded-xl text-white font-medium text-center"></div>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">Dibuat Pada</label>
+          <div id="debug-created-at" class="px-4 py-3 bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-xl text-slate-900"></div>
+        </div>
+      </div>
+      
+      <div class="mt-6 pt-4 border-t border-slate-200">
+        <h4 class="text-sm font-bold text-slate-800 mb-2" style="font-family: 'Space Grotesk', sans-serif;">Configuration Values</h4>
+        <pre id="debug-json" class="bg-slate-900 text-green-400 p-4 rounded-xl text-xs overflow-x-auto font-mono border border-slate-700"></pre>
+      </div>
+      
+      <!-- Test Results Section -->
+      <div id="test-results-section" class="mt-6 pt-4 border-t border-slate-200 hidden">
+        <h4 class="text-sm font-bold text-slate-800 mb-3" style="font-family: 'Space Grotesk', sans-serif;">
+          <i class="fas fa-vial text-cyan-600 mr-2"></i>Hasil Test API
+        </h4>
+        
+        <!-- Loading State -->
+        <div id="test-loading" class="hidden text-center py-8">
+          <div class="inline-block animate-spin rounded-full h-10 w-10 border-b-2 border-cyan-500 mb-3"></div>
+          <p class="text-sm text-slate-600 font-medium">Sedang menguji konfigurasi API...</p>
+          <p class="text-xs text-slate-500 mt-2">Keyword: "serp api" | Domain: "serpapi.com" | Region: Indonesia</p>
+        </div>
+        
+        <!-- Success State -->
+        <div id="test-success" class="hidden">
+          <div class="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-4 mb-3">
+            <div class="flex items-center mb-2">
+              <i class="fas fa-check-circle text-green-500 mr-2 text-lg"></i>
+              <span class="text-sm font-bold text-green-700" id="test-success-message"></span>
+            </div>
+            <div class="text-xs text-slate-600 mt-2">
+              <span>Waktu Respon: <strong id="test-response-time" class="text-green-600"></strong> ms</span>
+            </div>
+          </div>
+          <div class="bg-gradient-to-r from-cyan-50 to-blue-50 border border-cyan-200 rounded-xl p-4 mb-3">
+            <h5 class="text-sm font-bold text-slate-800 mb-2" style="font-family: 'Space Grotesk', sans-serif;">Parameter Test</h5>
+            <div class="text-xs text-slate-700 space-y-1">
+              <div>Keyword: <strong class="text-cyan-600">serp api</strong></div>
+              <div>Domain: <strong class="text-cyan-600">serpapi.com</strong></div>
+              <div>Region: <strong class="text-cyan-600">Indonesia (ID)</strong></div>
+            </div>
+          </div>
+          <div id="test-rank-results" class="bg-slate-50 border border-slate-200 rounded-xl p-3 mb-3">
+            <h5 class="text-sm font-bold text-slate-800 mb-2" style="font-family: 'Space Grotesk', sans-serif;">Hasil Ranking</h5>
+            <div id="test-rank-list" class="text-xs text-slate-800"></div>
+          </div>
+        </div>
+        
+        <!-- Error State -->
+        <div id="test-error" class="hidden">
+          <div class="bg-gradient-to-r from-red-50 to-pink-50 border border-red-200 rounded-xl p-4 mb-3">
+            <div class="flex items-center mb-2">
+              <i class="fas fa-times-circle text-red-500 mr-2 text-lg"></i>
+              <span class="text-sm font-bold text-red-700" id="test-error-message"></span>
+            </div>
+            <div id="test-error-details" class="text-xs text-slate-600 mt-2"></div>
+          </div>
+          <div id="test-error-data" class="bg-slate-50 border border-slate-200 rounded-xl p-3 hidden">
+            <pre class="text-xs text-red-600 overflow-x-auto font-mono whitespace-pre-wrap"></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="flex justify-between items-center mt-6 pt-4 border-t border-slate-200">
+      <button 
+        id="test-api-btn"
+        onclick="runApiTest()" 
+        class="btn-pill btn-primary flex items-center shadow-sm hover:shadow-md"
+      >
+        <i class="fas fa-play mr-2"></i>
+        Test API
+      </button>
+      <button 
+        onclick="closeDebugModal()" 
+        class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg transition duration-150 font-medium text-sm shadow-sm hover:shadow-md"
+      >
+        Tutup
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Alert function for this page
+  function showAlert(message, type = "success") {
+    const alertContainer = document.getElementById('alert-container');
+    if (!alertContainer) return;
+    
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `flex items-center p-4 rounded-lg shadow-lg transform transition-all duration-300 translate-x-full glass-dark`;
+    
+    if (type === 'success') {
+      alertDiv.className += ' bg-green-500 text-white';
+    } else if (type === 'error') {
+      alertDiv.className += ' bg-red-500 text-white';
+    } else {
+      alertDiv.className += ' bg-cyan-500 text-white';
+    }
+    
+    alertDiv.innerHTML = `
+      <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-times-circle' : 'fa-info-circle'} mr-3 text-lg"></i>
+      <span class="flex-1">${message}</span>
+      <button onclick="this.parentElement.remove()" class="ml-3 hover:opacity-80">
+        <i class="fas fa-times"></i>
+      </button>
+    `;
+    
+    alertContainer.appendChild(alertDiv);
+    
+    setTimeout(() => {
+      alertDiv.classList.remove('translate-x-full');
+    }, 100);
+    
+    setTimeout(() => {
+      alertDiv.classList.add('translate-x-full');
+      setTimeout(() => alertDiv.remove(), 300);
+    }, 5000);
+  }
+
+  // Get CSRF token function
+  function getCSRFToken() {
+    const tokenInput = document.querySelector('[name=csrfmiddlewaretoken]');
+    if (tokenInput && tokenInput.value) {
+      return tokenInput.value;
+    }
+    
+    const metaToken = document.querySelector('meta[name=csrf-token]');
+    if (metaToken && metaToken.getAttribute('content')) {
+      return metaToken.getAttribute('content');
+    }
+    
+    return '';
+  }
+
+  // API Config functions
+  function saveApiConfig(configId) {
+    const saveBtn = document.getElementById(`save-btn-${configId}`);
+    if (saveBtn.disabled) {
+      showAlert('Tidak ada perubahan yang terdeteksi', 'error');
+      return;
+    }
+    
+    const configDiv = document.querySelector(`[data-config-id="${configId}"]`);
+    const inputs = configDiv.querySelectorAll('input, textarea');
+    const formData = new FormData();
+    
+    inputs.forEach(input => {
+      let value;
+      if (input.type === 'checkbox') {
+        value = input.checked;
+      } else {
+        value = input.value;
+      }
+      let fieldName = input.id.replace(`-${configId}`, '').replace(/-/g, '_');
+      formData.append(fieldName, value);
+    });
+    
+    formData.append('config_id', configId);
+    
+    const url = `/api-config/${configId}/update/`;
+    
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Menyimpan...';
+    
+    fetch(url, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'X-CSRFToken': getCSRFToken()
+      }
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.success) {
+        showAlert('Konfigurasi API berhasil diperbarui!', 'success');
+        
+        inputs.forEach(input => {
+          let value;
+          if (input.type === 'checkbox') {
+            value = input.checked.toString();
+          } else {
+            value = input.value;
+          }
+          input.setAttribute('data-original', value);
+        });
+        
+        toggleEditMode(configId);
+      } else {
+        showAlert('Gagal memperbarui konfigurasi API: ' + data.error, 'error');
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = '<i class="fas fa-save mr-1"></i>Simpan';
+      }
+    })
+    .catch(error => {
+      showAlert('Error memperbarui konfigurasi API: ' + error.message, 'error');
+      saveBtn.disabled = false;
+      saveBtn.innerHTML = '<i class="fas fa-save mr-1"></i>Simpan';
+    });
+  }
+
+  function toggleEditMode(configId) {
+    const editBtn = document.getElementById(`edit-btn-${configId}`);
+    const saveBtn = document.getElementById(`save-btn-${configId}`);
+    const configDiv = document.querySelector(`[data-config-id="${configId}"]`);
+    const inputs = configDiv.querySelectorAll('input, textarea');
+    
+    if (editBtn.textContent.includes('Edit')) {
+      editBtn.innerHTML = '<i class="fas fa-times mr-1"></i>Batal';
+      editBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+      editBtn.classList.add('bg-slate-600', 'hover:bg-slate-700');
+      
+      inputs.forEach(input => {
+        input.disabled = false;
+        input.classList.remove('disabled:opacity-50', 'disabled:cursor-not-allowed');
+        input.classList.add('bg-white');
+      });
+      
+      saveBtn.classList.remove('hidden');
+      saveBtn.disabled = true;
+      
+      setupEventListenersForConfig(configId);
+      setTimeout(() => checkForChanges(configId), 100);
+    } else {
+      editBtn.innerHTML = '<i class="fas fa-edit mr-1"></i>Edit';
+      editBtn.classList.remove('bg-slate-600', 'hover:bg-slate-700');
+      editBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+      
+      inputs.forEach(input => {
+        input.disabled = true;
+        input.classList.remove('bg-white');
+        input.classList.add('disabled:opacity-50', 'disabled:cursor-not-allowed');
+        const original = input.getAttribute('data-original');
+        if (input.type === 'checkbox') {
+          input.checked = original === 'true';
+        } else {
+          input.value = original;
+        }
+      });
+      
+      saveBtn.classList.add('hidden');
+      saveBtn.disabled = true;
+    }
+  }
+
+  function checkForChanges(configId) {
+    const configDiv = document.querySelector(`[data-config-id="${configId}"]`);
+    const inputs = configDiv.querySelectorAll('input, textarea');
+    const saveBtn = document.getElementById(`save-btn-${configId}`);
+    let hasChanges = false;
+    
+    inputs.forEach(input => {
+      const original = input.getAttribute('data-original');
+      let current;
+      
+      if (input.type === 'checkbox') {
+        current = input.checked.toString();
+      } else {
+        current = input.value;
+      }
+      
+      if (original !== current) {
+        hasChanges = true;
+      }
+    });
+    
+    saveBtn.disabled = !hasChanges;
+    
+    if (hasChanges) {
+      saveBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+    } else {
+      saveBtn.classList.add('opacity-50', 'cursor-not-allowed');
+    }
+  }
+
+  // Initialize event listeners
+  function initEventListeners() {
+    setupEventListeners();
+  }
+
+  document.addEventListener('DOMContentLoaded', initEventListeners);
+
+  document.addEventListener('htmx:afterSwap', function(event) {
+    if (event.detail.target.id === 'main-content') {
+      setTimeout(initEventListeners, 100);
+    }
+  });
+
+  function setupEventListeners() {
+    const configs = document.querySelectorAll('[data-config-id]');
+    configs.forEach(config => {
+      const configId = config.getAttribute('data-config-id');
+      const inputs = config.querySelectorAll('input, textarea');
+      
+      inputs.forEach(input => {
+        input.removeEventListener('input', handleInputChange);
+        input.removeEventListener('change', handleInputChange);
+        input.addEventListener('input', handleInputChange);
+        input.addEventListener('change', handleInputChange);
+      });
+    });
+  }
+
+  function handleInputChange(event) {
+    const input = event.target;
+    const configId = input.id.split('-').pop();
+    const editBtn = document.getElementById(`edit-btn-${configId}`);
+    
+    if (editBtn && editBtn.textContent.includes('Batal')) {
+      checkForChanges(configId);
+    }
+  }
+
+  function setupEventListenersForConfig(configId) {
+    const configDiv = document.querySelector(`[data-config-id="${configId}"]`);
+    const inputs = configDiv.querySelectorAll('input, textarea');
+    
+    inputs.forEach(input => {
+      input.removeEventListener('input', handleInputChange);
+      input.removeEventListener('change', handleInputChange);
+      input.addEventListener('input', handleInputChange);
+      input.addEventListener('change', handleInputChange);
+    });
+  }
+
+  // Debug Modal Functions - Use window object to avoid redeclaration errors with HTMX
+  if (typeof window.currentTestUrl === 'undefined') {
+    window.currentTestUrl = null;
+  }
+  if (typeof window.currentConfigId === 'undefined') {
+    window.currentConfigId = null;
+  }
+  
+  function showDebugModal(configId, testUrl, apiName, apiKey, baseUrl, maxResults, timeout, description, isActive, createdAt) {
+    window.currentTestUrl = testUrl;
+    window.currentConfigId = configId;
+    
+    const modal = document.getElementById('debugModal');
+    const statusDiv = document.getElementById('debug-status');
+    
+    document.getElementById('debug-api-name').textContent = apiName;
+    document.getElementById('debug-api-key').textContent = apiKey || '(empty)';
+    document.getElementById('debug-base-url').textContent = baseUrl || '(empty)';
+    document.getElementById('debug-max-results').textContent = maxResults || '(empty)';
+    document.getElementById('debug-timeout').textContent = timeout || '(empty)';
+    document.getElementById('debug-description').textContent = description || '(empty)';
+    document.getElementById('debug-created-at').textContent = createdAt || '(empty)';
+    
+    if (isActive === 'True' || isActive === 'true' || isActive === true) {
+      statusDiv.textContent = 'Aktif';
+      statusDiv.className = 'px-4 py-3 rounded-xl text-white font-medium text-center bg-gradient-to-r from-green-500 to-emerald-500';
+    } else {
+      statusDiv.textContent = 'Nonaktif';
+      statusDiv.className = 'px-4 py-3 rounded-xl text-white font-medium text-center bg-gradient-to-r from-red-500 to-pink-500';
+    }
+    
+    const debugData = {
+      config_id: configId,
+      api_name: apiName,
+      api_key: apiKey ? (apiKey.length > 20 ? apiKey.substring(0, 20) + '...' : apiKey) : '(empty)',
+      base_url: baseUrl || '(empty)',
+      max_results: parseInt(maxResults) || 0,
+      timeout: parseInt(timeout) || 0,
+      description: description || '(empty)',
+      is_active: isActive === 'True' || isActive === 'true' || isActive === true,
+      created_at: createdAt || '(empty)'
+    };
+    
+    document.getElementById('debug-json').textContent = JSON.stringify(debugData, null, 2);
+    
+    document.getElementById('test-results-section').classList.add('hidden');
+    document.getElementById('test-loading').classList.add('hidden');
+    document.getElementById('test-success').classList.add('hidden');
+    document.getElementById('test-error').classList.add('hidden');
+    
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+      modal.querySelector('.card-glass').classList.remove('scale-95');
+      modal.querySelector('.card-glass').classList.add('scale-100');
+    }, 10);
+  }
+  
+  function runApiTest() {
+    if (!window.currentConfigId) {
+      showAlert('Error: Config ID tidak ditemukan', 'error');
+      return;
+    }
+    
+    document.getElementById('test-results-section').classList.remove('hidden');
+    document.getElementById('test-loading').classList.remove('hidden');
+    document.getElementById('test-success').classList.add('hidden');
+    document.getElementById('test-error').classList.add('hidden');
+    
+    const testBtn = document.getElementById('test-api-btn');
+    testBtn.disabled = true;
+    testBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Menguji...';
+    
+    let url = window.currentTestUrl;
+    if (!url || url.includes('0')) {
+      url = `/admin/api-config/${window.currentConfigId}/test/`;
+    }
+    
+    const csrfToken = getCSRFToken();
+    
+    if (!csrfToken) {
+      document.getElementById('test-loading').classList.add('hidden');
+      document.getElementById('test-error').classList.remove('hidden');
+      document.getElementById('test-error-message').textContent = 'CSRF token tidak ditemukan';
+      document.getElementById('test-error-details').textContent = 'Tidak dapat memperoleh CSRF token. Silakan refresh halaman.';
+      testBtn.disabled = false;
+      testBtn.innerHTML = '<i class="fas fa-play mr-2"></i>Test API';
+      return;
+    }
+    
+    const formData = new FormData();
+    formData.append('csrfmiddlewaretoken', csrfToken);
+    
+    fetch(url, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'X-CSRFToken': csrfToken
+      },
+      credentials: 'same-origin'
+    })
+    .then(response => {
+      const contentType = response.headers.get('content-type') || '';
+      
+      if (!contentType.includes('application/json')) {
+        return response.text().then(text => {
+          throw new Error(`Server returned non-JSON response (${response.status} ${response.statusText}). Check console for details.`);
+        });
+      }
+      
+      if (!response.ok) {
+        return response.json().then(data => {
+          throw new Error(data.error || data.message || `HTTP ${response.status}: ${response.statusText}`);
+        });
+      }
+      
+      return response.json();
+    })
+    .then(data => {
+      document.getElementById('test-loading').classList.add('hidden');
+      testBtn.disabled = false;
+      testBtn.innerHTML = '<i class="fas fa-play mr-2"></i>Test API';
+      
+      if (data.success) {
+        document.getElementById('test-success').classList.remove('hidden');
+        document.getElementById('test-success-message').textContent = data.message || 'API test berhasil! Koneksi dan konfigurasi API benar.';
+        document.getElementById('test-response-time').textContent = data.response_time || '0';
+        
+        const rankListDiv = document.getElementById('test-rank-list');
+        if (data.ranks && data.ranks.length > 0) {
+          let rankHtml = '<div class="space-y-2">';
+          data.ranks.forEach(rank => {
+            rankHtml += `<div class="flex items-center justify-between p-2 bg-white rounded-lg border border-slate-200">
+              <span class="font-semibold text-cyan-600">Rank ${rank.position}</span>
+              <span class="text-xs text-slate-600 truncate ml-2">${rank.link}</span>
+            </div>`;
+          });
+          rankHtml += '</div>';
+          rankListDiv.innerHTML = rankHtml;
+          
+          showAlert(`API test berhasil! Domain ditemukan di ${data.ranks.length} posisi.`, 'success');
+        } else {
+          rankListDiv.innerHTML = '<p class="text-slate-600 text-sm">Domain "serpapi.com" tidak ditemukan dalam hasil pencarian untuk keyword "serp api".</p>';
+          showAlert('API test berhasil! Namun domain tidak ditemukan di hasil pencarian.', 'error');
+        }
+      } else {
+        document.getElementById('test-error').classList.remove('hidden');
+        document.getElementById('test-error-message').textContent = data.message || 'API test gagal!';
+        
+        let errorDetails = '';
+        if (data.status_code) {
+          errorDetails += `Status Code: <strong class="text-red-600">${data.status_code}</strong>`;
+        }
+        if (data.response_time) {
+          errorDetails += errorDetails ? ` | Waktu Respon: <strong class="text-red-600">${data.response_time} ms</strong>` : 
+            `Waktu Respon: <strong class="text-red-600">${data.response_time} ms</strong>`;
+        }
+        document.getElementById('test-error-details').innerHTML = errorDetails || 'Tidak ada detail error tersedia';
+        
+        if (data.error) {
+          document.getElementById('test-error-data').classList.remove('hidden');
+          document.querySelector('#test-error-data pre').textContent = data.error;
+        }
+      }
+    })
+    .catch(error => {
+      document.getElementById('test-loading').classList.add('hidden');
+      testBtn.disabled = false;
+      testBtn.innerHTML = '<i class="fas fa-play mr-2"></i>Test API';
+      
+      document.getElementById('test-results-section').classList.remove('hidden');
+      document.getElementById('test-error').classList.remove('hidden');
+      document.getElementById('test-error-message').textContent = 'Error saat testing API';
+      document.getElementById('test-error-details').textContent = error.message || 'Terjadi error yang tidak diketahui';
+      document.getElementById('test-error-data').classList.remove('hidden');
+      document.querySelector('#test-error-data pre').textContent = error.stack || error.toString();
+      
+      showAlert('API test gagal: ' + (error.message || 'Error tidak diketahui'), 'error');
+    });
+  }
+
+  function closeDebugModal() {
+    const modal = document.getElementById('debugModal');
+    modal.querySelector('.card-glass').classList.add('scale-95');
+    modal.querySelector('.card-glass').classList.remove('scale-100');
+    setTimeout(() => {
+      modal.classList.add('hidden');
+    }, 300);
+  }
+
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+      closeDebugModal();
+    }
+  });
+
+  document.getElementById('debugModal')?.addEventListener('click', function(event) {
+    if (event.target === this) {
+      closeDebugModal();
+    }
+  });
+</script> 

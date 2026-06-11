@@ -1,0 +1,361 @@
+{% load humanize %}
+
+<!-- CSRF Token for JavaScript -->
+{% csrf_token %}
+
+<div class="card-glass p-6 sm:p-8 rounded-2xl">
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+    <div>
+      <h2 class="text-2xl md:text-3xl font-black text-slate-900 mb-2" style="font-family: 'Space Grotesk', sans-serif;">
+        <i class="fas fa-brain text-cyan-600 mr-2"></i>
+        Konfigurasi Model AI
+      </h2>
+      <p class="text-sm text-slate-600">
+        Kelola konfigurasi model AI yang tersedia untuk analisis SEO.
+      </p>
+    </div>
+    <button
+      onclick="openAiModelModal('add')"
+      class="btn-pill btn-primary mt-3 md:mt-0 shadow-sm hover:shadow-md"
+    >
+      <i class="fas fa-plus mr-2"></i>
+      Tambah Model AI
+    </button>
+  </div>
+
+  <div class="overflow-x-auto table-modern">
+    <table class="min-w-full divide-y divide-slate-200 text-sm">
+      <thead class="bg-gradient-to-r from-cyan-50 to-blue-50">
+        <tr>
+          <th class="px-4 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
+            Model Name
+          </th>
+          <th class="px-4 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
+            Display Name
+          </th>
+          <th class="px-4 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
+            Quota Cost
+          </th>
+          <th class="px-4 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
+            Status
+          </th>
+          <th class="px-4 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
+            Created
+          </th>
+          <th class="px-4 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Aksi</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-slate-100">
+        {% for model in ai_models %}
+        <tr class="hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 transition duration-150 ease-in-out">
+          <td class="px-4 py-3 font-semibold text-slate-800">
+            {{ model.model_name }}
+          </td>
+          <td class="px-4 py-3 text-slate-700">{{ model.display_name }}</td>
+          <td class="px-4 py-3">
+            <span class="inline-flex items-center px-2 py-1 rounded-full bg-blue-100 text-blue-700 font-medium text-xs">
+              <i class="fas fa-cubes mr-1"></i>
+              {{ model.quota_cost }} Kuota
+            </span>
+          </td>
+          <td class="px-4 py-3">
+            {% if model.is_active %}
+            <span class="inline-flex items-center px-2 py-1 rounded-full bg-green-100 text-green-700 font-medium text-xs">
+              <i class="fas fa-check-circle mr-1 text-[8px]"></i>
+              Aktif
+            </span>
+            {% else %}
+            <span class="inline-flex items-center px-2 py-1 rounded-full bg-red-100 text-red-700 font-medium text-xs">
+              <i class="fas fa-times-circle mr-1 text-[8px]"></i>
+              Nonaktif
+            </span>
+            {% endif %}
+          </td>
+          <td class="px-4 py-3 text-slate-600 text-xs">
+            {{ model.created_at|date:"Y-m-d H:i" }}
+          </td>
+          <td class="px-4 py-3 space-x-2">
+            <button
+              onclick="openAiModelModal('edit', '{{ model.id }}', '{{ model.model_name|escapejs }}', '{{ model.display_name|escapejs }}', '{{ model.description|escapejs }}', '{{ model.quota_cost }}', '{{ model.is_active }}')"
+              class="inline-flex items-center px-3 py-1.5 text-xs font-medium bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg transition duration-150 shadow-sm hover:shadow-md"
+            >
+              <i class="fas fa-edit mr-1"></i>Edit
+            </button>
+            <button
+              onclick="openDeleteAiModelModal('{{ model.id }}', '{{ model.display_name|escapejs }}')"
+              class="inline-flex items-center px-3 py-1.5 text-xs font-medium bg-red-500 hover:bg-red-600 text-white rounded-lg transition duration-150 shadow-sm hover:shadow-md"
+            >
+              <i class="fas fa-trash mr-1"></i>Hapus
+            </button>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="px-4 py-8 text-center text-slate-500">
+            <div class="flex flex-col items-center">
+              <i class="fas fa-brain text-4xl text-slate-300 mb-2"></i>
+              <p class="text-sm font-medium">Tidak ada model AI yang dikonfigurasi</p>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal Form Tambah/Edit AI Model -->
+<div
+  id="aiModelModal"
+  class="fixed inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm hidden flex items-center justify-center transition-opacity duration-300 ease-out"
+>
+  <div
+    class="card-glass rounded-2xl shadow-2xl w-full max-w-md p-6 transform transition-transform duration-300 ease-in-out scale-95"
+    id="aiModelModalContent"
+  >
+    <h3 id="aiModelModalTitle" class="text-xl font-black text-slate-900 mb-4" style="font-family: 'Space Grotesk', sans-serif;">
+      <i class="fas fa-brain text-cyan-600 mr-2"></i>
+      Form AI Model
+    </h3>
+    <form id="aiModelForm" method="POST" action="">
+      {% csrf_token %}
+      <input type="hidden" name="model_id" id="modelId" />
+
+      <div class="mb-4">
+        <label class="block text-sm font-semibold text-slate-700 mb-2">
+          <i class="fas fa-microchip text-cyan-600 mr-1"></i>Model Name
+        </label>
+        <select
+          name="model_name"
+          id="modelName"
+          required
+          class="w-full input-modern"
+        >
+          <option value="">Pilih Model</option>
+          <option value="gemini">Gemini (Google)</option>
+          <option value="gpt-3.5-turbo">GPT-3.5 (OpenAI)</option>
+          <option value="gpt-4-1106-preview">GPT-4.1 (OpenAI)</option>
+          <option value="gpt-4o">GPT-4o (OpenAI)</option>
+          <option value="gpt-4o-mini">GPT-4o-mini (OpenAI)</option>
+        </select>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-semibold text-slate-700 mb-2">
+          <i class="fas fa-tag text-cyan-600 mr-1"></i>Display Name
+        </label>
+        <input
+          type="text"
+          name="display_name"
+          id="displayName"
+          required
+          placeholder="Contoh: GPT-4o (OpenAI)"
+          class="w-full input-modern"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-semibold text-slate-700 mb-2">
+          <i class="fas fa-file-alt text-cyan-600 mr-1"></i>Deskripsi
+        </label>
+        <textarea
+          name="description"
+          id="description"
+          rows="3"
+          placeholder="Deskripsi model AI..."
+          class="w-full input-modern resize-none"
+        ></textarea>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-semibold text-slate-700 mb-2">
+          <i class="fas fa-cubes text-cyan-600 mr-1"></i>Quota Cost
+        </label>
+        <input
+          type="number"
+          name="quota_cost"
+          id="quotaCost"
+          required
+          min="1"
+          placeholder="Jumlah kuota yang dibutuhkan"
+          class="w-full input-modern"
+        />
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-semibold text-slate-700 mb-2">
+          <i class="fas fa-key text-cyan-600 mr-1"></i>API Key (Opsional)
+        </label>
+        <input
+          type="password"
+          name="api_key"
+          id="apiKey"
+          placeholder="Masukkan API key jika diperlukan"
+          class="w-full input-modern"
+        />
+        <p class="text-xs text-slate-500 mt-1">
+          Kosongkan jika tidak ingin mengubah API key yang sudah ada
+        </p>
+      </div>
+
+      <div class="mb-6">
+        <label class="flex items-center">
+          <input
+            type="checkbox"
+            name="is_active"
+            id="isActive"
+            class="rounded border-slate-300 text-cyan-600 shadow-sm focus:border-cyan-300 focus:ring focus:ring-cyan-200 focus:ring-opacity-50"
+          />
+          <span class="ml-2 text-sm text-slate-700 font-medium">Model Aktif</span>
+        </label>
+      </div>
+
+      <div class="flex justify-end space-x-2">
+        <button
+          type="button"
+          onclick="closeAiModelModal()"
+          class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg transition font-medium text-sm shadow-sm hover:shadow-md"
+        >
+          Batal
+        </button>
+        <button
+          type="submit"
+          class="btn-pill btn-primary shadow-sm hover:shadow-md"
+        >
+          <i class="fas fa-save mr-2"></i>Simpan
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Konfirmasi Hapus AI Model -->
+<div
+  id="deleteAiModelModal"
+  class="fixed inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm hidden flex items-center justify-center transition-opacity duration-300 ease-out"
+>
+  <div
+    class="card-glass rounded-2xl shadow-2xl w-full max-w-sm p-6 transform transition-transform duration-300 ease-in-out scale-95"
+    id="deleteAiModelModalContent"
+  >
+    <div class="flex items-center mb-4">
+      <div class="flex-shrink-0">
+        <svg class="h-8 w-8 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+        </svg>
+      </div>
+      <h3 class="ml-3 text-lg font-black text-slate-900" style="font-family: 'Space Grotesk', sans-serif;">Konfirmasi Hapus</h3>
+    </div>
+    <p id="deleteAiModelMessage" class="text-sm text-slate-600 mb-6">
+      Yakin ingin menghapus model AI ini?
+    </p>
+    <div class="flex justify-end space-x-2">
+      <button
+        onclick="closeDeleteAiModelModal()"
+        class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg transition font-medium text-sm shadow-sm hover:shadow-md"
+      >
+        Batal
+      </button>
+      <button
+        id="confirmDeleteAiModelBtn"
+        onclick="deleteAiModel()"
+        class="btn-pill bg-red-600 hover:bg-red-700 text-white shadow-sm hover:shadow-md"
+      >
+        <i class="fas fa-trash mr-2"></i>Hapus
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Use window object to avoid redeclaration errors with HTMX
+  if (typeof window.currentDeleteModelId === 'undefined') {
+    window.currentDeleteModelId = null;
+  }
+
+  function openAiModelModal(
+    mode,
+    id = "",
+    modelName = "",
+    displayName = "",
+    description = "",
+    quotaCost = "",
+    isActive = ""
+  ) {
+    const modal = document.getElementById("aiModelModal");
+    const content = document.getElementById("aiModelModalContent");
+    modal.classList.remove("hidden");
+    setTimeout(() => {
+      content.classList.remove("scale-95");
+      content.classList.add("scale-100");
+    }, 10);
+
+    document.getElementById("aiModelModalTitle").innerHTML = mode === "add" 
+      ? '<i class="fas fa-plus text-cyan-600 mr-2"></i>Tambah Model AI' 
+      : '<i class="fas fa-edit text-cyan-600 mr-2"></i>Edit Model AI';
+    document.getElementById("modelId").value = id;
+    document.getElementById("modelName").value = modelName;
+    document.getElementById("displayName").value = displayName;
+    document.getElementById("description").value = description;
+    document.getElementById("quotaCost").value = quotaCost;
+    document.getElementById("isActive").checked = isActive === "True";
+
+    const form = document.getElementById("aiModelForm");
+    if (mode === "add") {
+      form.setAttribute("action", "{% url 'add_ai_model_config' %}");
+    } else {
+      form.setAttribute("action", `/update-ai-model-config/${id}/`);
+    }
+  }
+
+  function closeAiModelModal() {
+    const modal = document.getElementById("aiModelModal");
+    const content = document.getElementById("aiModelModalContent");
+    content.classList.remove("scale-100");
+    content.classList.add("scale-95");
+    setTimeout(() => {
+      modal.classList.add("hidden");
+    }, 200);
+  }
+
+  function openDeleteAiModelModal(id, displayName) {
+    const modal = document.getElementById("deleteAiModelModal");
+    const content = document.getElementById("deleteAiModelModalContent");
+    modal.classList.remove("hidden");
+    setTimeout(() => {
+      content.classList.remove("scale-95");
+      content.classList.add("scale-100");
+    }, 10);
+
+    document.getElementById("deleteAiModelMessage").textContent = `Hapus model AI "${displayName}"?`;
+    window.currentDeleteModelId = id;
+  }
+
+  function deleteAiModel() {
+    if (window.currentDeleteModelId) {
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = `/delete-ai-model-config/${window.currentDeleteModelId}/`;
+
+      const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
+      const csrfInput = document.createElement("input");
+      csrfInput.type = "hidden";
+      csrfInput.name = "csrfmiddlewaretoken";
+      csrfInput.value = csrfToken;
+
+      form.appendChild(csrfInput);
+      document.body.appendChild(form);
+      form.submit();
+    }
+  }
+
+  function closeDeleteAiModelModal() {
+    const modal = document.getElementById("deleteAiModelModal");
+    const content = document.getElementById("deleteAiModelModalContent");
+    content.classList.remove("scale-100");
+    content.classList.add("scale-95");
+    setTimeout(() => {
+      modal.classList.add("hidden");
+    }, 200);
+  }
+</script>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagram Index - Sistem Rank Checker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .section-title {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 10px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section-subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1em;
+        }
+
+        .diagram-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .diagram-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
+            padding: 25px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .diagram-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+            border-color: #667eea;
+        }
+
+        .diagram-card.activity {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+
+        .diagram-card.flowchart {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        }
+
+        .card-icon {
+            font-size: 3em;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+            text-align: center;
+        }
+
+        .card-description {
+            font-size: 0.95em;
+            color: #555;
+            text-align: center;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .card-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-top: 15px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .badge-activity {
+            background: #667eea;
+            color: white;
+        }
+
+        .badge-flowchart {
+            background: #f39c12;
+            color: white;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+            padding: 20px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .section {
+                padding: 25px;
+            }
+
+            .diagram-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.2);
+            padding: 15px 30px;
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Diagram Index</h1>
+            <p>Sistem Rank Checker - Dokumentasi Diagram</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number">7</span>
+                    <span class="stat-label">Activity Diagram</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">11</span>
+                    <span class="stat-label">Flowchart</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">18</span>
+                    <span class="stat-label">Total Diagram</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Diagram Section -->
+        <div class="section">
+            <h2 class="section-title">🎯 Activity Diagram</h2>
+            <p class="section-subtitle">Diagram yang menggambarkan interaksi antar aktor dalam sistem</p>
+            
+            <div class="diagram-grid">
+                <a href="ACTIVITY_DIAGRAM_REGISTRASI.html" class="diagram-card activity">
+                    <div class="card-icon">👤</div>
+                    <div class="card-title">Registrasi</div>
+                    <div class="card-description">
+                        Proses registrasi pengguna baru dengan verifikasi OTP melalui WhatsApp
+                    </div>
+                    <div class="card-badge badge-activity">Activity Diagram</div>
+                </a>
+
+                <a href="ACTIVITY_DIAGRAM_CEK_RANK.html" class="diagram-card activity">
+                    <div class="card-icon">🔍</div>
+                    <div class="card-title">Cek Rank</div>
+                    <div class="card-description">
+                        Proses pengecekan ranking website di Google Search menggunakan SerpAPI
+                    </div>
+                    <div class="card-badge badge-activity">Activity Diagram</div>
+                </a>
+
+                <a href="ACTIVITY_DIAGRAM_PEMBELIAN_KUOTA.html" class="diagram-card activity">
+                    <div class="card-icon">💰</div>
+                    <div class="card-title">Pembelian Kuota</div>
+                    <div class="card-description">
+                        Proses pembelian kuota dengan manual transfer dan Midtrans payment gateway
+                    </div>
+                    <div class="card-badge badge-activity">Activity Diagram</div>
+                </a>
+
+                <a href="ACTIVITY_DIAGRAM_SEO_ANALYSIS.html" class="diagram-card activity">
+                    <div class="card-icon">🤖</div>
+                    <div class="card-title">SEO Analysis</div>
+                    <div class="card-description">
+                        Proses analisis SEO menggunakan AI (Gemini, GPT-3.5, GPT-4.1) untuk user premium
+                    </div>
+                    <div class="card-badge badge-activity">Activity Diagram</div>
+                </a>
+
+                <a href="ACTIVITY_DIAGRAM_ADMIN_MANAJEMEN_USER.html" class="diagram-card activity">
+                    <div class="card-icon">👥</div>
+                    <div class="card-title">Admin - Manajemen User</div>
+                    <div class="card-description">
+                        Proses admin dalam mengelola user (CRUD, toggle status, update data)
+                    </div>
+                    <div class="card-badge badge-activity">Activity Diagram</div>
+                </a>
+
+                <a href="ACTIVITY_DIAGRAM_ADMIN_APPROVAL_PEMBAYARAN.html" class="diagram-card activity">
+                    <div class="card-icon">✅</div>
+                    <div class="card-title">Admin - Approval Pembayaran</div>
+                    <div class="card-description">
+                        Proses admin dalam menyetujui atau menolak pembayaran kuota dari user
+                    </div>
+                    <div class="card-badge badge-activity">Activity Diagram</div>
+                </a>
+
+                <a href="ACTIVITY_DIAGRAM_ADMIN_MANAJEMEN_KONFIGURASI.html" class="diagram-card activity">
+                    <div class="card-icon">⚙️</div>
+                    <div class="card-title">Admin - Manajemen Konfigurasi</div>
+                    <div class="card-description">
+                        Proses admin dalam mengelola konfigurasi AI Model dan API (SerpAPI)
+                    </div>
+                    <div class="card-badge badge-activity">Activity Diagram</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Flowchart Section -->
+        <div class="section">
+            <h2 class="section-title">📈 Flowchart</h2>
+            <p class="section-subtitle">Diagram yang menggambarkan algoritma dan logika proses dalam sistem</p>
+            
+            <div class="diagram-grid">
+                <a href="FLOWCHART_REGISTRASI_OTP.html" class="diagram-card flowchart">
+                    <div class="card-icon">🔐</div>
+                    <div class="card-title">Registrasi & Verifikasi OTP</div>
+                    <div class="card-description">
+                        Algoritma validasi data, generate OTP, dan verifikasi sebelum membuat akun baru
+                    </div>
+                    <div class="card-badge badge-flowchart">Flowchart</div>
+                </a>
+
+                <a href="FLOWCHART_CEK_RANK.html" class="diagram-card flowchart">
+                    <div class="card-icon">🔎</div>
+                    <div class="card-title">Cek Rank & Pencarian Domain</div>
+                    <div class="card-description">
+                        Algoritma pencarian domain di hasil SerpAPI dengan loop iterasi dan pattern matching
+                    </div>
+                    <div class="card-badge badge-flowchart">Flowchart</div>
+                </a>
+
+                <a href="FLOWCHART_ANALISIS_TREND.html" class="diagram-card flowchart">
+                    <div class="card-icon">📊</div>
+                    <div class="card-title">Analisis Trend Ranking</div>
+                    <div class="card-description">
+                        Algoritma perhitungan trend (meningkat/menurun/stabil) dan stability dari rank history
+                    </div>
+                    <div class="card-badge badge-flowchart">Flowchart</div>
+                </a>
+
+                <a href="FLOWCHART_VALIDASI_KUOTA.html" class="diagram-card flowchart">
+                    <div class="card-icon">🎫</div>
+                    <div class="card-title">Validasi & Pengurangan Kuota</div>
+                    <div class="card-description">
+                        Algoritma validasi kuota cukup dan pengurangan kuota setelah aksi berhasil
+                    </div>
+                    <div class="card-badge badge-flowchart">Flowchart</div>
+                </a>
+
+                <a href="FLOWCHART_SEO_ANALYSIS.html" class="diagram-card flowchart">
+                    <div class="card-icon">🧠</div>
+                    <div class="card-title">SEO Analysis dengan AI</div>
+                    <div class="card-description">
+                        Algoritma routing model AI (Gemini/OpenAI), perhitungan trend, dan call API untuk analisis
+                    </div>
+                    <div class="card-badge badge-flowchart">Flowchart</div>
+                </a>
+
+                <a href="FLOWCHART_PEMBELIAN_KUOTA.html" class="diagram-card flowchart">
+                    <div class="card-icon">💳</div>
+                    <div class="card-title">Pembelian Kuota (Manual)</div>
+                    <div class="card-description">
+                        Algoritma checkout session management, upload bukti, dan approval workflow admin
+                    </div>
+                    <div class="card-badge badge-flowchart">Flowchart</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Admin Flowchart Section -->
+        <div class="section">
+            <h2 class="section-title">👨‍💼 Admin Flowchart</h2>
+            <p class="section-subtitle">Diagram yang menggambarkan algoritma dan logika proses manajemen admin dalam sistem</p>
+            
+            <div class="diagram-grid">
+                <a href="FLOWCHART_ADMIN_MANAJEMEN_USER.html" class="diagram-card flowchart">
+                    <div class="card-icon">👥</div>
+                    <div class="card-title">Admin - Manajemen User</div>
+                    <div class="card-description">
+                        Algoritma CRUD user, update data, activate/deactivate user, dan delete dengan validasi akses admin
+                    </div>
+                    <div class="card-badge badge-flowchart">Flowchart</div>
+                </a>
+
+                <a href="FLOWCHART_ADMIN_MANAJEMEN_PEMBAYARAN.html" class="diagram-card flowchart">
+                    <div class="card-icon">💵</div>
+                    <div class="card-title">Admin - Manajemen Pembayaran</div>
+                    <div class="card-description">
+                        Algoritma approve/reject pembayaran manual, update kuota user, dan update status QuotaPurchase
+                    </div>
+                    <div class="card-badge badge-flowchart">Flowchart</div>
+                </a>
+
+                <a href="FLOWCHART_ADMIN_MANAJEMEN_PAKET_KUOTA.html" class="diagram-card flowchart">
+                    <div class="card-icon">📦</div>
+                    <div class="card-title">Admin - Manajemen Paket Kuota</div>
+                    <div class="card-description">
+                        Algoritma CRUD paket kuota (add, update, delete) dengan validasi method POST untuk create/update
+                    </div>
+                    <div class="card-badge badge-flowchart">Flowchart</div>
+                </a>
+
+                <a href="FLOWCHART_ADMIN_MANAJEMEN_AI_MODEL.html" class="diagram-card flowchart">
+                    <div class="card-icon">🤖</div>
+                    <div class="card-title">Admin - Manajemen AI Model Config</div>
+                    <div class="card-description">
+                        Algoritma CRUD konfigurasi AI model dengan validasi model_name unik dan update API key optional
+                    </div>
+                    <div class="card-badge badge-flowchart">Flowchart</div>
+                </a>
+
+                <a href="FLOWCHART_ADMIN_MANAJEMEN_API_CONFIG.html" class="diagram-card flowchart">
+                    <div class="card-icon">🔌</div>
+                    <div class="card-title">Admin - Manajemen API Config</div>
+                    <div class="card-description">
+                        Algoritma toggle aktif/nonaktif API dan update konfigurasi SerpAPI via AJAX dengan JSON response
+                    </div>
+                    <div class="card-badge badge-flowchart">Flowchart</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2024 Sistem Rank Checker - Dokumentasi Diagram</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">Semua diagram dapat di-export sebagai PNG dengan margin 50px</p>
+        </div>
+    </div>
+</body>
+</html>
+

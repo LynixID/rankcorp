@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowchart - Algoritma Cek Rank & Pencarian Domain</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 2000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .export-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .export-btn:active {
+            transform: translateY(0);
+        }
+
+        .diagram-container {
+            width: 100%;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 40px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .explanation {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .explanation h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .explanation h3 {
+            color: #667eea;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .explanation p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .explanation ul {
+            margin-left: 30px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .explanation li {
+            margin-bottom: 8px;
+        }
+
+        .report-explanation {
+            margin-top: 50px;
+            padding: 30px;
+            background: #f0f7ff;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .report-explanation h2 {
+            color: #1976d2;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .report-explanation p {
+            color: #424242;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Flowchart</h1>
+        <p class="subtitle">Algoritma Cek Rank & Pencarian Domain</p>
+
+        <div class="export-container">
+            <button class="export-btn" onclick="exportToPNG()">📥 Export PNG</button>
+        </div>
+
+        <div class="diagram-container" id="diagram-to-export">
+            <div class="mermaid">
+flowchart TD
+    Start([MULAI]) --> Input1[/"Isi Form Cek Rank<br/>keyword, domain,<br/>parameter pencarian"/]
+    Input1 --> CekKuota{Kuota User<br/>Cukup?}
+    
+    CekKuota -->|Tidak| Err1[Tampilkan Error:<br/>Kuota Habis]
+    Err1 --> EndErr([SELESAI])
+    
+    CekKuota -->|Ya| RequestAPI[Request ke SerpAPI<br/>untuk Pencarian Google]
+    RequestAPI --> CekResponse{Response<br/>Berhasil?}
+    
+    CekResponse -->|Tidak| Err2[Tampilkan Error:<br/>Koneksi Gagal]
+    Err2 --> EndErr
+    
+    CekResponse -->|Ya| CariDomain[Cari Domain di Hasil Pencarian<br/>Loop melalui semua hasil]
+    CariDomain --> SimpanHasil[Simpan Posisi Rank yang Ditemukan<br/>ke Database]
+    SimpanHasil --> KurangiKuota[Kurangi Kuota -1]
+    KurangiKuota --> TampilkanHasil[Tampilkan Hasil Rank<br/>ke User]
+    TampilkanHasil --> End([SELESAI])
+    
+    style Start fill:#4caf50,stroke:#333,stroke-width:3px,color:#fff
+    style End fill:#f44336,stroke:#333,stroke-width:3px,color:#fff
+    style EndErr fill:#f44336,stroke:#333,stroke-width:3px,color:#fff
+    style CekKuota fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    style CekResponse fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    style RequestAPI fill:#2196f3,stroke:#333,stroke-width:2px,color:#fff
+    style CariDomain fill:#2196f3,stroke:#333,stroke-width:2px,color:#fff
+    style SimpanHasil fill:#9c27b0,stroke:#333,stroke-width:2px,color:#fff
+    style KurangiKuota fill:#9c27b0,stroke:#333,stroke-width:2px,color:#fff
+            </div>
+        </div>
+
+        <!-- Explanation Section -->
+        <div class="explanation">
+            <h2>📋 Penjelasan Flowchart: Algoritma Cek Rank & Pencarian Domain</h2>
+            
+            <h3>1. Overview</h3>
+            <p>
+                Flowchart ini menggambarkan algoritma pencarian domain di hasil pencarian Google menggunakan SerpAPI. 
+                Algoritma ini melakukan iterasi melalui hasil pencarian organik dan mencocokkan domain yang dicari dengan link yang ditemukan.
+            </p>
+
+            <h3>2. Alur Proses</h3>
+            <p><strong>A. Validasi Awal</strong></p>
+            <ul>
+                <li><strong>Cek UserStatus</strong>: Pastikan user memiliki UserStatus di database</li>
+                <li><strong>Cek Kuota</strong>: Pastikan remaining_quota > 0 (kuota tersedia)</li>
+                <li>Jika salah satu gagal → Error message, proses berakhir</li>
+            </ul>
+
+            <p><strong>B. Konfigurasi API</strong></p>
+            <ul>
+                <li>Cek apakah ApiConfig ada di database (api_name='serpapi', is_active=True)</li>
+                <li>Jika ada → Ambil api_key, base_url, timeout dari database</li>
+                <li>Jika tidak ada → Gunakan fallback hardcoded (untuk kompatibilitas)</li>
+            </ul>
+
+            <p><strong>C. Request ke SerpAPI</strong></p>
+            <ul>
+                <li>Build parameter request: engine='google', q=keyword, google_domain, hl, gl, num, api_key</li>
+                <li>Request GET ke SerpAPI dengan timeout yang ditentukan</li>
+                <li>Jika request gagal → Error message, proses berakhir</li>
+            </ul>
+
+            <p><strong>D. Parsing & Iterasi (LOOP)</strong></p>
+            <ul>
+                <li>Parse JSON response dari SerpAPI</li>
+                <li>Inisialisasi array ranks = []</li>
+                <li>Cek apakah "organic_results" ada di response</li>
+                <li>Jika tidak ada → Return ranks kosong</li>
+                <li>Jika ada → Mulai loop iterasi:</li>
+                <ul>
+                    <li>Untuk setiap result di organic_results:</li>
+                    <li>Ambil link dari result</li>
+                    <li>Cek apakah domain ada di link (pattern matching)</li>
+                    <li>Jika cocok → Append {position: idx+1, link} ke ranks</li>
+                    <li>Simpan RankResult ke database (user, domain, keyword, rank, url_result)</li>
+                    <li>Lanjut ke result berikutnya</li>
+                </ul>
+            </ul>
+
+            <p><strong>E. Update Kuota & Return</strong></p>
+            <ul>
+                <li>Setelah loop selesai → Update used_quota += 1</li>
+                <li>Build result_data dengan informasi: domain, keyword, num, total_found, ranks</li>
+                <li>Return result_data untuk ditampilkan ke user</li>
+            </ul>
+
+            <h3>3. Decision Points</h3>
+            <ul>
+                <li><strong>7 Decision Points</strong>: UserStatus, kuota, konfigurasi API, response, organic_results, domain matching, iterasi loop</li>
+                <li><strong>Loop</strong>: Iterasi melalui semua organic_results untuk mencari domain yang cocok</li>
+                <li><strong>Pattern Matching</strong>: Menggunakan operator 'in' untuk mencari domain di link (substring matching)</li>
+            </ul>
+
+            <h3>4. Fitur Penting</h3>
+            <ul>
+                <li><strong>Multiple Rank Detection</strong>: Bisa menemukan beberapa posisi jika domain muncul di beberapa hasil</li>
+                <li><strong>Database Storage</strong>: Setiap rank yang ditemukan disimpan ke RankResult untuk history</li>
+                <li><strong>Quota Management</strong>: Kuota dikurangi setelah proses selesai (bukan sebelum request)</li>
+                <li><strong>Error Handling</strong>: Fallback ke hardcoded config jika database config tidak tersedia</li>
+            </ul>
+
+            <h3>5. Kompleksitas</h3>
+            <ul>
+                <li><strong>Time Complexity</strong>: O(n) dimana n = jumlah organic_results</li>
+                <li><strong>Space Complexity</strong>: O(m) dimana m = jumlah rank yang ditemukan</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+
+        function exportToPNG() {
+            const element = document.getElementById('diagram-to-export');
+            const margin = 50;
+            
+            const btn = document.querySelector('.export-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ Exporting...';
+            btn.disabled = true;
+
+            html2canvas(element, {
+                backgroundColor: '#ffffff',
+                scale: 2,
+                logging: false,
+                useCORS: true,
+                allowTaint: true
+            }).then(canvas => {
+                const marginCanvas = document.createElement('canvas');
+                marginCanvas.width = canvas.width + (margin * 2);
+                marginCanvas.height = canvas.height + (margin * 2);
+                const ctx = marginCanvas.getContext('2d');
+                
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, marginCanvas.width, marginCanvas.height);
+                ctx.drawImage(canvas, margin, margin);
+                
+                marginCanvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = 'Flowchart_Cek_Rank.png';
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                    
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+            }).catch(error => {
+                console.error('Export error:', error);
+                alert('Error exporting diagram. Please try again.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
+    </script>
+
+    <!-- Penjelasan untuk Laporan Proyek -->
+    <div class="container">
+        <div class="report-explanation">
+            <h2>Penjelasan Flowchart Algoritma Cek Rank & Pencarian Domain</h2>
+            
+            <p>
+                Flowchart ini menggambarkan algoritma utama dalam sistem rank checker untuk melakukan pengecekan posisi ranking website di hasil pencarian Google. Proses dimulai dengan validasi kuota pengguna untuk memastikan pengguna memiliki kuota yang cukup sebelum melakukan request ke API eksternal. Setelah validasi berhasil, sistem akan melakukan request ke SerpAPI dengan parameter pencarian yang telah ditentukan oleh pengguna, seperti keyword, domain target, dan parameter lokasi pencarian.
+            </p>
+            
+            <p>
+                Setelah menerima response dari SerpAPI, sistem akan melakukan parsing terhadap data JSON dan melakukan iterasi melalui semua hasil pencarian organik menggunakan teknik pattern matching untuk mencari domain yang dicari di dalam setiap link. Jika domain ditemukan, posisi ranking akan disimpan ke dalam database sebagai history dan ditampilkan kepada pengguna. Algoritma ini dirancang dengan kompleksitas waktu O(n) dan pengurangan kuota dilakukan setelah proses selesai untuk memastikan kuota hanya dikurangi ketika proses berhasil mendapatkan hasil. Sistem juga dilengkapi dengan error handling yang komprehensif untuk menangani berbagai skenario kegagalan.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+

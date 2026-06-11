@@ -5,1263 +5,723 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>
-      RankCorp - Pantau Ranking SEO Website Anda di Google Real-time
+      U-Rank - Pantau Ranking SEO Website Anda di Google Real-time
     </title>
-    <link rel="icon" type="image/png" href="../../../media/assets/favicon.png">
+    {% load static %}
+    <link rel="icon" type="image/png" href="/media/assets/loggo.png">
     <meta
       name="description"
-      content="RankCorp adalah alat cek ranking SEO yang akurat dan real-time. Pantau posisi keyword & domain website Anda di hasil pencarian Google, analisis performa SERP, dan optimalkan strategi SEO Anda sekarang juga."
+      content="U-Rank adalah alat cek ranking SEO yang akurat dan real-time. Pantau posisi keyword & domain website Anda di hasil pencarian Google, analisis performa SERP, dan optimalkan strategi SEO Anda sekarang juga."
     />
-    <meta
-      name="keywords"
-      content="cek rank Google, rank checker, cek posisi keyword, SEO tools Indonesia, SERP checker, alat SEO, optimasi website, ranking Google, posisi website, pantau SEO"
-    />
-    <meta name="author" content="RankCorp App" />
-    <meta
-      property="og:title"
-      content="RankCorp - Pantau Ranking SEO Website Anda di Google Real-time"
-    />
-    <meta
-      property="og:description"
-      content="Optimalkan performa website Anda dengan monitoring ranking SERP real-time. Dapatkan data akurat untuk strategi SEO yang lebih baik."
-    />
-    <meta
-      property="og:image"
-      content="https://i.imgur.com/your-social-share-image.jpg"
-    />
-    <meta property="og:url" content="https://yourdomain.com/" />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="RankCorp - Pantau Ranking SEO Website Anda di Google Real-time"
-    />
-    <meta
-      name="twitter:description"
-      content="Optimalkan performa website Anda dengan monitoring ranking SERP real-time. Dapatkan data akurat untuk strategi SEO yang lebih baik."
-    />
-    <meta
-      name="twitter:image"
-      content="https://i.imgur.com/your-social-share-image.jpg"
-    />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://yourdomain.com/" />
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
-
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              // Menyesuaikan palet warna dengan biru Tailwind untuk konsistensi
-              "primary-blue": "#2563eb", // blue-600
-              "dark-blue": "#1e40af", // blue-800
-              "accent-blue": "#60a5fa", // blue-400
-              "soft-blue-bg": "#eff6ff", // blue-50
-              "text-main": "#1f2937", // gray-900
-              "text-secondary": "#374151", // gray-700
+              "cyan-50": "#ecfeff",
+              "cyan-100": "#cffafe",
+              "cyan-200": "#a5f3fc",
+              "cyan-300": "#67e8f9",
+              "cyan-400": "#22d3ee",
+              "cyan-500": "#06b6d4",
+              "cyan-600": "#0891b2",
+              "cyan-700": "#0e7490",
+              "cyan-800": "#155e75",
+              "cyan-900": "#164e63",
+              "blue-50": "#eff6ff",
+              "blue-100": "#dbeafe",
+              "blue-200": "#bfdbfe",
+              "blue-300": "#93c5fd",
+              "blue-400": "#60a5fa",
+              "blue-500": "#3b82f6",
+              "blue-600": "#2563eb",
+              "blue-700": "#1d4ed8",
+              "blue-800": "#1e40af",
+              "blue-900": "#1e3a8a",
             },
             fontFamily: {
-              sans: ["Inter", "sans-serif"], // Mengatur Inter sebagai font default
+              sans: ["Inter", "sans-serif"],
+              display: ["Space Grotesk", "sans-serif"],
             },
             animation: {
-              fadeInUp: "fadeInUp 0.8s ease-out forwards",
-              slideInLeft: "slideInLeft 0.8s ease-out forwards",
-              scaleIn: "scaleIn 0.5s ease-out forwards",
-              bounceOnce: "bounceOnce 1s ease-out forwards",
+              float: "float 6s ease-in-out infinite",
+              glow: "glow 2s ease-in-out infinite alternate",
+              slideUp: "slideUp 0.8s ease-out forwards",
+              fadeIn: "fadeIn 1s ease-out forwards",
+              scaleIn: "scaleIn 0.6s ease-out forwards",
             },
             keyframes: {
-              fadeInUp: {
-                "0%": { opacity: 0, transform: "translateY(20px)" },
+              float: {
+                "0%, 100%": { transform: "translateY(0px)" },
+                "50%": { transform: "translateY(-20px)" },
+              },
+              glow: {
+                "0%": { boxShadow: "0 0 20px rgba(6, 182, 212, 0.3)" },
+                "100%": { boxShadow: "0 0 40px rgba(6, 182, 212, 0.6)" },
+              },
+              slideUp: {
+                "0%": { opacity: 0, transform: "translateY(30px)" },
                 "100%": { opacity: 1, transform: "translateY(0)" },
               },
-              slideInLeft: {
-                "0%": { opacity: 0, transform: "translateX(-20px)" },
-                "100%": { opacity: 1, transform: "translateX(0)" },
+              fadeIn: {
+                "0%": { opacity: 0 },
+                "100%": { opacity: 1 },
               },
               scaleIn: {
-                "0%": { opacity: 0, transform: "scale(0.8)" },
+                "0%": { opacity: 0, transform: "scale(0.9)" },
                 "100%": { opacity: 1, transform: "scale(1)" },
-              },
-              bounceOnce: {
-                "0%, 100%": { transform: "translateY(0)" },
-                "50%": { transform: "translateY(-10px)" },
               },
             },
           },
         },
       };
     </script>
-
     <style>
-      /* Global Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
       html {
         scroll-behavior: smooth;
       }
 
       body {
         font-family: "Inter", sans-serif;
-        color: #374151; /* text-gray-700 */
-        background-color: #f9fafb; /* gray-50 yang sangat terang */
-        line-height: 1.6;
+        background: #ffffff;
+        color: #1e293b;
         overflow-x: hidden;
       }
 
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        font-family: "Inter", sans-serif; /* Semua heading pakai Inter */
-        color: #1f2937; /* text-gray-900 */
+      /* Glassmorphism Effect */
+      .glass {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 8px 32px 0 rgba(6, 182, 212, 0.1);
       }
 
-      .container {
-        max-width: 1280px; /* Lebar container lebih luas */
-        margin-left: auto;
-        margin-right: auto;
-        padding: 0 24px; /* Default padding horizontal */
-        width: 100%;
+      /* Gradient Background */
+      .gradient-bg {
+        background: linear-gradient(135deg, #ecfeff 0%, #ffffff 50%, #f0f9ff 100%);
       }
 
-      /* Custom Scrollbar (Optional, tetap dipertahankan) */
+      /* Glow Effect */
+      .glow-effect {
+        position: relative;
+      }
+
+      .glow-effect::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 120%;
+        height: 120%;
+        background: radial-gradient(circle, rgba(6, 182, 212, 0.2) 0%, transparent 70%);
+        border-radius: 50%;
+        z-index: -1;
+        animation: glow 3s ease-in-out infinite;
+      }
+
+      /* Custom Scrollbar */
       ::-webkit-scrollbar {
         width: 8px;
       }
+
       ::-webkit-scrollbar-track {
-        background: #f1f1f1;
+        background: #f1f5f9;
       }
+
       ::-webkit-scrollbar-thumb {
-        background: #888;
+        background: linear-gradient(180deg, #06b6d4, #3b82f6);
         border-radius: 4px;
       }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #555;
+
+      /* Hero Typography Split */
+      .hero-split {
+        display: inline-block;
+        position: relative;
       }
 
-      /* Hero Section Specific: Untuk pola latar belakang */
-      .hero-bg-pattern {
-        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239ad0f7' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0 20v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM6 46v-4h-2v4H0v2h2v4h2v-4h4v-2H6zm0-20v-4h-2v4H0v2h2v4h2v-4h4v-2H6zM36 6v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM6 16v-4h-2v4H0v2h2v4h2v-4h4v-2H6zm30 0v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM16 26v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm30 0v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM16 36v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm30 0v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM46 6v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0 40v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM16 6v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM46 16v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM26 16v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4z'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        background-size: 60px 60px;
-      }
-
-      /* Hamburger Menu Icon (tetap sama) */
-      .hamburger {
-        cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        width: 24px;
-        height: 20px;
-        z-index: 50;
-      }
-      .hamburger span {
-        display: block;
+      .hero-split::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
         width: 100%;
-        height: 3px;
-        background-color: #2563eb; /* primary-blue */
-        border-radius: 5px;
-        transition: all 0.3s ease-in-out;
-      }
-      .hamburger.active span:nth-child(1) {
-        transform: translateY(8px) rotate(45deg);
-      }
-      .hamburger.active span:nth-child(2) {
-        opacity: 0;
-      }
-      .hamburger.active span:nth-child(3) {
-        transform: translateY(-8px) rotate(-45deg);
+        height: 8px;
+        background: linear-gradient(90deg, #06b6d4, #3b82f6);
+        opacity: 0.3;
+        border-radius: 4px;
       }
 
-      /* Mobile Nav Menu (tetap sama) */
-      #mobile-menu {
-        transition: all 0.3s ease-in-out;
-        transform: translateX(100%); /* Start off-screen */
-      }
-      #mobile-menu.active {
-        transform: translateX(0); /* Slide in */
+      /* Floating Animation */
+      @keyframes float {
+        0%, 100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-20px) rotate(5deg);
+        }
       }
 
-      /* Scroll-triggered animations (tetap sama, dengan Intersection Observer) */
-      .animated-element {
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+      /* AI Element 3D Effect */
+      .ai-element {
+        position: relative;
+        transform-style: preserve-3d;
+        animation: float 6s ease-in-out infinite;
       }
-      .animated-element.is-visible {
+
+      .ai-element::before {
+        content: "";
+        position: absolute;
+        top: -20px;
+        left: -20px;
+        right: -20px;
+        bottom: -20px;
+        background: linear-gradient(45deg, #06b6d4, #3b82f6, #06b6d4);
+        border-radius: 50%;
+        opacity: 0.1;
+        filter: blur(30px);
+        animation: glow 3s ease-in-out infinite;
+      }
+
+      /* Card Hover Effect */
+      .service-card {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .service-card:hover {
+        transform: translateY(-10px) scale(1.02);
+      }
+
+      /* Custom Rounded Image */
+      .custom-rounded {
+        border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .custom-rounded::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(6, 182, 212, 0.1), transparent);
+        transform: rotate(45deg);
+        animation: shimmer 3s infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-100%) translateY(-100%) rotate(45deg);
+        }
+        100% {
+          transform: translateX(100%) translateY(100%) rotate(45deg);
+        }
+      }
+
+      /* Navbar */
+      .navbar {
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        background: rgba(255, 255, 255, 0.8);
+        border-bottom: 1px solid rgba(6, 182, 212, 0.1);
+      }
+
+      /* Button Pill */
+      .btn-pill {
+        border-radius: 50px;
+        padding: 14px 32px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-pill::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+      }
+
+      .btn-pill:hover::before {
+        width: 300px;
+        height: 300px;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #06b6d4, #3b82f6);
+        color: white;
+        box-shadow: 0 10px 30px rgba(6, 182, 212, 0.3);
+      }
+
+      .btn-primary:hover {
+        box-shadow: 0 15px 40px rgba(6, 182, 212, 0.4);
+        transform: translateY(-2px);
+      }
+
+      .btn-secondary {
+        background: white;
+        color: #06b6d4;
+        border: 2px solid #06b6d4;
+      }
+
+      .btn-secondary:hover {
+        background: #ecfeff;
+      }
+
+      /* Stats Card */
+      .stats-card {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(6, 182, 212, 0.2);
+        border-radius: 20px;
+        padding: 24px;
+        transition: all 0.3s ease;
+      }
+
+      .stats-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(6, 182, 212, 0.15);
+      }
+
+      /* Intersection Observer Animation */
+      .fade-in-up {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease-out;
+      }
+
+      .fade-in-up.visible {
         opacity: 1;
         transform: translateY(0);
       }
-      .animated-element.delay-100 {
-        transition-delay: 0.1s;
-      }
-      .animated-element.delay-200 {
-        transition-delay: 0.2s;
-      }
-      .animated-element.delay-300 {
-        transition-delay: 0.3s;
-      }
-      .animated-element.delay-400 {
-        transition-delay: 0.4s;
-      }
-      .animated-element.delay-500 {
-        transition-delay: 0.5s;
-      }
-      .animated-element.delay-600 {
-        transition-delay: 0.6s;
+
+      /* Mobile Menu */
+      .mobile-menu {
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
       }
 
-
-      /* Specific styles for FAQ accordion */
-      .accordion-header {
-        cursor: pointer;
-        padding: 1rem 1.5rem; /* Padding lebih banyak */
-        border-bottom: 1px solid #e2e8f0;
+      .mobile-menu.active {
+        transform: translateX(0);
+      }
+      /* Language Switcher */
+      .lang-switcher-wrapper { position: relative; }
+      .lang-switcher-btn {
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        border-radius: 50px;
+        background: rgba(255,255,255,0.7);
+        border: 1px solid rgba(6,182,212,0.25);
+        font-size: 13px;
+        font-weight: 600;
+        color: #0891b2;
+        cursor: pointer;
+        transition: all 0.2s ease;
       }
-      .accordion-content {
-        max-height: 0;
+      .lang-switcher-btn:hover { background: rgba(6,182,212,0.08); }
+      .lang-dropdown {
+        position: absolute;
+        right: 0;
+        top: calc(100% + 8px);
+        min-width: 140px;
+        background: rgba(255,255,255,0.97);
+        border: 1px solid rgba(6,182,212,0.15);
+        border-radius: 14px;
+        box-shadow: 0 8px 32px rgba(6,182,212,0.15);
         overflow: hidden;
-        transition: max-height 0.3s ease-out, padding 0.3s ease-out; /* Tambah transisi padding */
-        padding: 0 1.5rem; /* Sesuaikan padding */
-        border-bottom: 1px solid #e2e8f0;
-        background-color: #fdfefe;
+        z-index: 999;
       }
-      .accordion-content.active {
-        max-height: 300px; /* Adjust as needed for content, increased for flexibility */
-        padding-bottom: 1.5rem; /* Sesuaikan padding bawah */
+      .lang-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        padding: 10px 16px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #334155;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        transition: background 0.15s;
       }
-      .accordion-icon {
-        transition: transform 0.3s ease-out;
-      }
-      .accordion-icon.rotate {
-        transform: rotate(45deg); /* Plus to X icon */
-      }
+      .lang-btn:hover { background: rgba(6,182,212,0.07); color: #0891b2; }
+      .lang-btn-active { background: rgba(6,182,212,0.12) !important; color: #0891b2 !important; font-weight: 700; }
     </style>
   </head>
-  <body class="bg-gray-50 text-gray-700">
-    <header class="bg-white shadow-sm py-4 fixed w-full z-40 top-0">
-      <div class="container flex justify-between items-center h-full">
-        <a
-          href="/"
-          class="text-4xl font-extrabold text-primary-blue hover:text-dark-blue transition-colors flex items-center"
-        >
-          <img src="../../../media/assets/rankcorop_logo.png" width="40" height="40" alt="" class="mr-4">
-          RankCorp
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar fixed top-0 left-0 right-0 z-50 py-4">
+      <div class="container mx-auto px-6 md:px-12 lg:px-16 xl:px-20 flex items-center justify-between">
+        <a href="/" class="text-2xl font-bold bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-transparent flex items-center">
+          <img src="/media/assets/loggo.png" width="40" height="40" alt="U-Rank Logo" class="mr-3">
+          U-Rank
         </a>
-
-        <nav class="hidden md:flex items-center space-x-8">
-          <a
-            href="#fitur"
-            class="text-gray-600 hover:text-primary-blue transition-colors font-medium"
-            >Fitur</a
-          >
-          <a
-            href="#mengapa-kami"
-            class="text-gray-600 hover:text-primary-blue transition-colors font-medium"
-            >Mengapa Kami</a
-          >
-          <a
-            href="#cara-kerja"
-            class="text-gray-600 hover:text-primary-blue transition-colors font-medium"
-            >Cara Kerja</a
-          >
-          <a
-            href="#langganan"
-            class="text-gray-600 hover:text-primary-blue transition-colors font-medium"
-            >Langganan</a
-          >
-          <a
-            href="#testimoni"
-            class="text-gray-600 hover:text-primary-blue transition-colors font-medium"
-            >Testimoni</a
-          >
-          <a
-            href="#faq"
-            class="text-gray-600 hover:text-primary-blue transition-colors font-medium"
-            >FAQ</a
-          >
-          <a
-            href="{% url 'login' %}"
-            class="px-4 py-2 text-primary-blue border border-primary-blue rounded-full hover:bg-primary-blue hover:text-white transition-colors shadow-sm font-semibold"
-            >Login</a
-          >
-          <a
-            href="{% url 'register' %}"
-            class="px-5 py-2 bg-primary-blue text-white rounded-full hover:bg-dark-blue transition-colors shadow-md font-semibold"
-            >Daftar Gratis</a
-          >
-        </nav>
-
-        <div class="md:hidden flex items-center">
-          <button id="hamburger" class="hamburger focus:outline-none">
-            <span></span>
-            <span></span>
-            <span></span>
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="#fitur" class="text-slate-700 hover:text-cyan-600 transition-colors font-medium" data-i18n="landing_nav_fitur">Fitur</a>
+          <a href="#layanan" class="text-slate-700 hover:text-cyan-600 transition-colors font-medium" data-i18n="landing_nav_layanan">Layanan</a>
+          <a href="#cara-kerja" class="text-slate-700 hover:text-cyan-600 transition-colors font-medium" data-i18n="landing_nav_cara_kerja">Cara Kerja</a>
+          <!-- Language Switcher -->
+          <div class="lang-switcher-wrapper">
+            <button id="langSwitcherBtn" class="lang-switcher-btn" onclick="toggleLangDropdown(event)">
+              🌐 <span data-i18n="nav_lang_label">ID</span>
+            </button>
+            <div id="langDropdown" class="lang-dropdown hidden">
+              <button class="lang-btn" data-lang="id" onclick="setLanguage('id')">🇮🇩 Indonesia</button>
+              <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">🇺🇸 English</button>
+            </div>
+          </div>
+          <a href="{% url 'login' %}" class="btn-pill btn-secondary text-sm" data-i18n="landing_nav_login">Login</a>
+          <a href="{% url 'register' %}" class="btn-pill btn-primary text-sm" data-i18n="landing_nav_daftar">Daftar Gratis</a>
+        </div>
+        <button id="mobile-menu-btn" class="md:hidden text-cyan-600">
+          <i class="fas fa-bars text-2xl"></i>
+        </button>
+      </div>
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 h-full w-80 bg-white shadow-2xl p-6 z-40">
+        <div class="flex justify-between items-center mb-8">
+          <span class="text-xl font-bold text-cyan-600">Menu</span>
+          <button id="close-menu" class="text-slate-700">
+            <i class="fas fa-times text-2xl"></i>
           </button>
         </div>
-      </div>
-
-      <nav
-        id="mobile-menu"
-        class="md:hidden fixed top-0 right-0 h-full w-2/3 bg-white shadow-lg p-6 transform translate-x-full transition-transform z-30"
-      >
-        <ul class="flex flex-col space-y-6 pt-16">
-          <li>
-            <a
-              href="#fitur"
-              class="block text-lg text-gray-700 hover:text-primary-blue transition-colors font-medium"
-              onclick="toggleMobileMenu()"
-              >Fitur</a
-            >
-          </li>
-          <li>
-            <a
-              href="#mengapa-kami"
-              class="block text-lg text-gray-700 hover:text-primary-blue transition-colors font-medium"
-              onclick="toggleMobileMenu()"
-              >Mengapa Kami</a
-            >
-          </li>
-          <li>
-            <a
-              href="#cara-kerja"
-              class="block text-lg text-gray-700 hover:text-primary-blue transition-colors font-medium"
-              onclick="toggleMobileMenu()"
-              >Cara Kerja</a
-            >
-          </li>
-          <li>
-            <a
-              href="#langganan"
-              class="block text-lg text-gray-700 hover:text-primary-blue transition-colors font-medium"
-              onclick="toggleMobileMenu()"
-              >Langganan</a
-            >
-          </li>
-          <li>
-            <a
-              href="#testimoni"
-              class="block text-lg text-gray-700 hover:text-primary-blue transition-colors font-medium"
-              onclick="toggleMobileMenu()"
-              >Testimoni</a
-            >
-          </li>
-          <li>
-            <a
-              href="#faq"
-              class="block text-lg text-gray-700 hover:text-primary-blue transition-colors font-medium"
-              onclick="toggleMobileMenu()"
-              >FAQ</a
-            >
-          </li>
-          <li class="pt-4">
-            <a
-              href="{% url 'login' %}"
-              class="block w-full text-center px-4 py-2 text-primary-blue border border-primary-blue rounded-full hover:bg-primary-blue hover:text-white transition-colors shadow-sm font-semibold"
-              >Login</a
-            >
-          </li>
-          <li>
-            <a
-              href="{% url 'register' %}"
-              class="block w-full text-center px-4 py-2 bg-primary-blue text-white rounded-full hover:bg-dark-blue transition-colors shadow-md font-semibold"
-              >Daftar Gratis</a
-            >
-          </li>
-        </ul>
-      </nav>
-      <div
-        id="mobile-menu-overlay"
-        class="fixed inset-0 bg-black opacity-0 z-20 pointer-events-none transition-opacity duration-300 md:hidden"
-      ></div>
-    </header>
-
-    <section
-      class="relative pt-32 pb-24 md:pt-40 md:pb-32 text-center bg-white hero-bg-pattern overflow-hidden"
-    >
-      <div
-        class="absolute inset-0 bg-gradient-to-br from-soft-blue-bg to-white opacity-70 z-0"
-      ></div>
-      <div class="container relative z-10 flex flex-col items-center">
-        <h1
-          class="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight animate-fadeInUp max-w-4xl mx-auto"
-        >
-          Pantau <span class="text-primary-blue">RANKING SEO</span> Website Anda
-          di Google dengan Akurat & Real-time
-        </h1>
-        <p
-          class="mt-6 text-lg md:text-xl text-gray-700 max-w-2xl mx-auto animate-fadeInUp"
-        >
-          <strong> RankCorp</strong> adalah alat inovatif yang membantu Anda memantau posisi
-          keyword dan domain website di hasil pencarian Google, agar Anda tidak
-          pernah ketinggalan informasi penting.
-        </p>
-        <div
-          class="mt-10 flex flex-col sm:flex-row justify-center gap-4 animate-fadeInUp mx-auto"
-        >
-          <a
-            href="{% url 'register' %}"
-            class="px-8 py-4 bg-primary-blue text-white text-lg font-semibold rounded-full shadow-lg hover:bg-dark-blue transition-all transform hover:scale-105 flex items-center justify-center"
-          >
-            Daftar Gratis Sekarang <i class="fas fa-arrow-right ml-2"></i>
-          </a>
-          <a
-            href="#cara-kerja"
-            class="px-8 py-4 bg-white border-2 border-primary-blue text-primary-blue text-lg font-semibold rounded-full shadow-lg hover:bg-soft-blue-bg transition-all transform hover:scale-105 flex items-center justify-center"
-          >
-            Pelajari Lebih Lanjut <i class="fas fa-info-circle ml-2"></i>
-          </a>
-        </div>
-
-        <div class="mt-16 animate-fadeInUp w-full max-w-4xl mx-auto">
-          <img
-            src="../../../media/assets/dashboard_rank_checker.png"
-            alt="Screenshot Dashboard RankCorp - Pemantauan Ranking SEO"
-            class="mx-auto rounded-lg shadow-2xl border-4 border-white transform hover:scale-102 transition-transform duration-300 animate-scaleIn"
-          />
+        <div class="flex flex-col space-y-4">
+          <a href="#fitur" class="text-slate-700 hover:text-cyan-600 py-2" data-i18n="landing_nav_fitur">Fitur</a>
+          <a href="#layanan" class="text-slate-700 hover:text-cyan-600 py-2" data-i18n="landing_nav_layanan">Layanan</a>
+          <a href="#cara-kerja" class="text-slate-700 hover:text-cyan-600 py-2" data-i18n="landing_nav_cara_kerja">Cara Kerja</a>
+          <div class="flex gap-2">
+            <button class="lang-btn flex-1 justify-center rounded-xl border border-cyan-200 py-2" data-lang="id" onclick="setLanguage('id')">🇮🇩 ID</button>
+            <button class="lang-btn flex-1 justify-center rounded-xl border border-cyan-200 py-2" data-lang="en" onclick="setLanguage('en')">🇺🇸 EN</button>
           </div>
-      </div>
-    </section>
-
-
-    <section id="fitur" class="py-20 bg-gray-50">
-      <div class="container text-center">
-        <div class="mb-16 animated-element mx-auto">
-          <h2 class="text-4xl font-extrabold text-gray-900">
-            Fitur Unggulan RankCorp
-          </h2>
-          <p class="mt-4 text-lg text-gray-700 max-w-3xl mx-auto">
-            Semua alat yang Anda butuhkan untuk analisis SEO yang mendalam dan
-            efisien, disajikan dalam antarmuka yang intuitif.
-          </p>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div
-            class="bg-white rounded-xl shadow-md p-8 text-center hover:shadow-lg transform hover:translate-y-[-5px] transition-all duration-300 animated-element"
-          >
-            <i class="fas fa-chart-line text-5xl text-primary-blue mb-4"></i>
-            <h3 class="text-2xl font-bold text-gray-900 mb-3">
-              Cek Ranking Domain & Keyword
-            </h3>
-            <p class="text-gray-700">
-              Lacak posisi domain dan setiap keyword penting Anda di Google
-              secara real-time. Dapatkan gambaran akurat performa SEO Anda.
-            </p>
-          </div>
-          <div
-            class="bg-white rounded-xl shadow-md p-8 text-center hover:shadow-lg transform hover:translate-y-[-5px] transition-all duration-300 animated-element delay-100"
-          >
-            <i class="fas fa-history text-5xl text-primary-blue mb-4"></i>
-            <h3 class="text-2xl font-bold text-gray-900 mb-3">
-              Histori & Tren Performa
-            </h3>
-            <p class="text-gray-700">
-              Lihat rekam jejak perubahan ranking dari waktu ke waktu dengan
-              grafik interaktif. Identifikasi tren dan dampak optimasi Anda.
-            </p>
-          </div>
-          <div
-            class="bg-white rounded-xl shadow-md p-8 text-center hover:shadow-lg transform hover:translate-y-[-5px] transition-all duration-300 animated-element delay-200"
-          >
-            <i class="fas fa-layer-group text-5xl text-primary-blue mb-4"></i>
-            <h3 class="text-2xl font-bold text-gray-900 mb-3">
-              Analisis Multi Keyword Cepat
-            </h3>
-            <p class="text-gray-700">
-              Hemat waktu dengan mengecek banyak keyword sekaligus. Bandingkan
-              performa berbagai kata kunci dalam satu tampilan.
-            </p>
-          </div>
-          <div
-            class="bg-white rounded-xl shadow-md p-8 text-center hover:shadow-lg transform hover:translate-y-[-5px] transition-all duration-300 animated-element delay-300"
-          >
-            <i class="fas fa-shield-alt text-5xl text-primary-blue mb-4"></i>
-            <h3 class="text-2xl font-bold text-gray-900 mb-3">
-              Keamanan Data Terjamin
-            </h3>
-            <p class="text-gray-700">
-              Data Anda aman bersama kami. Kami menerapkan standar keamanan
-              tinggi untuk melindungi informasi berharga Anda.
-            </p>
-          </div>
-          <div
-            class="bg-white rounded-xl shadow-md p-8 text-center hover:shadow-lg transform hover:translate-y-[-5px] transition-all duration-300 animated-element delay-400"
-          >
-            <i class="fab fa-whatsapp text-5xl text-primary-blue mb-4"></i>
-            <h3 class="text-2xl font-bold text-gray-900 mb-3">
-              Verifikasi OTP via WhatsApp
-            </h3>
-            <p class="text-gray-700">
-              Proses registrasi yang sangat mudah dan cepat. Langsung verifikasi
-              akun Anda melalui WhatsApp.
-            </p>
-          </div>
-          <div
-            class="bg-white rounded-xl shadow-md p-8 text-center hover:shadow-lg transform hover:translate-y-[-5px] transition-all duration-300 animated-element delay-500"
-          >
-            <i class="fas fa-cogs text-5xl text-primary-blue mb-4"></i>
-            <h3 class="text-2xl font-bold text-gray-900 mb-3">
-              Dashboard Intuitif & Powerfull
-            </h3>
-            <p class="text-gray-700">
-              Antarmuka user-friendly dengan semua data yang Anda butuhkan untuk
-              mengambil keputusan SEO yang cerdas.
-            </p>
-          </div>
+          <a href="{% url 'login' %}" class="btn-pill btn-secondary text-center mt-4" data-i18n="landing_nav_login">Login</a>
+          <a href="{% url 'register' %}" class="btn-pill btn-primary text-center" data-i18n="landing_nav_daftar">Daftar Gratis</a>
         </div>
       </div>
-    </section>
+    </nav>
 
-
-    <section id="mengapa-kami" class="py-20 bg-primary-blue text-white">
-      <div class="container text-center">
-        <h2 class="text-4xl font-extrabold mb-4 animated-element mx-auto text-white">
-          Mengapa RankCorp Adalah Pilihan Terbaik Anda?
-        </h2>
-        <p class="text-lg mb-12 max-w-3xl mx-auto animated-element text-blue-100">
-          Kami memahami pentingnya visibilitas online. RankCorp dirancang
-          untuk memberikan Anda keunggulan kompetitif.
-        </p>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-          <div class="text-left animated-element mx-auto max-w-lg">
-            <div class="flex items-start mb-6">
-              <div class="flex-shrink-0 mr-4 mt-1">
-                <i class="fas fa-check-circle text-3xl text-white"></i>
-              </div>
-              <div>
-                <h3 class="text-2xl font-bold mb-2 text-white">Data Akurat & Real-time</h3>
-                <p class="text-blue-100">
-                  Tidak perlu menunggu berjam-jam untuk data terbaru. RankCorp
-                  menyediakan pembaruan ranking secara instan, kapan pun Anda
-                  membutuhkannya.
-                </p>
-              </div>
-            </div>
-            <div class="flex items-start mb-6">
-              <div class="flex-shrink-0 mr-4 mt-1">
-                <i class="fas fa-globe text-3xl text-white"></i>
-              </div>
-              <div>
-                <h3 class="text-2xl font-bold mb-2 text-white">Cakupan Global & Lokal</h3>
-                <p class="text-blue-100">
-                  Baik Anda menargetkan pasar global atau spesifik lokal,
-                  RankCorp siap membantu Anda memantau performa di berbagai
-                  lokasi.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="text-left animated-element mx-auto max-w-lg">
-            <div class="flex items-start mb-6">
-              <div class="flex-shrink-0 mr-4 mt-1">
-                <i class="fas fa-tachometer-alt text-3xl text-white"></i>
-              </div>
-              <div>
-                <h3 class="text-2xl font-bold mb-2 text-white">Performa Cepat & Stabil</h3>
-                <p class="text-blue-100">
-                  Dibangun dengan teknologi terbaru, RankCorp memberikan
-                  kecepatan dan stabilitas yang tak tertandingi dalam setiap
-                  pengecekan ranking.
-                </p>
-              </div>
-            </div>
-            <div class="flex items-start">
-              <div class="flex-shrink-0 mr-4 mt-1">
-                <i class="fas fa-headset text-3xl text-white"></i>
-              </div>
-              <div>
-                <h3 class="text-2xl font-bold mb-2 text-white">Dukungan Pelanggan Responsif</h3>
-                <p class="text-blue-100">
-                  Tim dukungan kami siap membantu Anda dengan cepat dan ramah,
-                  memastikan pengalaman Anda menggunakan RankCorp selalu
-                  optimal.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+    <!-- Hero Section -->
+    <section class="gradient-bg min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
+      <!-- Animated Background Elements -->
+      <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute top-20 left-10 w-72 h-72 bg-cyan-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float"></div>
+        <div class="absolute top-40 right-10 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style="animation-delay: 2s;"></div>
+        <div class="absolute -bottom-8 left-1/2 w-72 h-72 bg-cyan-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style="animation-delay: 4s;"></div>
       </div>
-    </section>
 
-
-    <section id="cara-kerja" class="py-20 bg-white">
-      <div class="container text-center">
-        <h2
-          class="text-4xl font-extrabold text-gray-900 mb-4 animated-element mx-auto"
-        >
-          Bagaimana RankCorp Bekerja?
-        </h2>
-        <p
-          class="text-lg text-gray-700 mb-16 max-w-3xl mx-auto animated-element"
-        >
-          Mulai memantau ranking SEO Anda hanya dalam tiga langkah mudah.
-        </p>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-          <div
-            class="relative flex flex-col items-center p-6 rounded-xl shadow-md bg-soft-blue-bg hover:shadow-lg transform hover:translate-y-[-5px] transition-all duration-300 animated-element"
-          >
-            <div
-              class="w-16 h-16 bg-primary-blue rounded-full flex items-center justify-center text-white text-3xl font-extrabold mb-6 shadow-md"
-            >
-              1
-            </div>
-            <i class="fas fa-user-plus text-5xl text-dark-blue mb-4"></i>
-            <h3 class="text-2xl font-bold text-gray-900 mb-3">
-              Daftar & Login
-            </h3>
-            <p class="text-gray-700">
-              Buat akun gratis Anda dengan mudah dan cepat. Verifikasi melalui
-              WhatsApp untuk keamanan ekstra.
+      <div class="container mx-auto px-6 md:px-12 lg:px-16 xl:px-20 relative z-10">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <!-- Left: Text Content -->
+          <div class="text-center md:text-left fade-in-up">
+            <h1 class="text-5xl md:text-7xl font-black text-slate-900 mb-6 leading-tight" style="font-family: 'Space Grotesk', sans-serif;">
+              <span class="hero-split">RANK</span><br>
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600">CHECKER</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-slate-600 mb-8 leading-relaxed" data-i18n="landing_hero_subtitle">
+              Pantau ranking SEO website Anda di Google dengan akurat dan real-time. Optimalkan strategi SEO dengan data yang tepat.
             </p>
-            <div
-              class="absolute right-[-2.5rem] top-1/2 -translate-y-1/2 hidden md:block"
-            >
-              <i
-                class="fas fa-arrow-right text-4xl text-primary-blue opacity-50"
-              ></i>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+              <a href="{% url 'register' %}" class="btn-pill btn-primary inline-flex items-center justify-center">
+                <span data-i18n="landing_hero_cta">Mulai Gratis</span> <i class="fas fa-arrow-right ml-2"></i>
+              </a>
+              <a href="#cara-kerja" class="btn-pill btn-secondary inline-flex items-center justify-center">
+                <span data-i18n="landing_hero_learn">Pelajari Lebih</span> <i class="fas fa-info-circle ml-2"></i>
+              </a>
             </div>
           </div>
-          <div
-            class="relative flex flex-col items-center p-6 rounded-xl shadow-md bg-soft-blue-bg hover:shadow-lg transform hover:translate-y-[-5px] transition-all duration-300 animated-element delay-200"
-          >
-            <div
-              class="w-16 h-16 bg-primary-blue rounded-full flex items-center justify-center text-white text-3xl font-extrabold mb-6 shadow-md"
-            >
-              2
-            </div>
-            <i class="fas fa-search text-5xl text-dark-blue mb-4"></i>
-            <h3 class="text-2xl font-bold text-gray-900 mb-3">
-              Masukkan Data Website
-            </h3>
-            <p class="text-gray-700">
-              Tambahkan domain dan keyword yang ingin Anda lacak. Pilih lokasi
-              pencarian yang relevan.
-            </p>
-            <div
-              class="absolute right-[-2.5rem] top-1/2 -translate-y-1/2 hidden md:block"
-            >
-              <i
-                class="fas fa-arrow-right text-4xl text-primary-blue opacity-50"
-              ></i>
-            </div>
-          </div>
-          <div
-            class="relative flex flex-col items-center p-6 rounded-xl shadow-md bg-soft-blue-bg hover:shadow-lg transform hover:translate-y-[-5px] transition-all duration-300 animated-element delay-400"
-          >
-            <div
-              class="w-16 h-16 bg-primary-blue rounded-full flex items-center justify-center text-white text-3xl font-extrabold mb-6 shadow-md"
-            >
-              3
-            </div>
-            <i class="fas fa-chart-bar text-5xl text-dark-blue mb-4"></i>
-            <h3 class="text-2xl font-bold text-gray-900 mb-3">
-              Analisis & Optimasi
-            </h3>
-            <p class="text-gray-700">
-              Dapatkan laporan ranking secara real-time. Gunakan data ini untuk
-              mengoptimalkan strategi SEO Anda.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
 
-
-    <section id="langganan" class="py-20 bg-soft-blue-bg">
-        <div class="container text-center">
-            <h2 class="text-4xl font-extrabold text-gray-900 mb-4 animated-element mx-auto">
-                Harga Fleksibel, Hasil Optimal
-            </h2>
-            <p class="text-lg text-gray-700 mb-12 max-w-3xl mx-auto animated-element">
-                Bayar sesuai penggunaan Anda. Dapatkan akses penuh ke semua fitur RankCorp dengan harga yang transparan.
-            </p>
-
-            <div class="max-w-xl mx-auto bg-white rounded-2xl shadow-2xl p-8 border border-gray-100 animated-element delay-200">
-                <div class="flex flex-col items-center justify-center mb-6">
-                    <span class="text-2xl md:text-3xl font-extrabold leading-none mb-4">
-                        Mulai Dari
-                    </span>
-                    <span class="text-primary-blue text-5xl md:text-6xl font-extrabold leading-none">
-                        Rp 50.000
-                    </span>
+          <!-- Right: AI Element & Stats Cards -->
+          <div class="relative">
+            <!-- Main Visual Element (Chart/Analytics Icon) -->
+            <div class="ai-element glow-effect flex items-center justify-center mb-8">
+              <div class="w-64 h-64 bg-gradient-to-br from-cyan-400 via-blue-500 to-cyan-600 rounded-3xl flex items-center justify-center shadow-2xl relative overflow-hidden" style="transform: perspective(1000px) rotateY(-15deg) rotateX(5deg);">
+                <!-- Background Pattern -->
+                <div class="absolute inset-0 opacity-10">
+                  <div class="absolute top-4 left-4 w-2 h-16 bg-white rounded-full"></div>
+                  <div class="absolute top-8 left-12 w-2 h-24 bg-white rounded-full"></div>
+                  <div class="absolute top-4 left-20 w-2 h-20 bg-white rounded-full"></div>
+                  <div class="absolute top-12 left-28 w-2 h-32 bg-white rounded-full"></div>
+                  <div class="absolute top-8 left-36 w-2 h-28 bg-white rounded-full"></div>
                 </div>
-                <ul class="text-gray-700 text-left space-y-3 mb-8 text-lg md:text-xl">
-                    <li class="flex items-center">
-                        <i class="fas fa-check-circle text-green-500 mr-3"></i>
-                        Akses penuh ke cek ranking real-time
-                    </li>
-                    <li class="flex items-center">
-                        <i class="fas fa-check-circle text-green-500 mr-3"></i>
-                        Data histori & tren tanpa batas
-                    </li>
-                    <li class="flex items-center">
-                        <i class="fas fa-check-circle text-green-500 mr-3"></i>
-                        Analisis multi keyword & domain
-                    </li>
-                    <li class="flex items-center">
-                        <i class="fas fa-check-circle text-green-500 mr-3"></i>
-                        Dukungan pelanggan prioritas
-                    </li>
-                    <li class="flex items-center">
-                        <i class="fas fa-check-circle text-green-500 mr-3"></i>
-                        Tanpa biaya tersembunyi
-                    </li>
-                </ul>
-                <a
-                    href="{% url 'register' %}"
-                    class="block w-full px-8 py-4 bg-primary-blue text-white text-xl font-bold rounded-full shadow-lg hover:bg-dark-blue transition-all transform hover:scale-105"
-                >
-                    Mulai Berlangganan Sekarang!
-                </a>
-                <p class="mt-4 text-sm text-gray-600">
-                    Akun gratis akan mendapatkan kuota percobaan.
-                </p>
-            </div>
-        </div>
-    </section>
-
-
-    <section id="testimoni" class="py-20 bg-white">
-      <div class="container text-center">
-        <h2
-          class="text-4xl font-extrabold text-gray-900 mb-4 animated-element mx-auto"
-        >
-          Apa Kata Mereka Tentang RankCorp?
-        </h2>
-        <p
-          class="text-lg text-gray-700 mb-12 max-w-3xl mx-auto animated-element"
-        >
-          Dengar langsung dari para pengguna yang telah merasakan manfaat
-          RankCorp dalam meningkatkan visibilitas online mereka.
-        </p>
-        <div class="relative w-full max-w-4xl mx-auto">
-          <div
-            id="testimonial-carousel"
-            class="flex overflow-hidden relative rounded-xl shadow-lg bg-soft-blue-bg"
-          >
-            <div
-              class="testimonial-item min-w-full p-8 flex flex-col items-center text-center transition-transform duration-500 ease-in-out"
-            >
-              <img
-                src="../../../media/assets/profil1.jpg"
-                alt="Foto Profil Joni Dwi - Pengusaha"
-                class="w-24 h-24 rounded-full mb-4 border-4 border-primary-blue object-cover shadow-md"
-              />
-              <p class="text-xl italic text-gray-800 mb-4 font-medium">
-                "RankCorp adalah game-changer untuk bisnis saya! Data
-                real-time sangat membantu dalam menyesuaikan strategi SEO dengan
-                cepat. Antarmukanya juga sangat mudah digunakan."
-              </p>
-              <h4 class="text-lg font-bold text-primary-blue">
-                - Joni Dwi, Pemilik Toko Online
-              </h4>
-              <div class="text-yellow-500 mt-2">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i
-                ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                ><i class="fas fa-star"></i>
+                <!-- Main Icons -->
+                <div class="relative z-10 flex flex-col items-center">
+                  <i class="fas fa-chart-line text-white text-6xl mb-2"></i>
+                  <i class="fas fa-search text-white text-4xl opacity-80"></i>
+                </div>
               </div>
             </div>
-            <div
-              class="testimonial-item min-w-full p-8 flex flex-col items-center text-center transition-transform duration-500 ease-in-out hidden"
-            >
-              <img
-                src="../../../media/assets/profil3.jpg"
-                alt="Foto Profil Ahmad Luthfi - SEO Specialist"
-                class="w-24 h-24 rounded-full mb-4 border-4 border-primary-blue object-cover shadow-md"
-              />
-              <p class="text-xl italic text-gray-800 mb-4 font-medium">
-                "Sebagai SEO specialist, saya butuh alat yang akurat dan
-                efisien. RankCorp memberikan itu semua. Sangat
-                direkomendasikan untuk siapa saja yang serius dengan SEO!"
-              </p>
-              <h4 class="text-lg font-bold text-primary-blue">
-                - Ahmad Luthfi, SEO Specialist
-              </h4>
-              <div class="text-yellow-500 mt-2">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i
-                ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                ><i class="fas fa-star-half-alt"></i>
+
+            <!-- Glassmorphism Stats Cards -->
+            <div class="grid grid-cols-2 gap-4">
+              <div class="stats-card fade-in-up" style="animation-delay: 0.2s;">
+                <div class="text-2xl font-bold text-cyan-600 mb-2 flex items-center justify-center">
+                  <i class="fas fa-check-circle mr-2"></i><span data-i18n="landing_stat_akurat">Akurat</span>
+                </div>
+                <div class="text-sm text-slate-600 text-center" data-i18n="landing_stat_verified">Data Terverifikasi</div>
               </div>
-            </div>
-            <div
-              class="testimonial-item min-w-full p-8 flex flex-col items-center text-center transition-transform duration-500 ease-in-out hidden"
-            >
-              <img
-                src="../../../media/assets/profil2.jpg"
-                alt="Foto Profil Siti Rahmawati - Blogger"
-                class="w-24 h-24 rounded-full mb-4 border-4 border-primary-blue object-cover shadow-md"
-              />
-              <p class="text-xl italic text-gray-800 mb-4 font-medium">
-                "Proses registrasi via WhatsApp sangat praktis. Fitur histori
-                ranking juga membantu saya melihat progres website saya dari
-                waktu ke waktu. Love it!"
-              </p>
-              <h4 class="text-lg font-bold text-primary-blue">
-                - Siti Rahmawati, Blogger
-              </h4>
-              <div class="text-yellow-500 mt-2">
-                <i class="fas fa-star"></i><i class="fas fa-star"></i
-                ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                ><i class="fas fa-star"></i>
+              <div class="stats-card fade-in-up" style="animation-delay: 0.4s;">
+                <div class="text-2xl font-bold text-blue-600 mb-2 flex items-center justify-center">
+                  <i class="fas fa-bolt mr-2"></i><span data-i18n="landing_stat_instan">Instan</span>
+                </div>
+                <div class="text-sm text-slate-600 text-center" data-i18n="landing_stat_update">Update Ranking</div>
               </div>
             </div>
           </div>
-          <button
-            id="prev-testimonial"
-            class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white text-primary-blue p-3 rounded-full shadow-lg hover:bg-soft-blue-bg transition z-20 -ml-6 md:-ml-10 focus:outline-none focus:ring-2 focus:ring-primary-blue"
-          >
-            <i class="fas fa-chevron-left text-2xl"></i>
-          </button>
-          <button
-            id="next-testimonial"
-            class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white text-primary-blue p-3 rounded-full shadow-lg hover:bg-soft-blue-bg transition z-20 -mr-6 md:-mr-10 focus:outline-none focus:ring-2 focus:ring-primary-blue"
-          >
-            <i class="fas fa-chevron-right text-2xl"></i>
-          </button>
-          <div id="testimonial-dots" class="flex justify-center mt-6 space-x-2">
-            </div>
         </div>
       </div>
     </section>
 
+    <!-- Two Column Section -->
+    <section id="cara-kerja" class="py-24 bg-white">
+      <div class="container mx-auto px-6 md:px-12 lg:px-16 xl:px-20">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+          <!-- Left: Custom Rounded Image -->
+          <div class="fade-in-up">
+            <div class="custom-rounded bg-gradient-to-br from-cyan-100 to-blue-100 p-8 shadow-2xl">
+              <img
+                src="../../../media/assets/dashboard_rank_checker.png"
+                alt="Dashboard U-Rank"
+                class="w-full h-auto rounded-2xl"
+              />
+            </div>
+          </div>
 
-    <section id="faq" class="py-20 bg-white">
-      <div class="container">
-        <div class="text-center mb-16 animated-element mx-auto">
-          <h2 class="text-4xl font-extrabold text-gray-900">
-            Pertanyaan yang Sering Diajukan (FAQ)
+          <!-- Right: Content -->
+          <div class="fade-in-up">
+            <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-6" style="font-family: 'Space Grotesk', sans-serif;">
+              Cara Kerja yang <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600">Sederhana</span>
+            </h2>
+            <p class="text-lg text-slate-600 mb-8 leading-relaxed">
+              Dengan teknologi AI canggih, U-Rank memudahkan Anda untuk memantau dan menganalisis ranking website secara real-time. Proses yang cepat, akurat, dan mudah digunakan.
+            </p>
+            <ul class="space-y-4 mb-8">
+              <li class="flex items-start">
+                <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold mr-4">1</div>
+                <div>
+                  <h3 class="font-bold text-slate-900 mb-1">Daftar & Login</h3>
+                  <p class="text-slate-600">Buat akun gratis dengan verifikasi OTP via WhatsApp</p>
+                </div>
+              </li>
+              <li class="flex items-start">
+                <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold mr-4">2</div>
+                <div>
+                  <h3 class="font-bold text-slate-900 mb-1">Input Keyword & Domain</h3>
+                  <p class="text-slate-600">Masukkan keyword dan domain yang ingin Anda pantau</p>
+                </div>
+              </li>
+              <li class="flex items-start">
+                <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center text-white font-bold mr-4">3</div>
+                <div>
+                  <h3 class="font-bold text-slate-900 mb-1">Analisis & Optimasi</h3>
+                  <p class="text-slate-600">Dapatkan laporan ranking real-time dan optimalkan SEO Anda</p>
+                </div>
+              </li>
+            </ul>
+            <a href="{% url 'register' %}" class="btn-pill btn-primary inline-flex items-center">
+              <span data-i18n="landing_how_cta">Coba Sekarang</span> <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="layanan" class="py-24 bg-gradient-to-b from-white to-cyan-50">
+      <div class="container mx-auto px-6 md:px-12 lg:px-16 xl:px-20">
+        <div class="text-center mb-16 fade-in-up">
+          <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-4" style="font-family: 'Space Grotesk', sans-serif;">
+            Layanan <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600">Unggulan</span>
           </h2>
-          <p class="mt-4 text-lg text-gray-700 max-w-3xl mx-auto">
-            Temukan jawaban atas pertanyaan umum seputar RankCorp dan
-            fitur-fiturnya.
+          <p class="text-xl text-slate-600 max-w-2xl mx-auto">
+            Fitur-fitur canggih yang membantu Anda mengoptimalkan strategi SEO dengan lebih efektif
           </p>
         </div>
 
-        <div class="max-w-3xl mx-auto">
-          <div
-            class="accordion-item bg-gray-50 rounded-lg shadow-md mb-4 animated-element"
-          >
-            <div
-              class="accordion-header p-5 flex justify-between items-center text-lg font-semibold text-gray-800 hover:bg-blue-100 hover:text-primary-blue rounded-lg transition-colors"
-            >
-              Bagaimana cara RankCorp mendapatkan data ranking?
-              <i class="fas fa-plus accordion-icon"></i>
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Service Card 1 -->
+          <div class="service-card glass rounded-3xl p-8 fade-in-up">
+            <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+              <i class="fas fa-chart-line text-white text-2xl"></i>
             </div>
-            <div class="accordion-content">
-              <p class="py-4 px-5 text-gray-700">
-                RankCorp menggunakan teknologi canggih dan API resmi untuk
-                melakukan pengecekan posisi keyword dan domain secara real-time
-                di hasil pencarian Google. Data diambil langsung dari SERP untuk
-                memastikan akurasi.
-              </p>
-            </div>
-          </div>
-
-          <div
-            class="accordion-item bg-gray-50 rounded-lg shadow-md mb-4 animated-element delay-100"
-          >
-            <div
-              class="accordion-header p-5 flex justify-between items-center text-lg font-semibold text-gray-800 hover:bg-blue-100 hover:text-primary-blue transition-colors"
-            >
-              Apakah RankCorp gratis untuk digunakan?
-              <i class="fas fa-plus accordion-icon"></i>
-            </div>
-            <div class="accordion-content">
-              <p class="py-4 px-5 text-gray-700">
-                RankCorp menyediakan paket gratis dengan batasan tertentu,
-                memungkinkan Anda mencoba fitur-fitur dasar. Untuk akses penuh
-                dan fitur premium, kami menawarkan berbagai paket berbayar yang
-                kompetitif.
-              </p>
-            </div>
-          </div>
-
-          <div
-            class="accordion-item bg-gray-50 rounded-lg shadow-md mb-4 animated-element delay-200"
-          >
-            <div
-              class="accordion-header p-5 flex justify-between items-center text-lg font-semibold text-gray-800 hover:bg-blue-100 hover:text-primary-blue transition-colors"
-            >
-              Seberapa sering data ranking diperbarui?
-              <i class="fas fa-plus accordion-icon"></i>
-            </div>
-            <div class="accordion-content">
-              <p class="py-4 px-5 text-gray-700">
-                Data ranking diperbarui secara real-time setiap kali Anda
-                melakukan pengecekan. Untuk pengguna premium, kami juga
-                menyediakan opsi pemantauan otomatis harian.
-              </p>
-            </div>
-          </div>
-
-          <div
-            class="accordion-item bg-gray-50 rounded-lg shadow-md mb-4 animated-element delay-300"
-          >
-            <div
-              class="accordion-header p-5 flex justify-between items-center text-lg font-semibold text-gray-800 hover:bg-blue-100 hover:text-primary-blue transition-colors"
-            >
-              Apakah ada batasan jumlah keyword yang bisa dicek?
-              <i class="fas fa-plus accordion-icon"></i>
-            </div>
-            <div class="accordion-content">
-              <p class="py-4 px-5 text-gray-700">
-                Ya, jumlah keyword yang bisa dicek tergantung pada paket
-                langganan Anda. Paket gratis memiliki batasan, sementara paket
-                berbayar menawarkan kuota yang lebih besar dan fitur tak
-                terbatas.
-              </p>
+            <h3 class="text-2xl font-bold text-slate-900 mb-4">Cek Ranking Real-time</h3>
+            <p class="text-slate-600 leading-relaxed">
+              Pantau posisi keyword dan domain website Anda di Google secara real-time dengan akurasi tinggi.
             </p>
           </div>
+
+          <!-- Service Card 2 -->
+          <div class="service-card glass rounded-3xl p-8 fade-in-up" style="animation-delay: 0.2s;">
+            <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+              <i class="fas fa-brain text-white text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900 mb-4">Analisis SEO dengan AI</h3>
+            <p class="text-slate-600 leading-relaxed">
+              Dapatkan analisis mendalam menggunakan teknologi AI untuk optimasi SEO yang lebih baik.
+            </p>
+          </div>
+
+          <!-- Service Card 3 -->
+          <div class="service-card glass rounded-3xl p-8 fade-in-up" style="animation-delay: 0.4s;">
+            <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+              <i class="fas fa-history text-white text-2xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900 mb-4">History & Trend</h3>
+            <p class="text-slate-600 leading-relaxed">
+              Lihat riwayat perubahan ranking dan analisis trend untuk strategi SEO jangka panjang.
+            </p>
+          </div>
+        </div>
+
+        <div class="text-center mt-12 fade-in-up" style="animation-delay: 0.6s;">
+          <a href="{% url 'register' %}" class="btn-pill btn-primary inline-flex items-center">
+            <span data-i18n="landing_services_see_all">Lihat Semua Fitur</span> <i class="fas fa-arrow-right ml-2"></i>
+          </a>
         </div>
       </div>
     </section>
 
-
-    <section class="py-20 bg-primary-blue text-white text-center">
-      <div class="container animated-element mx-auto">
-        <h2 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight text-white">
-          Siap Melangkah Maju dalam SEO Anda?
+    <!-- CTA Section -->
+    <section class="py-24 bg-gradient-to-r from-cyan-600 to-blue-600 text-white relative overflow-hidden">
+      <div class="absolute inset-0">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10">
+          <div class="absolute top-20 left-20 w-64 h-64 bg-white rounded-full filter blur-3xl"></div>
+          <div class="absolute bottom-20 right-20 w-64 h-64 bg-white rounded-full filter blur-3xl"></div>
+        </div>
+      </div>
+      <div class="container mx-auto px-6 md:px-12 lg:px-16 xl:px-20 text-center relative z-10">
+        <h2 class="text-4xl md:text-5xl font-black mb-6" style="font-family: 'Space Grotesk', sans-serif;" data-i18n="landing_cta_title">
+          Siap Optimalkan SEO Anda?
         </h2>
-        <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto text-blue-100">
-          Jangan biarkan ranking website Anda menjadi misteri. Mulai pantau,
-          analisis, dan optimalkan strategi SEO Anda dengan RankCorp hari
-          ini!
+        <p class="text-xl mb-8 text-cyan-100 max-w-2xl mx-auto" data-i18n="landing_cta_desc">
+          Mulai pantau ranking website Anda sekarang dan dapatkan data akurat untuk strategi SEO yang lebih baik.
         </p>
-        <a
-          href="{% url 'register' %}"
-          class="px-10 py-5 bg-white text-primary-blue text-2xl font-bold rounded-full shadow-xl hover:bg-gray-100 transition-all transform hover:scale-105 flex items-center justify-center"
-        >
-          Mulai Gratis Sekarang! <i class="fas fa-rocket ml-3"></i>
+        <a href="{% url 'register' %}" class="btn-pill bg-white text-cyan-600 inline-flex items-center hover:bg-cyan-50">
+          <span data-i18n="landing_cta_btn">Daftar Gratis Sekarang</span> <i class="fas fa-rocket ml-2"></i>
         </a>
       </div>
     </section>
 
-
-    <footer class="bg-gray-900 text-gray-300 py-12">
-      <div class="container grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div class="col-span-1 text-center md:text-left">
-          <h3 class="text-2xl font-extrabold text-white mb-4">
-            RankCorp<span class="text-accent-blue">.</span>
-          </h3>
-          <p
-            class="text-gray-400 text-sm leading-relaxed max-w-xs md:max-w-none mx-auto md:mx-0"
-          >
-            Alat monitoring ranking SEO real-time terdepan untuk membantu Anda
-            menguasai hasil pencarian Google.
-          </p>
-          <div class="flex space-x-4 justify-center md:justify-start mt-6">
-            <a
-              href="https://facebook.com/RankCorp"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-gray-400 hover:text-white transition-colors text-2xl"
-            >
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a
-              href="https://twitter.com/RankCorp"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-gray-400 hover:text-white transition-colors text-2xl"
-            >
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a
-              href="https://instagram.com/RankCorp"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-gray-400 hover:text-white transition-colors text-2xl"
-            >
-              <i class="fab fa-instagram"></i>
-            </a>
-            <a
-              href="https://linkedin.com/company/RankCorp"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-gray-400 hover:text-white transition-colors text-2xl"
-            >
-              <i class="fab fa-linkedin-in"></i>
-            </a>
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-300 py-12">
+      <div class="container mx-auto px-6 md:px-12 lg:px-16 xl:px-20">
+        <div class="grid md:grid-cols-4 gap-8 mb-8">
+          <div>
+            <h3 class="text-2xl font-bold text-white mb-4">U-Rank</h3>
+            <p class="text-slate-400 text-sm">
+              Alat monitoring ranking SEO real-time terdepan untuk membantu Anda menguasai hasil pencarian Google.
+            </p>
+          </div>
+          <div>
+            <h4 class="text-white font-semibold mb-4">Navigasi</h4>
+            <ul class="space-y-2 text-sm">
+              <li><a href="#fitur" class="hover:text-cyan-400 transition-colors">Fitur</a></li>
+              <li><a href="#layanan" class="hover:text-cyan-400 transition-colors">Layanan</a></li>
+              <li><a href="#cara-kerja" class="hover:text-cyan-400 transition-colors">Cara Kerja</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-white font-semibold mb-4">Dukungan</h4>
+            <ul class="space-y-2 text-sm">
+              <li><a href="#" class="hover:text-cyan-400 transition-colors">Pusat Bantuan</a></li>
+              <li><a href="#" class="hover:text-cyan-400 transition-colors">Kontak Kami</a></li>
+              <li><a href="#" class="hover:text-cyan-400 transition-colors">Kebijakan Privasi</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-white font-semibold mb-4">Hubungi Kami</h4>
+            <p class="text-slate-400 text-sm mb-2">Email: support@u-rank.id</p>
+            <p class="text-slate-400 text-sm">WhatsApp: +62 812-3456-7890</p>
           </div>
         </div>
-        <div class="col-span-1 text-center md:text-left">
-          <h4 class="text-xl font-semibold mb-4 text-blue-300">Navigasi</h4>
-          <ul class="space-y-2">
-            <li>
-              <a
-                href="#fitur"
-                class="text-gray-400 hover:text-white transition-colors"
-                >Fitur</a
-              >
-            </li>
-            <li>
-              <a
-                href="#mengapa-kami"
-                class="text-gray-400 hover:text-white transition-colors"
-                >Mengapa Kami</a
-              >
-            </li>
-            <li>
-              <a
-                href="#cara-kerja"
-                class="text-gray-400 hover:text-white transition-colors"
-                >Cara Kerja</a
-              >
-            </li>
-            <li>
-              <a
-                href="#langganan"
-                class="text-gray-400 hover:text-white transition-colors"
-                >Langganan</a
-              >
-            </li>
-            <li>
-              <a
-                href="#testimoni"
-                class="text-gray-400 hover:text-white transition-colors"
-                >Testimoni</a
-              >
-            </li>
-            <li>
-              <a
-                href="#faq"
-                class="text-gray-400 hover:text-white transition-colors"
-                >FAQ</a
-              >
-            </li>
-          </ul>
-        </div>
-        <div class="col-span-1 text-center md:text-left">
-          <h4 class="text-xl font-semibold mb-4 text-blue-300">Dukungan</h4>
-          <ul class="space-y-2">
-            <li>
-              <a
-                href="#"
-                class="text-gray-400 hover:text-white transition-colors"
-                >Pusat Bantuan</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="text-gray-400 hover:text-white transition-colors"
-                >Kontak Kami</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="text-gray-400 hover:text-white transition-colors"
-                >Kebijakan Privasi</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="text-gray-400 hover:text-white transition-colors"
-                >Syarat & Ketentuan</a
-              >
-            </li>
-          </ul>
-        </div>
-        <div class="col-span-1 text-center md:text-left">
-          <h4 class="text-xl font-semibold mb-4 text-blue-300">Hubungi Kami</h4>
-          <p class="text-gray-400 text-sm mb-2">
-            Email: <a href="mailto:support@RankCorp.id" class="hover:text-white">support@RankCorp.id</a>
-          </p>
-          <p class="text-gray-400 text-sm mb-2">
-            WhatsApp: <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" class="hover:text-white">+62 812-3456-7890</a>
-          </p>
-          <p class="text-gray-400 text-sm mt-4">
-            Alamat: Jl. Contoh No. 123, Surakarta, Indonesia
-          </p>
-          <p class="text-gray-300 text-sm mt-6">
-            &copy; {{ "2025" }} RankCorp. Hak Cipta Dilindungi.
-          </p>
+        <div class="border-t border-slate-800 pt-8 text-center text-sm text-slate-400">
+          <p data-i18n="landing_footer_copyright">&copy; 2025 U-Rank. Hak Cipta Dilindungi.</p>
         </div>
       </div>
     </footer>
 
     <script>
-      // JavaScript for Mobile Menu Toggle
-      const hamburger = document.getElementById("hamburger");
-      const mobileMenu = document.getElementById("mobile-menu");
-      const mobileMenuOverlay = document.getElementById("mobile-menu-overlay");
+      // Mobile Menu Toggle
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const closeMenu = document.getElementById('close-menu');
 
-      function toggleMobileMenu() {
-        hamburger.classList.toggle("active");
-        mobileMenu.classList.toggle("active");
-        mobileMenuOverlay.classList.toggle("opacity-0");
-        mobileMenuOverlay.classList.toggle("opacity-50");
-        mobileMenuOverlay.classList.toggle("pointer-events-none");
-        document.body.classList.toggle("overflow-hidden"); // Prevent scrolling when mobile menu is open
-      }
-
-      hamburger.addEventListener("click", toggleMobileMenu);
-      mobileMenuOverlay.addEventListener("click", toggleMobileMenu); // Close menu when overlay is clicked
-
-      // Close mobile menu when a link is clicked
-      document.querySelectorAll("#mobile-menu a").forEach((link) => {
-        link.addEventListener("click", () => {
-          if (mobileMenu.classList.contains("active")) {
-            toggleMobileMenu();
-          }
-        });
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.add('active');
       });
 
-      // JavaScript for Accordion (FAQ)
-      document.querySelectorAll(".accordion-header").forEach((header) => {
-        header.addEventListener("click", () => {
-          const accordionItem = header.closest(".accordion-item");
-          const content = accordionItem.querySelector(".accordion-content");
-          const icon = header.querySelector(".accordion-icon");
-
-          // Close other open accordions
-          document.querySelectorAll(".accordion-item").forEach((item) => {
-            if (item !== accordionItem) {
-              item
-                .querySelector(".accordion-content")
-                .classList.remove("active");
-              item
-                .querySelector(".accordion-header")
-                .classList.remove("active");
-              item.querySelector(".accordion-icon").classList.remove("rotate");
-            }
-          });
-
-          // Toggle current accordion
-          content.classList.toggle("active");
-          header.classList.toggle("active");
-          icon.classList.toggle("rotate");
-        });
+      closeMenu.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
       });
 
-      // JavaScript for Testimonial Carousel
-      const testimonials = document.querySelectorAll(".testimonial-item");
-      const dotsContainer = document.getElementById("testimonial-dots");
-      const prevBtn = document.getElementById("prev-testimonial");
-      const nextBtn = document.getElementById("next-testimonial");
-      let currentTestimonial = 0;
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+          mobileMenu.classList.remove('active');
+        }
+      });
 
-      // Generate dots based on number of testimonials
-      if (dotsContainer) {
-        testimonials.forEach((_, i) => {
-          const dot = document.createElement("span");
-          dot.classList.add(
-            "dot",
-            "w-3",
-            "h-3",
-            "bg-primary-blue",
-            "rounded-full",
-            "cursor-pointer",
-            "opacity-50",
-            "transition-opacity",
-            "duration-300"
-          );
-          dot.addEventListener("click", () => {
-            currentTestimonial = i;
-            showTestimonial(currentTestimonial);
-          });
-          dotsContainer.appendChild(dot);
-        });
-      }
+      // Intersection Observer for Fade In Up Animation
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
 
-
-      function showTestimonial(index) {
-        testimonials.forEach((testimonial, i) => {
-          if (i === index) {
-            testimonial.classList.remove("hidden");
-          } else {
-            testimonial.classList.add("hidden");
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
           }
         });
-        updateDots(index);
-      }
+      }, observerOptions);
 
-      function updateDots(index) {
-        if (!dotsContainer) return; // Ensure dotsContainer exists
-        Array.from(dotsContainer.children).forEach((dot, i) => {
-          if (i === index) {
-            dot.classList.add("opacity-100");
-          } else {
-            dot.classList.remove("opacity-100");
+      document.querySelectorAll('.fade-in-up').forEach(el => {
+        observer.observe(el);
+      });
+
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+            mobileMenu.classList.remove('active');
           }
         });
-      }
-
-      if (nextBtn) {
-        nextBtn.addEventListener("click", () => {
-          currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-          showTestimonial(currentTestimonial);
-        });
-      }
-
-      if (prevBtn) {
-        prevBtn.addEventListener("click", () => { // Perbaikan di sini
-          currentTestimonial =
-            (currentTestimonial - 1 + testimonials.length) % testimonials.length;
-          showTestimonial(currentTestimonial);
-        });
-      }
-
-      showTestimonial(0); // Show the first testimonial initially
-
-      // Automatic carousel (optional)
-      let testimonialInterval = setInterval(() => {
-        currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-        showTestimonial(currentTestimonial);
-      }, 5000); // Change every 5 seconds
-
-      // Pause on hover
-      const carouselContainer = document.getElementById("testimonial-carousel");
-      if (carouselContainer) { // Check if carouselContainer exists
-        carouselContainer.addEventListener("mouseenter", () =>
-          clearInterval(testimonialInterval)
-        );
-        carouselContainer.addEventListener("mouseleave", () => {
-          testimonialInterval = setInterval(() => {
-            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-            showTestimonial(currentTestimonial);
-          }, 5000);
-        });
-      }
-
-
-      // JavaScript for Scroll Animations (Intersection Observer)
-      const animatedElements = document.querySelectorAll(".animated-element");
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("is-visible");
-              // Stop observing once it's visible if you only want it to animate once
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.1 }
-      ); // Adjust threshold as needed (0.1 means 10% of element visible)
-
-      animatedElements.forEach((element) => {
-        observer.observe(element);
       });
     </script>
+    <script src="/static/core/js/translations.js"></script>
   </body>
 </html>

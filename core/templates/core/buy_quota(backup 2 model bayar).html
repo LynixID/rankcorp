@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tingkatkan Akun Anda - U-Rank</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="/media/assets/loggo.png"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      src="https://app.sandbox.midtrans.com/snap/snap.js"
+      data-client-key="{{ settings.MIDTRANS_CLIENT_KEY }}"
+    ></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      /* Custom shadow for a more premium feel, consistent with previous components */
+      .card-shadow {
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05),
+          0 4px 6px -2px rgba(0, 0, 0, 0.02);
+      }
+      .card-hover-shadow:hover {
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 text-gray-800 font-sans">
+    {% include 'core/navbar.html' %} {% load static %} {% load humanize %}
+
+    <div id="packages-section" class="max-w-6xl mx-auto px-4 py-12">
+      <h2
+        class="text-3xl sm:text-4xl font-extrabold mb-10 text-center text-gray-800"
+      >
+        Pilih Paket Pencarian Terbaik untuk Anda
+      </h2>
+
+      {% if packages %}
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for package in packages %}
+        <div
+          class="bg-white rounded-2xl overflow-hidden card-shadow card-hover-shadow border border-blue-100 flex flex-col transform hover:-translate-y-2 transition-all duration-300 ease-in-out"
+        >
+          <div class="bg-blue-600 text-white p-6 text-center">
+            <h3 class="text-2xl font-bold mb-1">{{ package.name }}</h3>
+            <p class="text-sm opacity-90">Solusi tepat untuk kebutuhan Anda.</p>
+          </div>
+
+          <div class="p-8 flex-grow flex flex-col justify-between">
+            <div class="text-center mb-6">
+              <p class="text-sm text-gray-500 mb-1">Mulai dari</p>
+              <p class="text-5xl font-extrabold text-gray-900 leading-tight">
+                Rp{{ package.price|intcomma }}
+              </p>
+              <p class="text-base text-gray-600 mt-1">per transaksi</p>
+            </div>
+
+            <ul class="text-gray-700 text-base mb-8 space-y-3">
+              <li class="flex items-center">
+                <svg
+                  class="w-5 h-5 mr-2 text-blue-500 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  ></path>
+                </svg>
+                <p>
+                  <span class="text-xl font-extrabold text-blue-700"
+                    >{{ package.quota_amount|intcomma }}</span
+                  >
+                  Kuota Pencarian Ultra Cepat
+                </p>
+              </li>
+              <li class="flex items-center">
+                <svg
+                  class="w-5 h-5 mr-2 text-blue-500 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                <strong>Buka Fitur Premium</strong>
+              </li>
+              <li class="flex items-center">
+                <svg
+                  class="w-5 h-5 mr-2 text-blue-500 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                Dukungan Penuh untuk SEO Lokal & Global
+              </li>
+              <li class="flex items-center">
+                <svg
+                  class="w-5 h-5 mr-2 text-blue-500 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                Integrasi Mudah dengan Workflow Anda
+              </li>
+            </ul>
+
+            <a
+              data-package-id="{{ package.id }}"
+              href="#"
+              class="btnTrigger block text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            >
+              Pilih Paket Ini
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="col-span-full text-center text-gray-500 py-12">
+        <h3 class="text-2xl font-semibold mb-4">
+          Ups! Belum Ada Paket Tersedia.
+        </h3>
+        <p class="text-lg">
+          Kami sedang menyiapkan paket-paket terbaik untuk Anda. Silakan cek
+          kembali nanti atau hubungi dukungan kami.
+        </p>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Modal Wrapper -->
+    <div
+      id="paymentModal"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 transition-opacity duration-300 ease-out opacity-0 pointer-events-none"
+    >
+      <div
+        class="bg-white rounded-xl shadow-2xl p-8 w-full max-w-lg mx-4 transform scale-95 opacity-0 transition-all duration-300 ease-out"
+        id="paymentModalContent"
+      >
+        <h3 class="text-3xl font-extrabold mb-4 text-gray-900 text-center">
+          Pilih Metode Pembayaran
+        </h3>
+        <p class="mb-8 text-gray-700 text-center">
+          Silakan pilih salah satu metode pembayaran di bawah ini untuk
+          melanjutkan transaksi Anda.
+        </p>
+
+        <div class="space-y-6">
+          <button
+            id="payGatewayBtn"
+            class="w-full text-left p-6 border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 ease-in-out cursor-pointer group flex items-start space-x-4 bg-blue-100 hover:bg-blue-100 hover:scale-[1.005]"
+          >
+            <div
+              class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-600 text-white text-xl font-bold"
+            >
+              💳
+            </div>
+            <div>
+              <h4
+                class="text-xl font-semibold text-gray-800 group-hover:text-blue-700"
+              >
+                Payment Gateway (Midtrans)
+              </h4>
+              <p class="mt-1 text-gray-600 text-sm">
+                Pembayaran instan melalui berbagai metode (kartu kredit/debit,
+                e-wallet, virtual account). Cepat dan aman.
+              </p>
+            </div>
+          </button>
+
+          <button
+            id="payTransferBtn"
+            class="w-full text-left p-6 border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 ease-in-out cursor-pointer group flex items-start space-x-4 bg-gray-50 hover:bg-gray-100 hover:scale-[1.005]"
+          >
+            <div
+              class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-gray-600 text-white text-xl font-bold"
+            >
+              🏦
+            </div>
+            <div>
+              <h4
+                class="text-xl font-semibold text-gray-800 group-hover:text-gray-700"
+              >
+                Transfer Bank Manual
+              </h4>
+              <p class="mt-1 text-gray-600 text-sm">
+                Lakukan transfer langsung ke rekening bank kami. Konfirmasi
+                dengan mengirimkan bukti transfer yang akan diproses oleh admin.
+              </p>
+            </div>
+          </button>
+        </div>
+
+        <button
+          id="closeModalBtn"
+          class="mt-8 w-full text-center text-base text-gray-500 hover:text-gray-700 font-medium transition-colors duration-200 "
+        >
+          Batal
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  // Variabel untuk menyimpan ID paket yang dipilih
+  let selectedPackageId = null;
+
+  // Mendapatkan elemen modal dan kontennya
+  const paymentModal = document.getElementById("paymentModal");
+  const paymentModalContent = document.getElementById("paymentModalContent");
+  const closeModalBtn = document.getElementById("closeModalBtn");
+  const payGatewayBtn = document.getElementById("payGatewayBtn");
+  const payTransferBtn = document.getElementById("payTransferBtn");
+
+  // Fungsi untuk membuka modal dengan transisi
+  function openModal() {
+    paymentModal.classList.remove("opacity-0", "pointer-events-none");
+    paymentModal.classList.add("opacity-100");
+    paymentModalContent.classList.remove("scale-95", "opacity-0");
+    paymentModalContent.classList.add("scale-100", "opacity-100");
+  }
+
+  // Fungsi untuk menutup modal dengan transisi
+  function closeModal() {
+    paymentModal.classList.remove("opacity-100");
+    paymentModal.classList.add("opacity-0");
+    paymentModalContent.classList.remove("scale-100", "opacity-100");
+    paymentModalContent.classList.add("scale-95", "opacity-0");
+
+    // Hapus pointer-events-none setelah transisi selesai untuk memastikan tidak ada interaksi saat modal tidak terlihat
+    setTimeout(() => {
+      paymentModal.classList.add("pointer-events-none");
+    }, 300); // Sesuaikan dengan durasi transisi CSS
+  }
+
+  // Event listener untuk tombol-tombol yang memicu modal (misal: "Pilih Paket A", "Pilih Paket B")
+  // Pastikan tombol-tombol ini memiliki kelas "btnTrigger" dan atribut data-package-id
+  document.querySelectorAll(".btnTrigger").forEach((button) => {
+    button.addEventListener("click", function () {
+      selectedPackageId = this.dataset.packageId; // Mengambil ID paket dari atribut data
+      openModal(); // Memanggil fungsi openModal untuk menampilkan modal
+    });
+  });
+
+  // Event listener untuk tombol "Batal"
+  closeModalBtn.addEventListener("click", closeModal);
+
+  // Event listener untuk menutup modal saat mengklik di luar konten modal
+  paymentModal.addEventListener("click", (e) => {
+    if (e.target === paymentModal) {
+      closeModal();
+    }
+  });
+
+  // Event listener untuk tombol Payment Gateway (Midtrans)
+  payGatewayBtn.addEventListener("click", function () {
+    if (!selectedPackageId) {
+      alert("Silakan pilih paket terlebih dahulu.");
+      return;
+    }
+
+    // Mengambil token SNAP dari backend
+    fetch(`/payment/${selectedPackageId}/`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok " + response.statusText);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data.snap_token) {
+          // Membuka Midtrans SNAP
+          snap.pay(data.snap_token, {
+            onSuccess: function (result) {
+              // Jika pembayaran berhasil
+              alert("Pembayaran berhasil!");
+              // Redirect ke halaman cek_rank atau halaman konfirmasi sukses
+              window.location.href = "{% url 'cek_rank' %}";
+              closeModal(); // Tutup modal setelah berhasil
+            },
+            onPending: function (result) {
+              // Jika pembayaran menunggu konfirmasi (misal: VA)
+              alert("Transaksi Anda sedang menunggu pembayaran.");
+              closeModal(); // Tutup modal setelah menginformasikan
+            },
+            onError: function (result) {
+              // Jika terjadi kesalahan pembayaran
+              alert("Terjadi kesalahan pembayaran. Silakan coba lagi.");
+              console.error("Midtrans Error:", result);
+            },
+            onClose: function () {
+              // Jika pengguna menutup pop-up Midtrans
+              alert("Anda menutup pembayaran sebelum selesai.");
+            },
+          });
+        } else {
+          alert("Gagal mendapatkan token pembayaran. Coba lagi.");
+          console.error("No snap_token received:", data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching payment token:", error);
+        alert("Gagal memulai pembayaran. Silakan coba lagi nanti.");
+      });
+  });
+
+  // Event listener untuk tombol Transfer Bank Manual
+  payTransferBtn.addEventListener("click", function () {
+    if (!selectedPackageId) {
+      alert("Silakan pilih paket terlebih dahulu.");
+      return;
+    }
+    // Redirect ke halaman upload bukti transfer
+    window.location.href = `/upload-proof/${selectedPackageId}/`;
+    closeModal(); // Tutup modal setelah redirect
+  });
+</script>

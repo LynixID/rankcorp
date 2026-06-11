@@ -1,182 +1,216 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Register - RankCorp</title>
-    <link rel="icon" type="image/png" href="../../../media/assets/favicon.png">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Daftar - U-Rank</title>
+    <link rel="icon" type="image/png" href="/media/assets/loggo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "cyan-500": "#06b6d4",
+              "cyan-600": "#0891b2",
+              "blue-500": "#3b82f6",
+              "blue-600": "#2563eb",
+            },
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+              display: ["Space Grotesk", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
     <style>
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, #ecfeff 0%, #ffffff 50%, #f0f9ff 100%);
+        min-height: 100vh;
+      }
+      .glass {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 8px 32px 0 rgba(6, 182, 212, 0.1);
+      }
+      .input-modern {
+        background: rgba(255, 255, 255, 0.9);
+        border: 2px solid rgba(6, 182, 212, 0.2);
+        border-radius: 12px;
+        padding: 12px 16px;
+        transition: all 0.3s ease;
+      }
+      .input-modern:focus-within {
+        border-color: #06b6d4;
+        box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+        background: white;
       }
       @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-10px);
-        }
-      }
-      .animate-fade-in {
-        animation: fadeIn 0.6s ease-out forwards;
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
       }
       .animate-float {
         animation: float 4s ease-in-out infinite;
       }
-      .input-field:focus-within {
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fade-in {
+        animation: fadeIn 0.6s ease-out forwards;
       }
     </style>
   </head>
-  <body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+  <body class="min-h-screen flex items-center justify-center p-4">
     <!-- ALERT -->
     {% if messages %}
-    <div class="fixed top-0 z-50 space-y-2">
+    <div class="fixed top-10 left-1/2 transform -translate-x-1/2 z-50 space-y-2 w-[90%] max-w-md">
       {% for message in messages %}
       <div
-        class="bg-red-500 text-white px-4 py-3 rounded shadow-lg flex items-center space-x-2 animate-fade-in"
+        class="glass px-4 py-3 rounded-xl shadow-lg flex items-center space-x-2 animate-fade-in border border-red-200"
       >
-        <i class="fas fa-exclamation-circle"></i>
-        <span>{{ message }}</span>
+        <i class="fas fa-exclamation-circle text-red-600"></i>
+        <span class="text-sm text-slate-700">{{ message }}</span>
       </div>
       {% endfor %}
     </div>
     {% endif %}
 
     <div
-      class="bg-white rounded-xl shadow-2xl overflow-hidden w-full max-w-md animate-fade-in"
+      class="glass rounded-2xl shadow-2xl overflow-hidden w-full max-w-md animate-fade-in"
     >
       <div
-        class="bg-gradient-to-r from-blue-500 to-blue-600 p-6 text-center relative"
+        class="bg-gradient-to-r from-cyan-600 to-blue-600 p-8 text-center relative overflow-hidden"
       >
         <div
-          class="absolute -top-10 -left-10 w-20 h-20 bg-blue-400 rounded-full opacity-20 animate-float"
+          class="absolute -top-10 -left-10 w-20 h-20 bg-white rounded-full opacity-10 animate-float"
         ></div>
         <div
-          class="absolute -bottom-5 -right-5 w-24 h-24 bg-blue-300 rounded-full opacity-20 animate-float"
+          class="absolute -bottom-5 -right-5 w-24 h-24 bg-white rounded-full opacity-10 animate-float"
           style="animation-delay: 0.5s"
         ></div>
-        <h2 class="text-2xl font-bold text-white relative z-10">
-          Create Account
+        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4 relative z-10">
+          <i class="fas fa-user-plus text-white text-3xl"></i>
+        </div>
+        <h2 class="text-3xl font-black text-white relative z-10 mb-2" style="font-family: 'Space Grotesk', sans-serif;" data-i18n="register_title">
+          Buat Akun
         </h2>
-        <p class="text-blue-100 mt-1 relative z-10">Sign up to get started</p>
+        <p class="text-cyan-100 mt-1 relative z-10" data-i18n="register_subtitle">Daftar untuk memulai</p>
       </div>
 
       <div class="p-8">
-        <!-- ✅ FORM REGISTER -->
+        <!-- FORM REGISTER -->
         <form method="post" class="space-y-5">
           {% csrf_token %}
-          <div
-            class="input-field bg-gray-50 border border-gray-300 rounded-lg transition-all duration-300"
-          >
-            <label for="username" class="block text-xs text-gray-500 px-4 pt-2"
-              >Username</label
-            >
-            <div class="flex items-center px-2 pb-1">
-              <i class="fas fa-user text-gray-400 mr-2"></i>
+          <div class="input-modern">
+            <label for="username" class="block text-xs text-slate-500 mb-2 font-semibold">
+              Username
+            </label>
+            <div class="flex items-center">
+              <i class="fas fa-user text-cyan-600 mr-3"></i>
               <input
                 type="text"
                 name="username"
                 id="username"
                 required
-                class="w-full py-2 outline-none bg-transparent"
-                placeholder="Your username"
+                class="w-full outline-none bg-transparent text-slate-700 placeholder-slate-400"
+                placeholder="Username Anda"
+                data-i18n-placeholder="register_username_placeholder"
               />
             </div>
           </div>
 
-          <div
-            class="input-field bg-gray-50 border border-gray-300 rounded-lg transition-all duration-300"
-          >
-            <label for="email" class="block text-xs text-gray-500 px-4 pt-2"
-              >Email</label
-            >
-            <div class="flex items-center px-2 pb-1">
-              <i class="fas fa-envelope text-gray-400 mr-2"></i>
+          <div class="input-modern">
+            <label for="email" class="block text-xs text-slate-500 mb-2 font-semibold">
+              Email
+            </label>
+            <div class="flex items-center">
+              <i class="fas fa-envelope text-cyan-600 mr-3"></i>
               <input
                 type="email"
                 name="email"
                 id="email"
                 required
-                class="w-full py-2 outline-none bg-transparent"
-                placeholder="Your email"
+                class="w-full outline-none bg-transparent text-slate-700 placeholder-slate-400"
+                placeholder="Email Anda"
+                data-i18n-placeholder="register_email_placeholder"
               />
             </div>
           </div>
 
-          <div
-            class="input-field bg-gray-50 border border-gray-300 rounded-lg transition-all duration-300"
-          >
-            <label for="whatsapp" class="block text-xs text-gray-500 px-4 pt-2"
-              >WhatsApp Number</label
-            >
-            <div class="flex items-center px-2 pb-1">
-              <i class="fas fa-phone text-gray-400 mr-2"></i>
+          <div class="input-modern">
+            <label for="whatsapp" class="block text-xs text-slate-500 mb-2 font-semibold">
+              WhatsApp Number (62xxx)
+            </label>
+            <div class="flex items-center">
+              <i class="fas fa-phone text-cyan-600 mr-3"></i>
               <input
                 type="text"
                 name="whatsapp"
                 id="whatsapp"
                 required
-                class="w-full py-2 outline-none bg-transparent"
-                placeholder="Your WhatsApp number"
+                class="w-full outline-none bg-transparent text-slate-700 placeholder-slate-400"
+                placeholder="6281234567890"
+                pattern="62[0-9]{9,}"
+                title="Nomor harus dimulai dengan 62 dan minimal 11 digit"
               />
             </div>
           </div>
 
-          <div
-            class="input-field bg-gray-50 border border-gray-300 rounded-lg transition-all duration-300"
-          >
-            <label for="password" class="block text-xs text-gray-500 px-4 pt-2"
-              >Password</label
-            >
-            <div class="flex items-center px-2 pb-1">
-              <i class="fas fa-lock text-gray-400 mr-2"></i>
+          <div class="input-modern">
+            <label for="password" class="block text-xs text-slate-500 mb-2 font-semibold">
+              Password
+            </label>
+            <div class="flex items-center">
+              <i class="fas fa-lock text-cyan-600 mr-3"></i>
               <input
                 type="password"
                 name="password"
                 id="password"
                 required
-                class="w-full py-2 outline-none bg-transparent"
+                class="w-full outline-none bg-transparent text-slate-700 placeholder-slate-400"
                 placeholder="••••••••"
               />
               <button
                 type="button"
-                class="text-gray-400 hover:text-blue-500"
+                class="text-slate-400 hover:text-cyan-600 transition"
                 id="togglePassword"
               >
                 <i class="fas fa-eye-slash"></i>
               </button>
             </div>
           </div>
-          <div
-            class="input-field bg-gray-50 border border-gray-300 rounded-lg transition-all duration-300"
-          >
+
+          <div class="input-modern">
             <label
               for="confirm_password"
-              class="block text-xs text-gray-500 px-4 pt-2"
-              >Confirm Password</label
+              class="block text-xs text-slate-500 mb-2 font-semibold"
             >
-            <div class="flex items-center px-2 pb-1">
-              <i class="fas fa-lock text-gray-400 mr-2"></i>
+              Confirm Password
+            </label>
+            <div class="flex items-center">
+              <i class="fas fa-lock text-cyan-600 mr-3"></i>
               <input
                 type="password"
                 name="confirm_password"
                 id="confirm_password"
                 required
-                class="w-full py-2 outline-none bg-transparent"
+                class="w-full outline-none bg-transparent text-slate-700 placeholder-slate-400"
                 placeholder="••••••••"
               />
             </div>
@@ -184,19 +218,20 @@
 
           <button
             type="submit"
-            class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-medium transition-all duration-300 transform hover:scale-[1.02] shadow-md"
+            class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white py-3 px-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
           >
-            Sign Up
+            <i class="fas fa-user-plus mr-2"></i><span data-i18n="register_btn">Daftar</span>
           </button>
         </form>
 
         <div class="mt-6 text-center">
-          <p class="text-gray-600">
-            Already have an account?
+          <p class="text-slate-600">
+            <span data-i18n="register_have_account">Sudah punya akun?</span>
             <a
               href="{% url 'login' %}"
-              class="text-blue-600 hover:text-blue-800 font-medium hover:underline"
-              >Sign in</a
+              class="text-cyan-600 hover:text-cyan-700 font-semibold hover:underline"
+              data-i18n="register_signin"
+              >Masuk</a
             >
           </p>
         </div>
@@ -207,7 +242,9 @@
       document.addEventListener("DOMContentLoaded", function () {
         const passwordInput = document.getElementById("password");
         const togglePassword = document.getElementById("togglePassword");
+        const whatsappInput = document.getElementById("whatsapp");
 
+        // Toggle password visibility
         togglePassword.addEventListener("click", function () {
           const type =
             passwordInput.getAttribute("type") === "password"
@@ -219,7 +256,56 @@
               ? '<i class="fas fa-eye-slash"></i>'
               : '<i class="fas fa-eye"></i>';
         });
+
+        // WhatsApp number validation
+        whatsappInput.addEventListener("input", function() {
+          let value = this.value;
+          
+          // Remove any non-digit characters
+          value = value.replace(/\D/g, '');
+          
+          // If user starts with 0, automatically convert to 62
+          if (value.startsWith('0')) {
+            value = '62' + value.substring(1);
+          }
+          
+          // Update the input value
+          this.value = value;
+          
+          // Add visual feedback
+          const inputContainer = this.closest('.input-modern');
+          if (value.startsWith('62') && value.length >= 11) {
+            inputContainer.style.borderColor = '#10b981';
+            inputContainer.style.backgroundColor = '#f0fdf4';
+          } else if (value.length > 0) {
+            inputContainer.style.borderColor = '#ef4444';
+            inputContainer.style.backgroundColor = '#fef2f2';
+          } else {
+            inputContainer.style.borderColor = 'rgba(6, 182, 212, 0.2)';
+            inputContainer.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+          }
+        });
+
+        // Form validation before submit
+        document.querySelector('form').addEventListener("submit", function(e) {
+          const whatsappValue = whatsappInput.value;
+          
+          if (!whatsappValue.startsWith('62')) {
+            e.preventDefault();
+            alert('Nomor WhatsApp harus dimulai dengan 62 (contoh: 6281234567890)');
+            whatsappInput.focus();
+            return false;
+          }
+          
+          if (whatsappValue.length < 11) {
+            e.preventDefault();
+            alert('Nomor WhatsApp harus minimal 11 digit');
+            whatsappInput.focus();
+            return false;
+          }
+        });
       });
     </script>
+    <script src="/static/core/js/translations.js"></script>
   </body>
 </html>

@@ -1,0 +1,39 @@
+# Django Framework
+Django==5.2.3
+
+# HTTP Requests untuk API calls
+requests==2.31.0
+
+# Midtrans Payment Gateway
+midtransclient==0.3.2
+
+# Database (SQLite sudah termasuk dengan Django)
+# Untuk production, tambahkan:
+# psycopg2-binary==2.9.9  # PostgreSQL
+# mysqlclient==2.2.0      # MySQL
+
+# Development Tools (opsional)
+# python-decouple==3.8    # Untuk environment variables
+# django-debug-toolbar==4.2.0  # Untuk debugging
+
+# Production Dependencies (opsional)
+# gunicorn==21.2.0        # WSGI server untuk production
+# whitenoise==6.6.0       # Static file serving
+# django-cors-headers==4.3.1  # CORS headers
+
+# Security (opsional)
+# django-csp==3.7         # Content Security Policy
+# django-honeypot==1.0.2  # Honeypot untuk spam protection
+
+# Monitoring (opsional)
+# sentry-sdk[django]==1.38.0  # Error tracking
+
+# Testing (opsional)
+# pytest==7.4.3
+# pytest-django==4.7.0
+# factory-boy==3.3.0
+
+# Code Quality (opsional)
+# black==23.11.0          # Code formatting
+# flake8==6.1.0           # Linting
+# isort==5.12.0           # Import sorting 

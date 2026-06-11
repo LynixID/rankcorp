@@ -1,35 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tingkatkan Akun Anda - RankCorp</title>
-    <link rel="icon" type="image/png" href="../../../media/assets/favicon.png">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
-      body {
-        font-family: "Inter", sans-serif;
-      }
-      .card-shadow {
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05),
-          0 4px 6px -2px rgba(0, 0, 0, 0.02);
-      }
-      .card-hover-shadow:hover {
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-          0 10px 10px -5px rgba(0, 0, 0, 0.04);
-      }
-    </style>
-  </head>
-  <body class="bg-gray-50 text-gray-800 font-sans">
-    {% include 'core/navbar.html' %} {% load humanize %} {% block content %}
+{% extends 'core/base_user.html' %}
+{% load static %} {% load humanize %}
 
+{% block title %}Status Pembelian - U-Rank{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-6 md:px-12 lg:px-16 xl:px-20 py-12">
+  <div class="max-w-5xl mx-auto">
     <!-- Alert untuk messages -->
     {% if messages %}
-    <div class="max-w-5xl mx-auto px-4">
+    <div class="mb-6 fade-in-up">
       {% for message in messages %}
       <div
-        class="mb-4 px-4 py-3 rounded-lg text-sm font-medium border {% if message.tags == 'success' %} bg-green-50 text-green-700 border-green-200 {% elif message.tags == 'error' %} bg-red-50 text-red-700 border-red-200 {% elif message.tags == 'warning' %} bg-yellow-50 text-yellow-700 border-yellow-200 {% else %} bg-blue-50 text-blue-700 border-blue-200 {% endif %}"
+        class="px-4 py-3 rounded-xl text-sm font-medium border {% if message.tags == 'success' %} bg-green-50 text-green-700 border-green-200 {% elif message.tags == 'error' %} bg-red-50 text-red-700 border-red-200 {% elif message.tags == 'warning' %} bg-yellow-50 text-yellow-700 border-yellow-200 {% else %} bg-cyan-50 text-cyan-700 border-cyan-200 {% endif %}"
       >
         {{ message }}
       </div>
@@ -37,82 +19,70 @@
     </div>
     {% endif %}
 
-    <!-- Tabel Riwayat Pembelian -->
-    <div class="max-w-5xl mx-auto px-4 py-8">
-      <h2 class="text-2xl font-bold text-blue-700 mb-6">
-        Riwayat Pembelian Kuota
+    <!-- Header -->
+    <div class="mb-8 fade-in-up">
+      <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-2" style="font-family: 'Space Grotesk', sans-serif;">
+        <span data-i18n="purchase_status_title">Riwayat Pembelian Kuota</span>
       </h2>
+      <p class="text-slate-600">Pantau status pembelian dan verifikasi kuota Anda</p>
+    </div>
 
-      {% if purchases %}
-      <div class="overflow-x-auto">
-        <table class="min-w-full bg-white rounded-lg shadow">
-          <thead class="bg-blue-50">
+    <!-- Tabel Riwayat Pembelian -->
+    {% if purchases %}
+    <div class="card-glass rounded-2xl overflow-hidden fade-in-up" style="animation-delay: 0.2s;">
+      <div class="overflow-x-auto table-modern">
+        <table class="min-w-full divide-y divide-slate-200">
+          <thead class="bg-gradient-to-r from-cyan-50 to-blue-50">
             <tr>
-              <th
-                class="py-3 px-4 text-left text-sm font-semibold text-gray-600"
-              >
-                Tanggal
-              </th>
-              <th
-                class="py-3 px-4 text-left text-sm font-semibold text-gray-600"
-              >
-                Paket
-              </th>
-              <th
-                class="py-3 px-4 text-left text-sm font-semibold text-gray-600"
-              >
-                Harga
-              </th>
-              <th
-                class="py-3 px-4 text-left text-sm font-semibold text-gray-600"
-              >
-                Kuota
-              </th>
-              <th
-                class="py-3 px-4 text-left text-sm font-semibold text-gray-600"
-              >
-                Bukti
-              </th>
-              <th
-                class="py-3 px-4 text-left text-sm font-semibold text-gray-600"
-              >
-                Status
-              </th>
+              <th class="py-4 px-6 text-left text-xs font-bold text-slate-700 uppercase tracking-wider" data-i18n="purchase_status_col_date">Tanggal</th>
+              <th class="py-4 px-6 text-left text-xs font-bold text-slate-700 uppercase tracking-wider" data-i18n="dash_col_name">Paket</th>
+              <th class="py-4 px-6 text-left text-xs font-bold text-slate-700 uppercase tracking-wider" data-i18n="dash_col_price">Harga</th>
+              <th class="py-4 px-6 text-left text-xs font-bold text-slate-700 uppercase tracking-wider" data-i18n="dash_col_quota">Kuota</th>
+              <th class="py-4 px-6 text-left text-xs font-bold text-slate-700 uppercase tracking-wider" data-i18n="purchase_status_col_proof">Bukti</th>
+              <th class="py-4 px-6 text-left text-xs font-bold text-slate-700 uppercase tracking-wider" data-i18n="dash_col_status">Status</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="bg-white divide-y divide-slate-100">
             {% for purchase in purchases %}
-            <tr class="border-t hover:bg-gray-50">
-              <td class="py-3 px-4 text-sm">
+            <tr class="hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 transition duration-150 ease-in-out">
+              <td class="py-4 px-6 text-sm text-slate-700">
                 {{ purchase.created_at|date:"d M Y, H:i" }}
               </td>
-              <td class="py-3 px-4 text-sm">{{ purchase.package.name }}</td>
-              <td class="py-3 px-4 text-sm">
-                Rp{{ purchase.package.price|intcomma }}
+              <td class="py-4 px-6 text-sm font-semibold text-slate-800">{{ purchase.package.name }}</td>
+              <td class="py-4 px-6 text-sm text-slate-700">
+                <span class="font-bold text-cyan-600">Rp{{ purchase.package.price|intcomma }}</span>
               </td>
-              <td class="py-3 px-4 text-sm">
-                {{ purchase.package.quota_amount|intcomma }}
+              <td class="py-4 px-6 text-sm text-slate-700">
+                <span class="px-3 py-1 bg-gradient-to-r from-cyan-100 to-blue-100 text-cyan-700 rounded-full font-semibold">
+                  {{ purchase.package.quota_amount|intcomma }}
+                </span>
               </td>
-              <td class="py-3 px-4 text-sm">
+              <td class="py-4 px-6 text-sm">
                 {% if purchase.payment_proof %}
                 <a
                   href="{{ purchase.payment_proof.url }}"
                   target="_blank"
-                  class="text-blue-600 underline"
+                  class="text-cyan-600 hover:text-cyan-700 font-medium inline-flex items-center"
                 >
-                  Lihat
+                  <i class="fas fa-eye mr-1"></i><span data-i18n="history_detail_proof_view">Lihat</span>
                 </a>
                 {% else %}
-                <span class="text-gray-400 italic">Belum diunggah</span>
+                <span class="text-slate-400 italic" data-i18n="history_detail_proof_none">Belum diunggah</span>
                 {% endif %}
               </td>
-              <td class="py-3 px-4 text-sm">
+              <td class="py-4 px-6 text-sm">
                 {% if purchase.status == 'approved' %}
-                <span class="text-green-600 font-semibold">Disetujui</span>
+                <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full font-semibold text-xs">
+                  <i class="fas fa-check-circle mr-1"></i><span data-i18n="purchase_status_approved">Disetujui</span>
+                </span>
                 {% elif purchase.status == 'rejected' %}
-                <span class="text-red-600 font-semibold">Ditolak</span>
+                <span class="px-3 py-1 bg-red-100 text-red-700 rounded-full font-semibold text-xs">
+                  <i class="fas fa-times-circle mr-1"></i><span data-i18n="purchase_status_rejected">Ditolak</span>
+                </span>
                 {% else %}
-                <span class="text-yellow-500 font-semibold">Menunggu</span>
+                <span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full font-semibold text-xs">
+                  <i class="fas fa-clock mr-1"></i><span data-i18n="purchase_status_pending">Menunggu</span>
+                </span>
                 {% endif %}
               </td>
             </tr>
@@ -120,13 +90,21 @@
           </tbody>
         </table>
       </div>
-      {% else %}
-      <p class="text-gray-500 text-center">
+    </div>
+    {% else %}
+    <div class="card-glass rounded-2xl p-12 text-center fade-in-up" style="animation-delay: 0.2s;">
+      <div class="w-24 h-24 bg-gradient-to-br from-cyan-100 to-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+        <i class="fas fa-shopping-cart text-5xl text-cyan-400"></i>
+      </div>
+      <p class="text-xl font-bold text-slate-700 mb-2" style="font-family: 'Space Grotesk', sans-serif;" data-i18n="purchase_empty">
         Belum ada pembelian kuota yang tercatat.
       </p>
-      {% endif %}
+      <p class="text-slate-600 mb-6" data-i18n="purchase_empty_sub">Mulai beli paket kuota untuk meningkatkan akun Anda</p>
+      <a href="{% url 'buy_quota' %}" class="btn-pill btn-primary inline-flex items-center">
+        <i class="fas fa-shopping-bag mr-2"></i><span data-i18n="purchase_buy_btn">Beli Paket Kuota</span>
+      </a>
     </div>
-
-    {% endblock %}
-  </body>
-</html>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

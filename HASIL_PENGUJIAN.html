@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil Pengujian Sistem U-Rank</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            .no-print {
+                display: none;
+            }
+            body {
+                margin: 0;
+                padding: 20px;
+            }
+            table {
+                page-break-inside: auto;
+            }
+            tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+            thead {
+                display: table-header-group;
+            }
+            tfoot {
+                display: table-footer-group;
+            }
+        }
+        
+        table {
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            border: 1px solid #e5e7eb;
+            padding: 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        th {
+            background-color: #f3f4f6;
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        
+        tr:hover {
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 p-8">
+    <div class="max-w-7xl mx-auto bg-white shadow-lg rounded-lg p-8">
+        <!-- Header -->
+        <div class="mb-8 text-center">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Hasil Pengujian Sistem</h1>
+            <h2 class="text-2xl font-semibold text-gray-700 mb-4">Sistem Pemantauan Peringkat Website (U-Rank)</h2>
+            <div class="text-sm text-gray-600">
+                <p>Sistem Pemantauan Peringkat Website dengan Fitur Analitik guna Memaksimalkan SEO</p>
+                <p>Berbasis Django Framework</p>
+            </div>
+        </div>
+
+        <!-- Print Button -->
+        <div class="mb-6 no-print flex justify-end">
+            <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300">
+                🖨️ Cetak / Export PDF
+            </button>
+        </div>
+
+        <!-- Tabel Hasil Pengujian -->
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead>
+                    <tr>
+                        <th class="w-12 text-center">No.</th>
+                        <th class="w-1/4">Data Uji Coba</th>
+                        <th class="w-1/4">Harapan</th>
+                        <th class="w-1/4">Hasil Pengamatan</th>
+                        <th class="w-24 text-center">Ket.</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 1. Landing Page -->
+                    <tr>
+                        <td class="text-center font-semibold">1</td>
+                        <td>Menampilkan halaman landing page yang berisi deskripsi sistem, fitur unggulan, dan call to action untuk registrasi atau login.</td>
+                        <td>Sistem mampu menampilkan halaman landing page dengan informasi lengkap dan navigasi yang jelas.</td>
+                        <td>Dapat menampilkan halaman landing page dengan deskripsi sistem, fitur unggulan, dan tombol navigasi ke halaman registrasi dan login.</td>
+                        <td class="text-center">
+                            <span class="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Sesuai</span>
+                        </td>
+                    </tr>
+
+                    <!-- 2. Registrasi -->
+                    <tr>
+                        <td class="text-center font-semibold">2</td>
+                        <td>Registrasi pengguna baru dengan validasi username, email, nomor WhatsApp, dan password, kemudian mengirimkan kode OTP ke WhatsApp.</td>
+                        <td>Sistem mampu memvalidasi semua input, menghasilkan OTP, dan mengirimkan OTP ke nomor WhatsApp pengguna melalui integrasi Quods API.</td>
+                        <td>Sistem berhasil memvalidasi input, menampilkan pesan error jika data tidak valid, dan mengirimkan kode OTP enam digit ke nomor WhatsApp pengguna.</td>
+                        <td class="text-center">
+                            <span class="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Sesuai</span>
+                        </td>
+                    </tr>
+
+                    <!-- 3. Verifikasi OTP -->
+                    <tr>
+                        <td class="text-center font-semibold">3</td>
+                        <td>Verifikasi OTP untuk menyelesaikan proses registrasi dan membuat akun pengguna baru dengan status Guest dan 3 kuota gratis.</td>
+                        <td>Sistem mampu memverifikasi OTP yang diinput, membuat akun user baru, dan menginisialisasi UserStatus dengan status Guest serta 3 kuota gratis.</td>
+                        <td>OTP berhasil diverifikasi, akun user baru dibuat, dan UserStatus diinisialisasi dengan status Guest serta total_quota = 3 dan used_quota = 0.</td>
+                        <td class="text-center">
+                            <span class="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Sesuai</span>
+                        </td>
+                    </tr>
+
+                    <!-- 4. Login -->
+                    <tr>
+                        <td class="text-center font-semibold">4</td>
+                        <td>Proses login menggunakan username dan password yang telah terdaftar.</td>
+                        <td>Sistem mampu memverifikasi kredensial dan mengarahkan pengguna ke dashboard sesuai dengan role (admin atau user).</td>
+                        <td>Sistem berhasil memverifikasi kredensial, menampilkan pesan error jika salah, dan mengarahkan pengguna ke dashboard sesuai role setelah login berhasil.</td>
+                        <td class="text-center">
+                            <span class="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Sesuai</span>
+                        </td>
+                    </tr>
+
+                    <!-- 5. Cek Ranking -->
+                    <tr>
+                        <td class="text-center font-semibold">5</td>
+                        <td>Pengecekan ranking website di Google Search menggunakan SerpAPI dengan input keyword, domain, dan parameter region.</td>
+                        <td>Sistem mampu melakukan request ke SerpAPI, menemukan posisi domain dalam hasil pencarian, menyimpan hasil ke database, dan mengurangi 1 kuota dari akun pengguna.</td>
+                        <td>Sistem berhasil mengambil data dari SerpAPI, menampilkan posisi ranking, URL hasil, dan total jumlah hasil ditemukan. Hasil disimpan ke database dan kuota berkurang 1 setelah pengecekan.</td>
+                        <td class="text-center">
+                            <span class="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Sesuai</span>
+                        </td>
+                    </tr>
+
+                    <!-- 6. Validasi Kuota -->
+                    <tr>
+                        <td class="text-center font-semibold">6</td>
+                        <td>Validasi kuota sebelum melakukan pengecekan ranking.</td>
+                        <td>Sistem mampu menampilkan pesan error dan mencegah pengecekan jika kuota pengguna habis atau tidak tersedia.</td>
+                        <td>Sistem menampilkan pesan error "Kuota search Anda habis" dan mengarahkan ke halaman pembelian kuota jika kuota habis.</td>
+                        <td class="text-center">
+                            <span class="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Sesuai</span>
+                        </td>
+                    </tr>
+
+                    <!-- 7. Histori Ranking -->
+                    <tr>
+                        <td class="text-center font-semibold">7</td>
+                        <td>Menampilkan histori pengecekan ranking yang telah dilakukan pengguna, dikelompokkan berdasarkan kombinasi keyword dan domain.</td>
+                        <td>Sistem mampu menampilkan daftar semua kombinasi keyword-domain yang pernah dicek beserta total jumlah pengecekan untuk setiap kombinasi.</td>
+                        <td>Halaman histori berhasil menampilkan tabel dengan kombinasi keyword-domain unik dan jumlah total pengecekan. Setiap baris memiliki tombol "Detail" untuk melihat detail lengkap.</td>
+                        <td class="text-center">
+                            <span class="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Sesuai</span>
+                        </td>
+                    </tr>
+
+                    <!-- 8. Detail Histori -->
+                    <tr>
+                        <td class="text-center font-semibold">8</td>
+                        <td>Menampilkan detail histori pengecekan dengan grafik trend ranking menggunakan Chart.js dan tabel detail dengan pagination.</td>
+                        <td>Sistem mampu menampilkan grafik visualisasi perubahan ranking dari waktu ke waktu dan tabel detail dengan pagination 10 data per halaman.</td>
+                        <td>Halaman detail histori berhasil menampilkan grafik trend ranking yang interaktif menggunakan Chart.js dan tabel detail dengan pagination yang berfungsi dengan baik.</td>
+                        <td class="text-center">
+                            <span class="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Sesuai</span>
+                        </td>
+                    </tr>
+
+                    <!-- 9. Analisis SEO -->
+                    <tr>
+                        <td class="text-center font-semibold">9</td>
+                        <td>Analisis SEO menggunakan AI (Gemini, GPT-3.5, atau GPT-4) untuk user Premium dengan validasi status dan kuota.</td>
+                        <td>Sistem mampu memvalidasi status Premium pengguna, memvalidasi kuota yang tersedia sesuai biaya model AI, dan menghasilkan analisis SEO yang lengkap.</td>
+                        <td>Sistem menampilkan pesan error jika user belum Premium atau kuota tidak cukup. Untuk user Premium dengan kuota cukup, analisis SEO berhasil dilakukan dan hasil ditampilkan dengan format yang rapi.</td>
+                        <td class="text-center">
+                            <span class="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Sesuai</span>
+                        </td>
+                    </tr>
+
+                    <!-- 10. Pengurangan Kuota SEO -->
+                    <tr>
+                        <td class="text-center font-semibold">10</td>
+                        <td>Pengurangan kuota setelah melakukan analisis SEO sesuai dengan biaya model AI yang digunakan.</td>
+                        <td>Sistem mampu mengurangi kuota pengguna sesuai dengan biaya model AI (Gemini: 3 kuota, GPT-3.5: 2 kuota, GPT-4: 5 kuota).</td>
+                        <td>Kuota pengguna berkurang sesuai dengan biaya model AI yang dipilih setelah analisis SEO berhasil dilakukan.</td>
+                        <td class="text-center">
+                            <span class="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Sesuai</span>
+                        </td>
+                    </tr>
+
+                    <!-- 11. Beli Kuota -->
+                    <tr>
+                        <td class="text-center font-semibold">11</td>
+                        <td>Menampilkan halaman pembelian kuota dengan daftar paket yang tersedia dan opsi metode pembayaran (Transfer Bank atau Midtrans).</td>
+                        <td>Sistem mampu menampilkan semua paket kuota dengan informasi lengkap dan memberikan opsi pemilihan metode pembayaran.</td>
+                        <td>Halaman pembelian kuota berhasil menampilkan daftar paket dengan nama, harga, dan jumlah kuota. Modal checkout muncul saat paket dipilih dengan opsi Transfer Bank dan Midtrans.</td>
+                        <td class="text-center">
+                            <span class="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Sesuai</span>
+                        </td>
+                    </tr>
+
+                    <!-- 12. Checkout Session -->
+                    <tr>
+                        <td class="text-center font-semibold">12</td>
+                        <td>Pembuatan checkout session dengan batas waktu 2 jam untuk pembayaran manual transfer bank.</td>
+                        <td>Sistem mampu membuat checkout session dan mengarahkan pengguna ke halaman upload bukti pembayaran dengan countdown timer.</td>
+                        <td>Checkout session berhasil dibuat dengan batas waktu 2 jam. Halaman upload bukti menampilkan countdown timer dan detail pembayaran lengkap.</td>
+                        <td class="text-center">
+                            <span class="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Sesuai</span>
+                        </td>
+                    </tr>
+
+                    <!-- 13. Upload Bukti -->
+                    <tr>
+                        <td class="text-center font-semibold">13</td>
+                        <td>Upload bukti pembayaran dengan validasi format file (JPG, PNG, GIF) dan ukuran maksimal 5MB.</td>
+                        <td>Sistem mampu menerima upload file gambar dengan validasi format dan ukuran, serta menyimpan bukti ke database dengan status "Menunggu".</td>
+                        <td>Sistem berhasil menerima upload bukti pembayaran, menampilkan preview gambar, dan menyimpan dengan status pending. Pesan error muncul jika format atau ukuran tidak sesuai.</td>
+                        <td class="text-center">
+                            <span class="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Sesuai</span>
+                        </td>
+                    </tr>
+
+                    <!-- 14. Verifikasi Pembayaran -->
+                    <tr>
+                        <td class="text-center font-semibold">14</td>
+                        <td>Verifikasi pembayaran oleh admin dengan opsi approve atau reject, serta penambahan kuota dan upgrade status ke Premium.</td>
+                        <td>Sistem mampu menampilkan daftar pembayaran pending, memberikan opsi approve/reject, dan menambahkan kuota serta mengubah status user menjadi Premium saat approve.</td>
+                        <td>Admin berhasil melihat daftar pembayaran pending beserta bukti. Saat approve, kuota ditambahkan, status user menjadi Premium, dan notifikasi WhatsApp terkirim. Saat reject, status pembelian menjadi "Ditolak".</td>
+                        <td class="text-center">
+                            <span class="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Sesuai</span>
+                        </td>
+                    </tr>
+
+                    <!-- 15. Manajemen User -->
+                    <tr>
+                        <td class="text-center font-semibold">15</td>
+                        <td>Manajemen user oleh admin dengan fitur edit data, aktivasi/deaktivasi akun, dan pencarian user.</td>
+                        <td>Sistem mampu menampilkan daftar semua user, memberikan fitur edit (username, email, WhatsApp, role), toggle aktif/nonaktif, dan pencarian berdasarkan username atau email.</td>
+                        <td>Admin berhasil melihat daftar user, mengedit data user, mengaktifkan/menonaktifkan akun, dan mencari user berdasarkan username atau email. Perubahan tersimpan dengan benar.</td>
+                        <td class="text-center">
+                            <span class="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Sesuai</span>
+                        </td>
+                    </tr>
+
+                
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-8 pt-6 border-t border-gray-300 text-sm text-gray-600 text-center">
+            <p><strong>Total Item Pengujian:</strong> 16 item</p>
+            <p><strong>Hasil:</strong> Semua item pengujian berhasil sesuai dengan harapan</p>
+            <p class="mt-2 text-xs">Dokumen ini dibuat untuk keperluan laporan proyek Sistem U-Rank</p>
+        </div>
+    </div>
+</body>
+</html>

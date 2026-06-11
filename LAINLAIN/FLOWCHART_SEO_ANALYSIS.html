@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowchart - Proses SEO Analysis dengan AI</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 2000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .export-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .export-btn:active {
+            transform: translateY(0);
+        }
+
+        .diagram-container {
+            width: 100%;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 40px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .explanation {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .explanation h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .explanation h3 {
+            color: #667eea;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .explanation p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .explanation ul {
+            margin-left: 30px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .explanation li {
+            margin-bottom: 8px;
+        }
+
+        .report-explanation {
+            margin-top: 50px;
+            padding: 30px;
+            background: #f0f7ff;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .report-explanation h2 {
+            color: #1976d2;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .report-explanation p {
+            color: #424242;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Flowchart</h1>
+        <p class="subtitle">Proses SEO Analysis dengan AI</p>
+
+        <div class="export-container">
+            <button class="export-btn" onclick="exportToPNG()">📥 Export PNG</button>
+        </div>
+
+        <div class="diagram-container" id="diagram-to-export">
+            <div class="mermaid">
+flowchart TD
+    Start([MULAI]) --> Input1[/"Input: Keyword, Domain,<br/>History Ranking,<br/>Pilihan Model AI"/]
+    Input1 --> CekPremium{User<br/>Premium?}
+    
+    CekPremium -->|Tidak| Err1[Error: Hanya untuk User Premium]
+    Err1 --> EndErr([SELESAI])
+    
+    CekPremium -->|Ya| Validasi{Data Lengkap &<br/>Model Valid?}
+    Validasi -->|Tidak| Err2[Error: Data Tidak Valid]
+    Err2 --> EndErr
+    
+    Validasi -->|Ya| CekKuota{Kuota<br/>Cukup?}
+    CekKuota -->|Tidak| Err3[Error: Kuota Tidak Cukup]
+    Err3 --> EndErr
+    
+    CekKuota -->|Ya| HitungTrend[Hitung Trend & Stability<br/>dari History Ranking]
+    HitungTrend --> PilihModel{Model AI<br/>yang Dipilih?}
+    
+    PilihModel -->|Gemini| CallGemini[Panggil Gemini API<br/>dengan Prompt SEO]
+    PilihModel -->|GPT-3.5| CallGPT35[Panggil OpenAI API<br/>GPT-3.5 dengan Prompt SEO]
+    PilihModel -->|GPT-4| CallGPT4[Panggil OpenAI API<br/>GPT-4 dengan Prompt SEO]
+    
+    CallGemini --> CekResponse{Response<br/>Berhasil?}
+    CallGPT35 --> CekResponse
+    CallGPT4 --> CekResponse
+    
+    CekResponse -->|Tidak| Err4[Error: API Gagal]
+    Err4 --> EndErr
+    
+    CekResponse -->|Ya| SimpanHasil[Simpan Analisis SEO<br/>ke Database]
+    SimpanHasil --> KurangiKuota[Kurangi Kuota<br/>sesuai Biaya Model]
+    KurangiKuota --> Return[Tampilkan Hasil Analisis<br/>ke User]
+    Return --> End
+    
+    style Start fill:#4caf50,stroke:#333,stroke-width:3px,color:#fff
+    style End fill:#f44336,stroke:#333,stroke-width:3px,color:#fff
+    style EndErr fill:#f44336,stroke:#333,stroke-width:3px,color:#fff
+    style CekPremium fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    style Validasi fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    style CekKuota fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    style PilihModel fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    style CekResponse fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    style HitungTrend fill:#2196f3,stroke:#333,stroke-width:2px,color:#fff
+    style CallGemini fill:#2196f3,stroke:#333,stroke-width:2px,color:#fff
+    style CallGPT35 fill:#2196f3,stroke:#333,stroke-width:2px,color:#fff
+    style CallGPT4 fill:#2196f3,stroke:#333,stroke-width:2px,color:#fff
+    style SimpanHasil fill:#9c27b0,stroke:#333,stroke-width:2px,color:#fff
+    style KurangiKuota fill:#9c27b0,stroke:#333,stroke-width:2px,color:#fff
+            </div>
+        </div>
+
+        <!-- Explanation Section -->
+        <div class="explanation">
+            <h2>📋 Penjelasan Flowchart: Proses SEO Analysis dengan AI</h2>
+            
+            <h3>1. Overview</h3>
+            <p>
+                Flowchart ini menggambarkan algoritma proses analisis SEO menggunakan AI (Gemini atau OpenAI). 
+                Proses ini hanya tersedia untuk user premium dan melibatkan routing ke API yang berbeda berdasarkan model yang dipilih.
+            </p>
+
+            <h3>2. Alur Proses</h3>
+            <p><strong>A. Validasi Awal (5 tahap)</strong></p>
+            <ul>
+                <li><strong>Validasi UserStatus</strong>: Pastikan user memiliki UserStatus</li>
+                <li><strong>Validasi Premium</strong>: Pastikan status == 'premium' (fitur premium only)</li>
+                <li><strong>Validasi Input</strong>: Pastikan keyword dan domain tidak kosong</li>
+                <li><strong>Validasi Model</strong>: Pastikan model_choice valid (gemini, gpt-3.5-turbo, gpt-4-1106-preview)</li>
+                <li><strong>Validasi Kuota</strong>: Pastikan remaining_quota >= quota_cost</li>
+                <li>Jika salah satu gagal → Error message spesifik, proses berakhir</li>
+            </ul>
+
+            <p><strong>B. Perhitungan Trend & Build Prompt</strong></p>
+            <ul>
+                <li>Hitung trend dan stability menggunakan algoritma analisis trend (lihat Flowchart #3)</li>
+                <li>Build prompt dengan format yang mencakup:</li>
+                <ul>
+                    <li>Data website (keyword, domain, jumlah data history)</li>
+                    <li>Histori ranking lengkap</li>
+                    <li>Instruksi analisis (ringkasan, analisis tren, penyebab, rekomendasi, target)</li>
+                </ul>
+            </ul>
+
+            <p><strong>C. Routing Model AI</strong></p>
+            <ul>
+                <li>Decision: model_choice == 'gemini'?</li>
+                <li>Jika Ya → Masuk ke <strong>GEMINI FLOW</strong></li>
+                <li>Jika Tidak → Masuk ke <strong>OPENAI FLOW</strong></li>
+            </ul>
+
+            <p><strong>D. GEMINI FLOW</strong></p>
+            <ul>
+                <li>Ambil API_KEY dari model_config.api_key</li>
+                <li>Validasi API_KEY ada → Jika tidak, error</li>
+                <li>Build payload:</li>
+                <ul>
+                    <li>URL: Gemini API endpoint (gemini-2.0-flash:generateContent)</li>
+                    <li>Headers: X-goog-api-key, Content-Type</li>
+                    <li>Payload: contents (dengan prompt), generationConfig (temperature=0.7, maxOutputTokens=2048)</li>
+                </ul>
+                <li>POST request ke Gemini API</li>
+                <li>Parse response: candidates[0].content.parts[0].text</li>
+            </ul>
+
+            <p><strong>E. OPENAI FLOW</strong></p>
+            <ul>
+                <li>Decision: model_choice == 'gpt-3.5-turbo'?</li>
+                <li>Jika Ya → model = 'gpt-3.5-turbo', max_tokens = 2500</li>
+                <li>Jika Tidak → model = 'gpt-4-1106-preview', max_tokens = 3000</li>
+                <li>Build payload:</li>
+                <ul>
+                    <li>URL: OpenAI API endpoint (chat/completions)</li>
+                    <li>Headers: Authorization (Bearer API_KEY), Content-Type</li>
+                    <li>Payload: model, messages (system + user), max_tokens, temperature=0.7</li>
+                </ul>
+                <li>POST request ke OpenAI API</li>
+                <li>Parse response: choices[0].message.content</li>
+            </ul>
+
+            <p><strong>F. Validasi & Penyimpanan</strong></p>
+            <ul>
+                <li>Cek response status == 200 → Jika tidak, error</li>
+                <li>Cek analysis length > 50 → Jika tidak, error (hasil tidak memadai)</li>
+                <li>Simpan SeoAnalysis ke database dengan metadata (trend, stability, avg_rank, model_used)</li>
+                <li>Update kuota: used_quota += quota_cost</li>
+                <li>Return result dengan analysis dan metadata</li>
+            </ul>
+
+            <h3>3. Decision Points</h3>
+            <ul>
+                <li><strong>11 Decision Points</strong>: UserStatus, premium, input, model, kuota, routing model, Gemini API key, OpenAI model selection, response status (2x), analysis length</li>
+                <li><strong>Branching</strong>: Routing ke 2 flow berbeda (Gemini vs OpenAI) berdasarkan model choice</li>
+            </ul>
+
+            <h3>4. Quota Cost per Model</h3>
+            <ul>
+                <li><strong>Gemini</strong>: 3 kuota (cepat & murah)</li>
+                <li><strong>GPT-3.5</strong>: 2 kuota (stabil, harga menengah)</li>
+                <li><strong>GPT-4.1</strong>: 5 kuota (terbaik, analisis mendalam)</li>
+            </ul>
+
+            <h3>5. Error Handling</h3>
+            <ul>
+                <li><strong>API Errors</strong>: Handle status code 400, 401, 402, 429, 500 dengan message spesifik</li>
+                <li><strong>Timeout</strong>: Handle request timeout (60 detik)</li>
+                <li><strong>Connection Error</strong>: Handle koneksi gagal</li>
+                <li><strong>Validation Errors</strong>: Setiap validasi memiliki error message spesifik</li>
+            </ul>
+
+            <h3>6. Fitur Premium</h3>
+            <ul>
+                <li>Hanya user dengan status 'premium' yang bisa mengakses fitur ini</li>
+                <li>User 'guest' akan mendapat error dengan pesan untuk upgrade ke premium</li>
+                <li>Status premium didapat setelah melakukan pembelian kuota pertama kali</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+
+        function exportToPNG() {
+            const element = document.getElementById('diagram-to-export');
+            const margin = 50;
+            
+            const btn = document.querySelector('.export-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ Exporting...';
+            btn.disabled = true;
+
+            html2canvas(element, {
+                backgroundColor: '#ffffff',
+                scale: 2,
+                logging: false,
+                useCORS: true,
+                allowTaint: true
+            }).then(canvas => {
+                const marginCanvas = document.createElement('canvas');
+                marginCanvas.width = canvas.width + (margin * 2);
+                marginCanvas.height = canvas.height + (margin * 2);
+                const ctx = marginCanvas.getContext('2d');
+                
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, marginCanvas.width, marginCanvas.height);
+                ctx.drawImage(canvas, margin, margin);
+                
+                marginCanvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = 'Flowchart_SEO_Analysis.png';
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                    
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+            }).catch(error => {
+                console.error('Export error:', error);
+                alert('Error exporting diagram. Please try again.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
+    </script>
+
+    <!-- Penjelasan untuk Laporan Proyek -->
+    <div class="container">
+        <div class="report-explanation">
+            <h2>Penjelasan Flowchart Proses SEO Analysis dengan AI</h2>
+            
+            <p>
+                Flowchart ini menggambarkan proses analisis SEO menggunakan teknologi Artificial Intelligence yang merupakan fitur eksklusif untuk pengguna premium. Proses dimulai dengan validasi status pengguna untuk memastikan hanya pengguna dengan status 'premium' yang dapat mengakses fitur ini. Sistem kemudian melakukan validasi terhadap data input yang mencakup keyword, domain target, history ranking, dan pilihan model AI yang akan digunakan. Pengguna dapat memilih antara tiga model AI yang tersedia, yaitu Gemini dari Google, GPT-3.5, atau GPT-4.1 dari OpenAI, dengan biaya kuota yang berbeda untuk setiap model.
+            </p>
+            
+            <p>
+                Setelah validasi berhasil, sistem akan menghitung trend dan stabilitas ranking berdasarkan data history yang kemudian digunakan untuk membangun prompt yang komprehensif untuk AI. Sistem akan melakukan routing berdasarkan model AI yang dipilih, dengan alur yang berbeda untuk Gemini dan OpenAI. Setelah menerima response dari API AI, sistem akan melakukan validasi terhadap kualitas hasil analisis dan menyimpan hasil yang valid ke database beserta metadata seperti trend, stability, average rank, dan model yang digunakan. Sistem juga akan mengurangi kuota pengguna sesuai dengan biaya yang ditetapkan, dan proses ini dilengkapi dengan error handling yang komprehensif untuk menangani berbagai skenario kegagalan.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+

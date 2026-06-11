@@ -1,95 +1,112 @@
-<div class="bg-white shadow rounded-xl p-6">
+<div class="card-glass p-6 sm:p-8 rounded-2xl">
   <div
-    class="flex flex-col md:flex-row md:items-center md:justify-between mb-4"
+    class="flex flex-col md:flex-row md:items-center md:justify-between mb-6"
   >
     <div>
-      <h2 class="text-2xl font-bold text-gray-800">User List</h2>
-      <p class="text-sm text-gray-500">
-        Manage users, their status, and remove them securely.
+      <h2 class="text-2xl md:text-3xl font-black text-slate-900 mb-2" style="font-family: 'Space Grotesk', sans-serif;">
+        <i class="fas fa-users text-cyan-600 mr-2"></i>
+        Daftar Pengguna
+      </h2>
+      <p class="text-sm text-slate-600">
+        Kelola data pengguna, status, dan akses dengan mudah
       </p>
     </div>
     <div class="mt-3 md:mt-0">
       <input
         type="text"
         id="searchInput"
-        placeholder="Search users..."
-        class="border border-gray-300 rounded-lg px-3 py-2 text-sm w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Cari pengguna..."
+        class="input-modern w-full md:w-64 text-sm"
       />
     </div>
   </div>
 
-  <div class="overflow-x-auto">
-    <table class="min-w-full divide-y divide-gray-200 text-sm" id="userTable">
-      <thead class="bg-gray-50">
+  <div class="overflow-x-auto table-modern">
+    <table class="min-w-full divide-y divide-slate-200 text-sm" id="userTable">
+      <thead class="bg-gradient-to-r from-cyan-50 to-blue-50">
         <tr>
-          <th class="px-4 py-3 text-left font-semibold text-gray-600">
+          <th class="px-4 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
             Username
           </th>
-          <th class="px-4 py-3 text-left font-semibold text-gray-600">Email</th>
-          <th class="px-4 py-3 text-left font-semibold text-gray-600">
+          <th class="px-4 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Email</th>
+          <th class="px-4 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
             WhatsApp
           </th>
-          <th class="px-4 py-3 text-left font-semibold text-gray-600">Role</th>
-          <th class="px-4 py-3 text-left font-semibold text-gray-600">
-            Date Joined
+          <th class="px-4 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Role</th>
+          <th class="px-4 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
+            Tanggal Bergabung
           </th>
-          <th class="px-4 py-3 text-left font-semibold text-gray-600">
+          <th class="px-4 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
             Status
           </th>
-          <th class="px-4 py-3 text-left font-semibold text-gray-600">
-            Actions
+          <th class="px-4 py-3 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">
+            Aksi
           </th>
         </tr>
       </thead>
-      <tbody class="bg-white divide-y divide-gray-100">
+      <tbody class="bg-white divide-y divide-slate-100">
         {% for user in users %}
-        <tr class="hover:bg-gray-50">
-          <td class="px-4 py-3">{{ user.username }}</td>
-          <td class="px-4 py-3">{{ user.email }}</td>
-          <td class="px-4 py-3">{{ user.whatsapp_number|default:"-" }}</td>
-          <td class="px-4 py-3 capitalize">{{ user.role }}</td>
-          <td class="px-4 py-3">{{ user.date_joined|date:"Y-m-d H:i" }}</td>
+        <tr class="hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50 transition duration-150 ease-in-out">
+          <td class="px-4 py-3 font-semibold text-slate-800">{{ user.username }}</td>
+          <td class="px-4 py-3 text-slate-700">{{ user.email }}</td>
+          <td class="px-4 py-3 text-slate-700">{{ user.whatsapp_number|default:"-" }}</td>
+          <td class="px-4 py-3 capitalize text-slate-700">
+            <span class="px-2 py-1 bg-slate-100 text-slate-700 rounded-full text-xs font-medium">
+              {{ user.role }}
+            </span>
+          </td>
+          <td class="px-4 py-3 text-slate-600 text-xs">{{ user.date_joined|date:"d M Y, H:i" }}</td>
           <td class="px-4 py-3">
             {% if user.is_active %}
             <span
-              class="inline-flex items-center px-2 py-1 rounded bg-green-100 text-green-700 font-medium"
-              >Active</span
+              class="inline-flex items-center px-2 py-1 rounded-full bg-green-100 text-green-700 font-medium text-xs"
+              ><i class="fas fa-check-circle mr-1"></i>Aktif</span
             >
             {% else %}
             <span
-              class="inline-flex items-center px-2 py-1 rounded bg-red-100 text-red-700 font-medium"
-              >Inactive</span
+              class="inline-flex items-center px-2 py-1 rounded-full bg-red-100 text-red-700 font-medium text-xs"
+              ><i class="fas fa-times-circle mr-1"></i>Nonaktif</span
             >
             {% endif %}
           </td>
           <td class="px-4 py-3 space-x-1">
+            <a
+              href="{% url 'update_user' user.id %}"
+              class="inline-flex items-center px-3 py-1.5 text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-150 ease-in-out shadow-sm hover:shadow-md"
+            >
+              <i class="fas fa-edit mr-1"></i>
+              Edit
+            </a>
             {% if user.is_active %}
             <button
               onclick="openModal('deactivate', '{{ user.username }}', `{% url 'update_user_status' user.id 'deactivate' %}`)"
-              class="px-2 py-1 text-xs bg-yellow-400 hover:bg-yellow-500 text-white rounded"
+              class="px-2 py-1 text-xs bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg transition duration-150 shadow-sm hover:shadow-md"
             >
-              Deactivate
+              <i class="fas fa-ban mr-1"></i>Nonaktifkan
             </button>
             {% else %}
             <button
               onclick="openModal('activate', '{{ user.username }}', `{% url 'update_user_status' user.id 'activate' %}`)"
-              class="px-2 py-1 text-xs bg-green-500 hover:bg-green-600 text-white rounded"
+              class="px-2 py-1 text-xs bg-green-500 hover:bg-green-600 text-white rounded-lg transition duration-150 shadow-sm hover:shadow-md"
             >
-              Activate
+              <i class="fas fa-check mr-1"></i>Aktifkan
             </button>
             {% endif %}
             <button
               onclick="openModal('delete', '{{ user.username }}', `{% url 'delete_user' user.id %}`)"
-              class="px-2 py-1 text-xs bg-red-500 hover:bg-red-600 text-white rounded"
+              class="px-2 py-1 text-xs bg-red-500 hover:bg-red-600 text-white rounded-lg transition duration-150 shadow-sm hover:shadow-md"
             >
-              Delete
+              <i class="fas fa-trash mr-1"></i>Hapus
             </button>
           </td>
         </tr>
         {% empty %}
         <tr>
-          <td colspan="7" class="px-4 py-4 text-center text-gray-500">
-            No users found.
+          <td colspan="7" class="px-4 py-8 text-center text-slate-500">
+            <div class="flex flex-col items-center">
+              <i class="fas fa-users text-4xl text-slate-300 mb-2"></i>
+              <p class="text-sm font-medium">Tidak ada pengguna ditemukan</p>
+            </div>
           </td>
         </tr>
         {% endfor %}
@@ -99,20 +116,20 @@
 </div>
 
 <!-- Confirm Modal -->
-<div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50 transition-opacity duration-300">
-  <div class="bg-white rounded-lg shadow-2xl p-6 w-full max-w-sm transform scale-95 transition-transform duration-300">
+<div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm hidden flex items-center justify-center z-50 transition-opacity duration-300">
+  <div class="card-glass rounded-2xl shadow-2xl p-6 w-full max-w-sm transform scale-95 transition-transform duration-300">
     <div class="flex items-center mb-4">
       <div class="flex-shrink-0">
         <svg id="modalIcon" class="h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1 4h1m-2-4h.01M12 9v2m0-2H9m3 0h3m-3 0V7m0 2v2" />
         </svg>
       </div>
-      <h3 id="modalTitle" class="ml-3 text-lg font-semibold text-gray-800">Confirm Action</h3>
+      <h3 id="modalTitle" class="ml-3 text-lg font-black text-slate-900" style="font-family: 'Space Grotesk', sans-serif;">Konfirmasi Aksi</h3>
     </div>
-    <p id="modalMessage" class="text-sm text-gray-600 mb-4">Are you sure you want to proceed?</p>
+    <p id="modalMessage" class="text-sm text-slate-600 mb-4">Apakah Anda yakin ingin melanjutkan?</p>
     <div class="flex justify-end space-x-2">
-      <button onclick="closeModal()" class="px-3 py-1.5 bg-gray-300 hover:bg-gray-400 text-gray-700 rounded-md transition">Cancel</button>
-      <a id="modalConfirmBtn" href="#" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition">Yes, proceed</a>
+      <button onclick="closeModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg transition font-medium text-sm shadow-sm hover:shadow-md">Batal</button>
+      <a id="modalConfirmBtn" href="#" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition font-medium text-sm shadow-sm hover:shadow-md">Ya, Lanjutkan</a>
     </div>
   </div>
 </div>
@@ -130,21 +147,21 @@
     icon.className = "h-6 w-6";
 
     if (action === "delete") {
-      title.textContent = "Delete User";
-      message.textContent = `Are you sure you want to delete user "${username}"?`;
-      confirmBtn.className = "px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-md transition";
+      title.textContent = "Hapus Pengguna";
+      message.textContent = `Apakah Anda yakin ingin menghapus pengguna "${username}"?`;
+      confirmBtn.className = "px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition font-medium text-sm shadow-sm hover:shadow-md";
       icon.classList.add("text-red-600");
       icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />`;
     } else if (action === "activate") {
-      title.textContent = "Activate User";
-      message.textContent = `Are you sure you want to activate user "${username}"?`;
-      confirmBtn.className = "px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white rounded-md transition";
+      title.textContent = "Aktifkan Pengguna";
+      message.textContent = `Apakah Anda yakin ingin mengaktifkan pengguna "${username}"?`;
+      confirmBtn.className = "px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition font-medium text-sm shadow-sm hover:shadow-md";
       icon.classList.add("text-green-600");
       icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />`;
     } else if (action === "deactivate") {
-      title.textContent = "Deactivate User";
-      message.textContent = `Are you sure you want to deactivate user "${username}"?`;
-      confirmBtn.className = "px-3 py-1.5 bg-yellow-500 hover:bg-yellow-600 text-white rounded-md transition";
+      title.textContent = "Nonaktifkan Pengguna";
+      message.textContent = `Apakah Anda yakin ingin menonaktifkan pengguna "${username}"?`;
+      confirmBtn.className = "px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg transition font-medium text-sm shadow-sm hover:shadow-md";
       icon.classList.add("text-yellow-500");
       icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1 4h1m-2-4h.01M12 9v2m0-2H9m3 0h3m-3 0V7m0 2v2" />`;
     }
@@ -161,16 +178,36 @@
     modal.firstElementChild.classList.remove("scale-100");
     setTimeout(() => {
       modal.classList.add("hidden");
-    }, 200); // biar animasi smooth
+    }, 200);
   }
 
-  // Search filter
-  document.getElementById("searchInput").addEventListener("keyup", function () {
-    const value = this.value.toLowerCase();
-    const rows = document.querySelectorAll("#userTable tbody tr");
-    rows.forEach((row) => {
-      const text = row.textContent.toLowerCase();
-      row.style.display = text.includes(value) ? "" : "none";
-    });
+  // Search filter - Initialize on load and after HTMX swap
+  function initSearchFilter() {
+    const searchInput = document.getElementById("searchInput");
+    if (searchInput) {
+      // Remove existing event listeners
+      const newInput = searchInput.cloneNode(true);
+      searchInput.parentNode.replaceChild(newInput, searchInput);
+      
+      // Add new event listener
+      document.getElementById("searchInput").addEventListener("keyup", function () {
+        const value = this.value.toLowerCase();
+        const rows = document.querySelectorAll("#userTable tbody tr");
+        rows.forEach((row) => {
+          const text = row.textContent.toLowerCase();
+          row.style.display = text.includes(value) ? "" : "none";
+        });
+      });
+    }
+  }
+
+  // Initialize on page load
+  document.addEventListener("DOMContentLoaded", initSearchFilter);
+
+  // Re-initialize when HTMX swaps content
+  document.body.addEventListener("htmx:afterSwap", function(event) {
+    if (event.detail.target.id === "main-content") {
+      setTimeout(initSearchFilter, 100);
+    }
   });
 </script>

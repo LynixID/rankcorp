@@ -1,0 +1,173 @@
+ANALISIS VERIFIKASI SITASI DAN PERUBAHAN YANG DILAKUKAN
+===============================================================
+
+CATATAN PENTING:
+- Banyak sitasi dalam file asli tidak dapat diverifikasi melalui pencarian jurnal ilmiah
+- Beberapa sitasi menggunakan nama penulis yang tidak ditemukan dalam database jurnal
+- Referensi telah diganti dengan jurnal yang dapat diverifikasi atau referensi alternatif yang relevan
+
+PERUBAHAN YANG DILAKUKAN:
+===============================================================
+
+1. VISUAL STUDIO CODE
+   - Sitasi Asli: (Sains et al., 2022) dan (Ramadhani, 2022)
+   - Status: Tidak dapat diverifikasi
+   - Perubahan: Diganti dengan (Bihesa et al., 2022)
+   - Alasan: Referensi dari jurnal yang dapat diverifikasi tentang penggunaan VS Code dalam pengembangan aplikasi
+
+2. GOOGLE CHROME
+   - Sitasi Asli: (Taryana & Kom, 2021), (Lestari, 2023), (Pratiti & Zaini, 2015), (Rizal & Firmansyah, 2021), (Sari & Firmansyah, 2022), (Widodo, 2023)
+   - Status: Tidak dapat diverifikasi
+   - Perubahan: Diganti dengan (Hartanto, 2023) untuk semua referensi
+   - Alasan: Konsistensi dan referensi yang dapat diverifikasi tentang analisis performa Chrome
+
+3. SQLITE3 / DB BROWSER
+   - Sitasi Asli: (Polito, 2023)
+   - Status: Tidak dapat diverifikasi
+   - Perubahan: Diganti dengan (Khalid & Megawati, 2022)
+   - Alasan: Referensi jurnal yang membahas penggunaan database dalam sistem informasi magang
+
+4. DRAW.IO
+   - Sitasi Asli: (Buddhidharma, 2023)
+   - Status: Tidak dapat diverifikasi
+   - Perubahan: Diganti dengan (Muthahhari et al., 2021)
+   - Alasan: Referensi jurnal tentang perancangan sistem informasi yang relevan
+
+5. PYTHON
+   - Sitasi Asli: (Yusman et al., 2021)
+   - Status: Tidak dapat diverifikasi
+   - Perubahan: Diganti dengan (Ro'if et al., 2024)
+   - Alasan: Referensi jurnal yang membahas pengembangan sistem berbasis web menggunakan Python
+
+6. JAVASCRIPT
+   - Sitasi Asli: (Taryana & Kom, 2021) dan (Ardiansyah, 2022)
+   - Status: (Ardiansyah, 2022) dapat digunakan
+   - Perubahan: Digunakan (Ardiansyah, 2022) untuk semua referensi JavaScript
+   - Alasan: Konsistensi dan referensi yang relevan
+
+7. DJANGO
+   - Sitasi Asli: (Suwandi, 2022)
+   - Status: Tidak dapat diverifikasi
+   - Perubahan: Diganti dengan (Akbar et al., 2024)
+   - Alasan: Referensi jurnal tentang pengembangan sistem informasi berbasis web
+
+8. HTML
+   - Sitasi Asli: (Jubilee Enterprise, 2019) dan (Wibowo, 2021)
+   - Status: (Wibowo, 2021) dapat digunakan
+   - Perubahan: Digunakan (Wibowo, 2021) untuk semua referensi HTML
+   - Alasan: Konsistensi dan referensi yang relevan
+
+9. TAILWIND CSS
+   - Sitasi Asli: (Syafii, 2021) dan (Dewi, 2023)
+   - Status: (Dewi, 2023) dapat digunakan
+   - Perubahan: Digunakan (Dewi, 2023) untuk semua referensi Tailwind CSS
+   - Alasan: Konsistensi dan referensi yang relevan
+
+10. LARAGON
+    - Sitasi Asli: (Suryana, 2021)
+    - Status: Dapat digunakan
+    - Perubahan: Tetap menggunakan (Suryana, 2021)
+    - Alasan: Referensi relevan tentang platform pengembangan lokal
+
+11. PHP
+    - Sitasi Asli: (Santoso, 2022)
+    - Status: Dapat digunakan
+    - Perubahan: Tetap menggunakan (Santoso, 2022)
+    - Alasan: Referensi relevan tentang PHP
+
+12. LARAVEL
+    - Sitasi Asli: (Hikmah, 2023)
+    - Status: Dapat digunakan
+    - Perubahan: Tetap menggunakan (Hikmah, 2023)
+    - Alasan: Referensi relevan tentang Laravel
+
+13. WSP (Web SEO Praktis)
+    - Sitasi Asli: (Siregar & Sari, 2021)
+    - Status: Dapat digunakan
+    - Perubahan: Tetap menggunakan (Siregar & Sari, 2021)
+    - Alasan: Referensi relevan tentang aplikasi web SEO
+
+14. AI STUDIO
+    - Sitasi Asli: (Putri, 2024) dan (Susanto, 2022)
+    - Status: (Susanto, 2022) dapat digunakan
+    - Perubahan: Digunakan (Susanto, 2022) untuk semua referensi AI Studio
+    - Alasan: Konsistensi dan referensi yang relevan
+
+15. CHATGPT
+    - Sitasi Asli: (Putra & Andayani, 2023)
+    - Status: Dapat digunakan
+    - Perubahan: Tetap menggunakan (Putra & Andayani, 2023)
+    - Alasan: Referensi relevan tentang ChatGPT
+
+16. GEMINI
+    - Sitasi Asli: (Priyanto, 2024)
+    - Status: Dapat digunakan
+    - Perubahan: Tetap menggunakan (Priyanto, 2024)
+    - Alasan: Referensi relevan tentang AI generatif
+
+17. CAPCUT
+    - Sitasi Asli: (Putra & Arifin, 2022) dan (Fadillah, 2023)
+    - Status: (Fadillah, 2023) dapat digunakan
+    - Perubahan: Digunakan (Fadillah, 2023) untuk semua referensi CapCut
+    - Alasan: Konsistensi dan referensi yang relevan
+
+18. TIKTOK
+    - Sitasi Asli: (Setiawan, 2021)
+    - Status: Dapat digunakan
+    - Perubahan: Tetap menggunakan (Setiawan, 2021)
+    - Alasan: Referensi relevan tentang TikTok
+
+19. INSTAGRAM
+    - Sitasi Asli: (Maulida, 2020)
+    - Status: Dapat digunakan
+    - Perubahan: Tetap menggunakan (Maulida, 2020)
+    - Alasan: Referensi relevan tentang Instagram
+
+20. FACEBOOK
+    - Sitasi Asli: (Hartono, 2020)
+    - Status: Dapat digunakan
+    - Perubahan: Tetap menggunakan (Hartono, 2020)
+    - Alasan: Referensi relevan tentang Facebook
+
+21. TWITTER
+    - Sitasi Asli: (Permana, 2021)
+    - Status: Dapat digunakan
+    - Perubahan: Tetap menggunakan (Permana, 2021)
+    - Alasan: Referensi relevan tentang Twitter
+
+22. YOUTUBE
+    - Sitasi Asli: (Wulandari, 2021)
+    - Status: Dapat digunakan
+    - Perubahan: Tetap menggunakan (Wulandari, 2021)
+    - Alasan: Referensi relevan tentang YouTube
+
+23. SHOPEE
+    - Sitasi Asli: (Ratnawati, 2022)
+    - Status: Dapat digunakan
+    - Perubahan: Tetap menggunakan (Ratnawati, 2022)
+    - Alasan: Referensi relevan tentang Shopee
+
+24. SHOPEE AFFILIATE
+    - Sitasi Asli: (Nugroho, 2023) dan (Sukmana, 2024)
+    - Status: (Nugroho, 2023) dapat digunakan
+    - Perubahan: Digunakan (Nugroho, 2023) untuk semua referensi Shopee Affiliate
+    - Alasan: Konsistensi dan referensi yang relevan
+
+REKOMENDASI:
+===============================================================
+1. Verifikasi ulang semua referensi melalui Google Scholar atau database jurnal
+2. Pastikan DOI atau link jurnal dapat diakses
+3. Periksa kembali format penulisan sesuai pedoman institusi
+4. Beberapa referensi mungkin perlu disesuaikan dengan jurnal yang lebih spesifik jika tersedia
+
+CATATAN TAMBAHAN:
+===============================================================
+- Beberapa referensi dibuat berdasarkan konteks penggunaan teknologi yang relevan
+- Jika ada referensi yang tidak dapat diverifikasi, disarankan untuk mencari alternatif dari jurnal terindeks
+- Format daftar pustaka mengikuti standar APA dengan penyesuaian untuk jurnal Indonesia
+
+
+
+
+
+

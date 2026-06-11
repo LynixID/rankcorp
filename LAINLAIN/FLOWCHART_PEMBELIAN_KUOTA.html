@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowchart - Proses Pembelian Kuota (Manual Transfer)</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 2000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .export-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .export-btn:active {
+            transform: translateY(0);
+        }
+
+        .diagram-container {
+            width: 100%;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 40px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .explanation {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .explanation h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .explanation h3 {
+            color: #667eea;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .explanation p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .explanation ul {
+            margin-left: 30px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .explanation li {
+            margin-bottom: 8px;
+        }
+
+        .report-explanation {
+            margin-top: 50px;
+            padding: 30px;
+            background: #f0f7ff;
+            border-radius: 8px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .report-explanation h2 {
+            color: #1976d2;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .report-explanation p {
+            color: #424242;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Flowchart</h1>
+        <p class="subtitle">Proses Pembelian Kuota (Manual Transfer)</p>
+
+        <div class="export-container">
+            <button class="export-btn" onclick="exportToPNG()">📥 Export PNG</button>
+        </div>
+
+        <div class="diagram-container" id="diagram-to-export">
+            <div class="mermaid">
+flowchart TD
+    Start([MULAI]) --> PilihPaket[Pilih Paket Kuota]
+    PilihPaket --> CekSession{Session Aktif<br/>Masih Ada?}
+    
+    CekSession -->|Ya & Valid| UploadBukti[Halaman Upload Bukti]
+    CekSession -->|Tidak/Expired| BuatSession[Buat Session Baru<br/>Expires 2 Jam]
+    BuatSession --> UploadBukti
+    
+    UploadBukti --> CekValid{Session<br/>Masih Valid?}
+    CekValid -->|Tidak| Err1[Error: Session Expired]
+    Err1 --> EndErr([SELESAI])
+    
+    CekValid -->|Ya| UploadFile[Upload Bukti Pembayaran]
+    UploadFile --> Validasi{File<br/>Valid?}
+    
+    Validasi -->|Tidak| Err2[Error: File Tidak Valid]
+    Err2 --> UploadBukti
+    
+    Validasi -->|Ya| SimpanPembelian[Simpan Pembelian<br/>Status: Pending]
+    SimpanPembelian --> TungguAdmin[Menunggu Persetujuan Admin]
+    
+    TungguAdmin --> AdminAction{Admin<br/>Memutuskan?}
+    AdminAction -->|Setujui| TambahKuota[Tambah Kuota ke User<br/>Update Status Premium]
+    AdminAction -->|Tolak| TolakPembelian[Status: Ditolak]
+    
+    TambahKuota --> Success1[Berhasil: Kuota Ditambahkan]
+    TolakPembelian --> Success2[Pembayaran Ditolak]
+    Success1 --> End([SELESAI])
+    Success2 --> End
+    
+    style Start fill:#4caf50,stroke:#333,stroke-width:3px,color:#fff
+    style End fill:#f44336,stroke:#333,stroke-width:3px,color:#fff
+    style EndErr fill:#f44336,stroke:#333,stroke-width:3px,color:#fff
+    style CekSession fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    style CekValid fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    style Validasi fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    style AdminAction fill:#ff9800,stroke:#333,stroke-width:2px,color:#fff
+    style BuatSession fill:#2196f3,stroke:#333,stroke-width:2px,color:#fff
+    style SimpanPembelian fill:#9c27b0,stroke:#333,stroke-width:2px,color:#fff
+    style TambahKuota fill:#4caf50,stroke:#333,stroke-width:2px,color:#fff
+    style TolakPembelian fill:#f44336,stroke:#333,stroke-width:2px,color:#fff
+            </div>
+        </div>
+
+        <!-- Explanation Section -->
+        <div class="explanation">
+            <h2>📋 Penjelasan Flowchart: Proses Pembelian Kuota (Manual Transfer)</h2>
+            
+            <h3>1. Overview</h3>
+            <p>
+                Flowchart ini menggambarkan algoritma proses pembelian kuota dengan metode manual transfer. 
+                Proses ini melibatkan checkout session management dengan expiry time, upload bukti pembayaran, 
+                dan approval workflow oleh admin.
+            </p>
+
+            <h3>2. Alur Proses</h3>
+            <p><strong>A. Checkout Session Management</strong></p>
+            <ul>
+                <li>User memilih package (package_id)</li>
+                <li>Cek apakah user memiliki active session yang belum expired</li>
+                <li>Jika ada dan tidak expired → Redirect langsung ke upload page</li>
+                <li>Jika expired → Update session status menjadi 'expired'</li>
+                <li>Cek existing session untuk package yang sama</li>
+                <li>Jika tidak ada atau expired → Buat session baru:</li>
+                <ul>
+                    <li>Generate session_id menggunakan UUID</li>
+                    <li>Set expires_at = now + 2 hours (session berlaku 2 jam)</li>
+                    <li>Buat CheckoutSession dengan status='active'</li>
+                </ul>
+            </ul>
+
+            <p><strong>B. Upload Payment Proof</strong></p>
+            <ul>
+                <li>User diarahkan ke upload page</li>
+                <li>Validasi session masih aktif dan tidak expired</li>
+                <li>Jika session tidak valid → Error, redirect ke buy quota page</li>
+                <li>User upload file bukti pembayaran</li>
+                <li>Validasi form (file harus ada, format valid)</li>
+                <li>Jika form tidak valid → Error, user bisa upload ulang</li>
+                <li>Jika valid → Buat QuotaPurchase:</li>
+                <ul>
+                    <li>user, package, payment_proof (file), status='pending'</li>
+                </ul>
+                <li>Update CheckoutSession status menjadi 'completed'</li>
+                <li>Redirect ke purchase status page (menunggu approval)</li>
+            </ul>
+
+            <p><strong>C. Admin Approval Workflow</strong></p>
+            <ul>
+                <li>Admin melihat daftar QuotaPurchase dengan status='pending'</li>
+                <li>Admin bisa memilih <strong>Approve</strong> atau <strong>Reject</strong></li>
+            </ul>
+
+            <p><strong>D. APPROVE FLOW</strong></p>
+            <ul>
+                <li>Update QuotaPurchase status menjadi 'approved'</li>
+                <li>Cek apakah UserStatus exists untuk user tersebut</li>
+                <li>Jika tidak ada → Buat UserStatus baru dengan status='premium'</li>
+                <li>Jika ada → Update UserStatus:</li>
+                <ul>
+                    <li>total_quota += package.quota_amount</li>
+                    <li>Update status = 'premium' (jika belum premium)</li>
+                </ul>
+                <li>Save perubahan ke database</li>
+                <li>Success: Pembayaran disetujui, kuota ditambahkan</li>
+            </ul>
+
+            <p><strong>E. REJECT FLOW</strong></p>
+            <ul>
+                <li>Update QuotaPurchase status menjadi 'rejected'</li>
+                <li>Kuota tidak ditambahkan</li>
+                <li>User bisa upload bukti baru atau hubungi admin</li>
+            </ul>
+
+            <h3>3. Decision Points</h3>
+            <ul>
+                <li><strong>8 Decision Points</strong>: Active session, expired check (2x), existing session, session active, form valid, admin action, UserStatus exists</li>
+                <li><strong>State Management</strong>: CheckoutSession memiliki status: 'active', 'expired', 'completed', 'cancelled'</li>
+            </ul>
+
+            <h3>4. Session Expiry</h3>
+            <ul>
+                <li><strong>Durasi</strong>: 2 jam dari waktu pembuatan session</li>
+                <li><strong>Validasi</strong>: Setiap akses upload page akan cek apakah session expired</li>
+                <li><strong>Auto-expire</strong>: Session yang expired akan di-mark sebagai 'expired'</li>
+                <li><strong>Purpose</strong>: Mencegah session lama yang tidak digunakan, memastikan user upload bukti dalam waktu wajar</li>
+            </ul>
+
+            <h3>5. Status Upgrade</h3>
+            <ul>
+                <li>Setelah approval pertama kali, user status otomatis menjadi 'premium'</li>
+                <li>Status 'premium' memberikan akses ke fitur SEO Analysis</li>
+                <li>User 'guest' hanya bisa cek rank, tidak bisa SEO Analysis</li>
+            </ul>
+
+            <h3>6. Error Handling</h3>
+            <ul>
+                <li><strong>Session Expired</strong>: User harus memilih package lagi</li>
+                <li><strong>Form Invalid</strong>: User bisa upload ulang bukti</li>
+                <li><strong>Session Not Found</strong>: Redirect ke buy quota page</li>
+            </ul>
+
+            <h3>7. Keamanan</h3>
+            <ul>
+                <li>Session hanya valid untuk user yang membuatnya</li>
+                <li>File upload divalidasi untuk mencegah file berbahaya</li>
+                <li>Admin approval mencegah penipuan dan memastikan pembayaran valid</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+
+        function exportToPNG() {
+            const element = document.getElementById('diagram-to-export');
+            const margin = 50;
+            
+            const btn = document.querySelector('.export-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ Exporting...';
+            btn.disabled = true;
+
+            html2canvas(element, {
+                backgroundColor: '#ffffff',
+                scale: 2,
+                logging: false,
+                useCORS: true,
+                allowTaint: true
+            }).then(canvas => {
+                const marginCanvas = document.createElement('canvas');
+                marginCanvas.width = canvas.width + (margin * 2);
+                marginCanvas.height = canvas.height + (margin * 2);
+                const ctx = marginCanvas.getContext('2d');
+                
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, marginCanvas.width, marginCanvas.height);
+                ctx.drawImage(canvas, margin, margin);
+                
+                marginCanvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = 'Flowchart_Pembelian_Kuota.png';
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                    
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+            }).catch(error => {
+                console.error('Export error:', error);
+                alert('Error exporting diagram. Please try again.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
+    </script>
+
+    <!-- Penjelasan untuk Laporan Proyek -->
+    <div class="container">
+        <div class="report-explanation">
+            <h2>Penjelasan Flowchart Proses Pembelian Kuota (Manual Transfer)</h2>
+            
+            <p>
+                Flowchart ini menggambarkan proses pembelian kuota melalui metode manual transfer yang memerlukan verifikasi dari administrator. Proses dimulai dengan pemilihan paket kuota yang diinginkan oleh pengguna, kemudian sistem akan memeriksa apakah terdapat session aktif yang masih valid. Jika session tidak ada atau sudah expired, sistem akan membuat session baru dengan durasi validitas 2 jam untuk melacak proses pembelian dan memastikan pengguna mengupload bukti pembayaran dalam waktu yang wajar.
+            </p>
+            
+            <p>
+                Setelah session terkonfirmasi, pengguna akan diarahkan ke halaman upload bukti pembayaran dan sistem akan melakukan validasi terhadap session sebelum memproses upload file. Jika file valid, sistem akan membuat record QuotaPurchase dengan status 'pending' dan mengupdate status CheckoutSession menjadi 'completed'. Administrator kemudian dapat melihat daftar pembelian yang menunggu persetujuan dan memilih untuk menyetujui atau menolak pembayaran. Jika disetujui, sistem akan menambahkan kuota sesuai paket yang dibeli ke UserStatus pengguna, dan setelah approval pertama kali, status pengguna otomatis menjadi 'premium' yang memberikan akses ke fitur SEO Analysis. Proses ini memastikan keamanan transaksi dan mencegah penipuan melalui verifikasi manual oleh administrator.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+

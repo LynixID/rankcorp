@@ -1,0 +1,138 @@
+APLIKASI CHECK RANKRING
+
+1)	Visual Studio Code
+Dikembangkan oleh Microsoft, Visual Studio Code merupakan editor kode sumber lintas platform yang tersedia secara gratis dan open-source untuk sistem operasi Windows, macOS, dan Linux. Editor ini secara native mendukung berbagai bahasa pemrograman seperti JavaScript, TypeScript, dan Node.js, sementara dukungan untuk bahasa pemrograman lainnya seperti C++, C#, Python, Go, Java, dan PHP dapat ditambahkan melalui ekstensi yang tersedia di marketplace Visual Studio Code (Bihesa et al., 2022).
+
+2)	Google Chrome
+Sebagai peramban web lintas platform yang dikembangkan oleh Google, Chrome pertama kali dirilis pada tanggal 2 September 2008 dan tersedia untuk berbagai sistem operasi termasuk Windows, macOS, Linux, iOS, dan Android. Peramban ini dikenal dengan performa yang cepat, antarmuka yang minimalis, serta fitur keamanan seperti sandboxing dan pembaruan otomatis yang melindungi pengguna dari ancaman keamanan (Hartanto, 2023).
+
+3)	SQLite3 (via DB Browser for SQLite)
+SQLite3 merupakan sistem manajemen basis data relasional yang ringan, serverless, dan mandiri, sering digunakan dalam aplikasi yang memerlukan penyimpanan data lokal tanpa membutuhkan server database terpisah. DB Browser for SQLite menyediakan antarmuka grafis yang memudahkan pengguna dalam membuat, merancang, mengedit, dan memvisualisasikan basis data SQLite tanpa perlu menulis perintah SQL secara manual, tersedia untuk platform Windows, macOS, dan Linux (Khalid & Megawati, 2022).
+
+4)	Draw.io
+Draw.io adalah aplikasi diagram berbasis web yang bersifat open-source dan dapat diakses melalui peramban tanpa memerlukan instalasi tambahan. Aplikasi ini memungkinkan pengguna untuk membuat berbagai jenis diagram termasuk diagram alur, diagram jaringan, diagram UML, dan diagram organisasi dengan antarmuka yang intuitif serta integrasi dengan platform penyimpanan cloud seperti Google Drive dan OneDrive (Muthahhari et al., 2021).
+
+5)	Python
+Python adalah bahasa pemrograman tingkat tinggi yang ditafsirkan dengan filosofi desain yang menekankan keterbacaan kode dan sintaks yang sederhana. Bahasa ini mendukung berbagai paradigma pemrograman termasuk prosedural, berorientasi objek, dan fungsional, serta memiliki ekosistem pustaka yang luas yang menjadikannya populer untuk pengembangan web, analisis data, kecerdasan buatan, pembelajaran mesin, dan otomatisasi (Ro'if et al., 2024).
+
+6)	JavaScript
+Sebagai bahasa pemrograman yang terutama digunakan untuk pengembangan web, JavaScript memungkinkan pembuatan konten interaktif dan dinamis pada halaman web melalui manipulasi Document Object Model (DOM) dan komunikasi asinkron dengan server. Bahasa ini dapat dijalankan di sisi klien maupun server melalui platform seperti Node.js, dan bersama dengan HTML serta CSS membentuk fondasi utama teknologi web modern (Ardiansyah, 2022).
+
+7)	Django
+Django adalah framework web berbasis Python yang dirilis di bawah lisensi BSD dan mengikuti pola arsitektur Model-View-Template (MVT) yang memisahkan logika bisnis, tampilan, dan data untuk memudahkan pengelolaan kode. Framework ini dirancang untuk mempercepat pengembangan aplikasi web dengan menyediakan berbagai komponen siap pakai seperti sistem autentikasi pengguna, panel administrasi otomatis, dan ORM (Object-Relational Mapping) yang memudahkan interaksi dengan basis data tanpa perlu menulis kode SQL secara langsung, sehingga pengembang dapat fokus pada logika aplikasi (Akbar et al., 2024).
+
+8)	HTML
+HTML (HyperText Markup Language) merupakan bahasa markup standar yang digunakan untuk membuat dan menyusun struktur halaman web dengan menggunakan elemen-elemen seperti tag dan atribut untuk mendefinisikan konten seperti teks, gambar, tautan, dan formulir. Sebagai fondasi utama dalam pengembangan web, HTML berfungsi sebagai kerangka dasar yang menentukan bagaimana informasi ditampilkan di peramban, dan dapat ditingkatkan dengan CSS untuk styling serta JavaScript untuk menambahkan interaktivitas pada halaman web (Wibowo, 2021).
+
+9)	Tailwind CSS
+Tailwind CSS mengadopsi pendekatan utility-first dalam framework CSS, di mana pengembang dapat membangun desain yang responsif dan custom dengan cepat melalui penggunaan kelas-kelas utilitas yang dapat dikombinasikan langsung dalam markup HTML tanpa perlu menulis CSS kustom yang ekstensif. Berbeda dengan framework CSS tradisional yang menyediakan komponen siap pakai, Tailwind memberikan fleksibilitas penuh dalam penyesuaian desain dengan menyediakan berbagai utility classes untuk mengatur margin, padding, warna, dan properti lainnya, sehingga memungkinkan prototipe dan iterasi desain yang lebih cepat (Dewi, 2023).
+
+===============================================================
+APLIKASI POHON KELUARGA
+
+1)	Visual Studio Code
+Visual Studio Code (VS Code) merupakan editor kode modern yang dikenal ringan namun kaya fitur seperti IntelliSense, debugging, dan integrasi Git yang mendukung berbagai bahasa pemrograman melalui ekstensi. Lingkungan kerja yang fleksibel serta antarmuka sederhana membuat VS Code banyak digunakan dalam proses pengembangan aplikasi berskala kecil hingga besar untuk meningkatkan produktivitas pengembang (Bihesa et al., 2022).
+
+2)	Google Chrome
+Google Chrome merupakan peramban web yang menawarkan performa tinggi, keamanan kuat, dan kompatibilitas luas terhadap teknologi web modern. Fitur Chrome DevTools membantu pengembang dalam debugging dan pengujian aplikasi secara langsung di browser sehingga mempercepat proses pengembangan web (Hartanto, 2023).
+
+3)	Laragon
+Laragon adalah platform pengembangan lokal yang menyediakan paket server lengkap seperti Apache, MySQL/MariaDB, PHP, serta alat bantu seperti Composer dalam satu lingkungan yang ringan dan mudah dikonfigurasi. Dengan fitur auto virtual host dan quick create project, Laragon terbukti meningkatkan kecepatan inisialisasi proyek web berbasis PHP maupun framework Laravel (Suryana, 2021).
+
+4)	PHP
+PHP adalah bahasa pemrograman sisi server yang digunakan untuk membangun aplikasi web dinamis dan sistem informasi. Sintaksnya yang mudah dipahami serta dukungan komunitas yang besar membuat PHP tetap menjadi pilihan utama dalam pengembangan web modern, terutama pada sistem yang membutuhkan stabilitas dan skalabilitas (Santoso, 2022).
+
+5)	Laravel
+Laravel adalah framework PHP berbasis arsitektur MVC (Model–View–Controller) yang menyediakan berbagai fitur seperti Eloquent ORM, Blade templating, middleware, dan autentikasi bawaan untuk mempercepat proses pengembangan aplikasi. Kemampuannya dalam menghasilkan struktur kode yang rapi menjadikannya salah satu framework paling populer di Indonesia (Hikmah, 2023).
+
+6)	HTML
+HTML merupakan bahasa markup standar yang digunakan untuk membangun struktur dasar halaman web dengan menyediakan elemen seperti teks, gambar, tabel, hingga formulir. Sebagai fondasi utama website, HTML berperan penting dalam menentukan bagaimana konten ditampilkan dan berinteraksi dengan CSS maupun JavaScript (Wibowo, 2021).
+
+7)	JavaScript
+JavaScript adalah bahasa pemrograman yang memungkinkan halaman web menjadi interaktif melalui manipulasi DOM (Document Object Model), pengolahan event, dan implementasi AJAX. Bahasa ini sangat fleksibel karena dapat berjalan di sisi klien maupun server, sehingga menjadi komponen utama dalam pengembangan web modern (Ardiansyah, 2022).
+
+8)	Tailwind CSS
+Tailwind CSS adalah framework CSS berbasis utility-first yang menyediakan kelas-kelas siap pakai sehingga pengembang dapat membangun antarmuka secara cepat tanpa menulis banyak CSS manual. Pendekatan ini menghasilkan proses styling yang lebih efisien serta tampilan antarmuka yang konsisten di berbagai perangkat (Dewi, 2023).
+
+===============================================================
+PEMBUATAN ARTIKEL SEO
+
+1)	Google Chrome
+Google Chrome digunakan sebagai peramban utama untuk melakukan riset kata kunci, menguji tampilan artikel, serta memastikan struktur SEO seperti meta tag, heading, dan internal link tampil dengan benar di website sebelum dipublikasikan (Hartanto, 2023).
+
+2)	Aplikasi WSP (Web SEO Praktis)
+Aplikasi WSP digunakan untuk mengunggah artikel ke website perusahaan, mengatur tata letak konten, dan memastikan gambar serta tautan sesuai standar penulisan, sehingga mempermudah manajemen konten selama proses publikasi (Siregar & Sari, 2021).
+
+3)	AI Studio
+AI Studio adalah platform kecerdasan buatan (Artificial Intelligence) yang menyediakan berbagai tools untuk pembuatan konten digital, seperti pembuatan gambar, teks, video, dan model AI lainnya dalam satu lingkungan terpadu. Platform ini digunakan untuk membantu produksi konten otomatis, meningkatkan efisiensi, serta mempercepat proses kreatif tanpa perlu kemampuan teknis yang kompleks. Menurut Susanto (2022), penggunaan AI Studio terbukti mempermudah proses pembuatan konten karena didukung oleh antarmuka intuitif dan kemampuan AI generatif yang stabil.
+
+===============================================================
+PEMBUATAN LANDING PAGES
+
+1)	Google Chrome
+Google Chrome merupakan peramban web yang dirancang untuk memberikan performa tinggi, stabilitas kuat, dan kompatibilitas penuh terhadap teknologi web modern seperti HTML5, CSS3, dan JavaScript. Chrome banyak digunakan dalam pengembangan web karena menyediakan fitur seperti Chrome DevTools yang memungkinkan inspeksi elemen, debugging, analisis performa, serta pengujian responsivitas secara efisien. Selain itu, mekanisme keamanan berlapis seperti sandboxing menjadikan Chrome salah satu browser paling andal untuk kebutuhan kerja profesional maupun pengembangan aplikasi digital (Hartanto, 2023).
+
+2)	Visual Studio Code
+Visual Studio Code (VS Code) adalah editor kode lintas platform yang ringan namun sangat fleksibel karena mendukung berbagai bahasa pemrograman melalui ekstensi, serta memiliki fitur seperti IntelliSense, debugging, integrasi Git, dan terminal bawaan. Editor ini banyak dipilih oleh pengembang karena kemampuannya dalam meningkatkan produktivitas, kemudahan kustomisasi, serta stabilitas performa dalam mengelola proyek skala kecil hingga besar. Dalam praktik pengembangan perangkat lunak, VS Code terbukti mampu mempercepat proses coding dan debugging berkat ekosistem plugin yang luas dan antarmuka yang intuitif (Bihesa et al., 2022).
+
+===============================================================
+PEMBUATAN KONTEN HARIAN
+
+1)	Google Chrome
+Google Chrome merupakan peramban web yang digunakan untuk mengakses berbagai layanan internet dengan cepat melalui optimasi mesin rendering, dukungan ekstensi produktivitas, serta keamanan berlapis, sehingga banyak digunakan dalam aktivitas digital profesional maupun kebutuhan umum sehari-hari (Hartanto, 2023).
+
+2)	ChatGPT
+ChatGPT adalah model bahasa berbasis kecerdasan buatan yang dapat membantu menyusun teks, membuat ide konten, serta mengoptimalkan caption atau naskah untuk media sosial. Model ini telah dibuktikan dalam penelitian sebagai teknologi yang meningkatkan produktivitas penulisan melalui otomatisasi generatif (Putra & Andayani, 2023).
+
+3)	Gemini
+Gemini adalah model kecerdasan buatan multimodal yang digunakan untuk menghasilkan teks, gambar, dan analisis konten secara otomatis. Penelitian menunjukkan bahwa teknologi AI generatif seperti Gemini dapat mempercepat produksi materi digital dan mendukung pekerjaan kreatif seperti perancangan konten (Priyanto, 2024).
+
+4)	AI Studio
+AI Studio merupakan platform pengembangan kecerdasan buatan (Artificial Intelligence) yang menyediakan fitur pembuatan, pelatihan, dan pengujian model AI melalui antarmuka yang mudah digunakan, sehingga membantu proses otomasi, analisis data, dan integrasi AI dalam workflow digital (Susanto, 2022).
+
+5)	Cap Cut
+CapCut adalah perangkat lunak pengeditan video yang menawarkan fitur pemotongan, efek visual, transisi, template otomatis, serta penyesuaian audio yang memungkinkan pengguna membuat konten berkualitas tinggi secara efisien untuk keperluan media sosial maupun pemasaran digital (Fadillah, 2023).
+
+6)	Tiktok
+TikTok merupakan platform berbagi video pendek yang menggunakan algoritma machine learning untuk menampilkan konten sesuai minat pengguna, sehingga mendukung pertumbuhan kreator, brand awareness, dan strategi pemasaran digital berbasis video singkat (Setiawan, 2021).
+
+7)	Instagram
+Instagram adalah media sosial berbasis visual yang memfasilitasi publikasi foto, video, reels, dan fitur bisnis seperti insight serta iklan berbayar, menjadikannya platform penting untuk membangun identitas digital, engagement audiens, dan strategi pemasaran kreatif (Maulida, 2020).
+
+8)	Facebook
+Facebook menyediakan layanan jejaring sosial, grup komunitas, marketplace, dan fitur periklanan yang memungkinkan individu maupun bisnis memperluas jangkauan komunikasi, membangun kedekatan dengan audiens, serta meningkatkan visibilitas informasi secara efektif (Hartono, 2020).
+
+9)	Twitter
+Twitter, atau X, adalah platform microblogging real-time yang memungkinkan pengguna membagikan informasi singkat, berdiskusi, memantau tren, dan berinteraksi dengan audiens secara cepat, sehingga digunakan dalam manajemen komunikasi publik, brand engagement, dan distribusi berita digital (Permana, 2021).
+
+10)	YouTube
+YouTube adalah platform berbagi video terbesar yang menyediakan fitur monetisasi, analitik performa, pengelolaan kanal, serta distribusi konten jangka panjang, sehingga menjadi media utama untuk edukasi, hiburan, dan strategi pemasaran berbasis video (Wulandari, 2021).
+
+
+===============================================================
+RISET PRODUK SHOPEE AFFILIATE
+
+1)	Google Chrome
+Google Chrome adalah browser yang digunakan untuk mengakses situs web secara cepat dan aman melalui optimasi mesin rendering, manajemen memori yang efisien, serta dukungan ekstensi yang membantu produktivitas pengguna pada berbagai kebutuhan digital mulai dari pekerjaan, riset, hingga aktivitas multimedia (Hartanto, 2023).
+
+2)	Shopee Affiliate
+Shopee Affiliate merupakan program pemasaran berbasis komisi yang memungkinkan kreator atau pengguna mempromosikan produk melalui tautan afiliasi dan memperoleh pendapatan dari setiap transaksi yang berhasil, dengan dukungan sistem pelacakan, dashboard analitik, serta algoritma rekomendasi Shopee yang meningkatkan peluang konversi dalam ekosistem e-commerce (Nugroho, 2023).
+
+===============================================================
+PEMBUATAN KONTEN AFILIASI PRODUK
+
+1)	Google Chrome
+Google Chrome merupakan peramban web yang memungkinkan pengguna menjelajahi internet dengan cepat melalui optimasi sistem rendering serta keamanan berlapis, sehingga browser ini sering dimanfaatkan pada aktivitas pengujian website, debugging, serta kebutuhan akses layanan digital sehari-hari (Hartanto, 2023).
+
+2)	Shopee
+Shopee adalah platform e-commerce yang menyediakan sistem transaksi digital terintegrasi mulai dari katalog produk, pembayaran, hingga logistik, sehingga memudahkan pengguna dalam proses jual beli dengan antarmuka yang sederhana dan dukungan fitur yang terus dikembangkan (Ratnawati, 2022).
+
+3)	Shopee Affiliate
+Shopee Affiliate merupakan program kolaborasi pemasaran yang memberikan kesempatan bagi kreator atau pengguna umum untuk memperoleh komisi dari setiap transaksi yang terjadi melalui tautan yang mereka bagikan, sehingga model ini efektif untuk meningkatkan jangkauan promosi dalam ekosistem penjualan digital (Nugroho, 2023).
+
+4)	AI Studio
+AI Studio adalah platform berbasis kecerdasan buatan (Artificial Intelligence) yang membantu proses pembuatan konten maupun pengolahan data melalui fitur otomatisasi, model prediktif, serta antarmuka yang mudah digunakan, sehingga mendukung pengguna dalam aktivitas kreatif maupun analitis secara lebih efisien (Susanto, 2022).
+
+5)	Cap Cut
+CapCut merupakan aplikasi pengeditan video yang menyediakan berbagai alat seperti pemotongan klip, penyesuaian audio, efek visual, hingga template instan, sehingga banyak digunakan untuk menghasilkan video pendek berkualitas tanpa memerlukan perangkat editing yang kompleks (Fadillah, 2023).
+
